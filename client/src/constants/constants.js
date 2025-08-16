@@ -1,0 +1,1 @@
+export const theme_color = '#D32F2F';
