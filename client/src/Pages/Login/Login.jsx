@@ -54,15 +54,15 @@ export default function Login() {
     }
     return (
         <div className={" flex justify-center items-center flex-col max-sm:justify-start max-sm:top-10 max-sm:relative h-[90vh] p-2 max-sm:p-1"}>
-            <div className='text-[30px] leading-tight text-[#D32F2F] font-bold '>
-                Taste Awaits
+            <div style={{ fontFamily: 'cdg, serif' }} className='text-[26px] lowercase leading-tight text-blue-500 pb-2 font-bold '>
+                Bharat pups
             </div>
-            <div className="text-[40px] mb-12 leading-[35px] text-zinc-800 font-semibold">
+            <div className="text-[36px] mb-12 leading-[35px] text-neutral-300 font-semibold">
                 Login to explore
             </div>
             <form className='flex flex-col gap-4 w-fit items-center' onSubmit={handleSubmit} noValidate>
                 <div style={{ borderWidth: emailFocus ? '1px' : '0px'}} className='flex flex-row h-[50px] w-fit rounded-[12px] overflow-hidden border-[#D32F2F] p-2 bg-gray-200 justify-center items-center '>
-                    <div className='text-gray-700 border- border-black w-[30px] h-[25px]' >
+                    <div className='text-blue-500 border- border-black w-[30px] h-[25px]' >
                     <svg xmlns="http://www.w3.org/2000/svg"  width="currentWidth"  height="currentHeight"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-mail"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 7.535v9.465a3 3 0 0 1 -2.824 2.995l-.176 .005h-14a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-9.465l9.445 6.297l.116 .066a1 1 0 0 0 .878 0l.116 -.066l9.445 -6.297z" /><path d="M19 4c1.08 0 2.027 .57 2.555 1.427l-9.555 6.37l-9.555 -6.37a2.999 2.999 0 0 1 2.354 -1.42l.201 -.007h14z" /></svg>
                     </div>
                     <input 
@@ -72,9 +72,9 @@ export default function Login() {
                         type="text" 
                         name='email'
                         value={email}
-                        className='focus:outline-none  border- border-red-600 text-[16px] bg-gray-200 px-4 flex justify-center items-center border- border-red-80 h-[46px] w-[260px] max-sm:w-full'
+                        className='focus:outline-none  border- border-blue-500 text-[16px] bg-gray-200 px-4 flex justify-center items-center border- border-red-80 h-[46px] w-[260px] max-sm:w-full'
                     />
-                    <div className=' text-[#D32F2F] border- border-black w-[46px] h-[40px]' >
+                    <div className=' text-blue-500 border- border-black w-[46px] h-[40px]' >
                     {      
                         emailIsValid &&    
                         <svg  xmlns="http://www.w3.org/2000/svg"  width="currentWidth"  height="currentHeight"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-circle-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z" /></svg>
@@ -82,7 +82,7 @@ export default function Login() {
                     </div>
                 </div>
                 <div style={{ borderWidth: passwordFocus ? '1px' : '0px'}} className='flex flex-row h-[50px] w-fit rounded-[12px] overflow-hidden border-[#D32F2F] p-2 bg-gray-200 justify-center items-center '>
-                    <div className='text-gray-700 border- border-black w-[30px] h-[25px]' >
+                    <div className='text-blue-500 border- border-black w-[30px] h-[25px]' >
                     <svg  xmlns="http://www.w3.org/2000/svg"  width="currentWidth"  height="currentHeight"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-lock"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" /><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" /><path d="M8 11v-4a4 4 0 1 1 8 0v4" /></svg>
                     </div>
                     <input 
@@ -92,9 +92,9 @@ export default function Login() {
                         type={passwordType ? 'password' : 'text'} 
                         name='password'
                         value={password}
-                        className='focus:outline-none  border- border-red-600 text-[16px] bg-gray-200 px-4 flex justify-center items-center border- border-red-80 h-[46px] w-[260px] max-sm:w-full '
+                        className='focus:outline-none  border- border-blue-500 text-[16px] bg-gray-200 px-4 flex justify-center items-center border- border-red-80 h-[46px] w-[260px] max-sm:w-full '
                     />
-                    <div onClick={() => setPasswordType(prev => !prev)} className=' text-[#D32F2F] border- border-black w-[46px] h-[25px] cursor-pointer' >
+                    <div onClick={() => setPasswordType(prev => !prev)} className=' text-blue-500 border- border-black w-[46px] h-[25px] cursor-pointer' >
                     {   
                         !passwordType ?
                         <svg  xmlns="http://www.w3.org/2000/svg"  width="currentWidth"  height="currentHeight"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>   
@@ -103,7 +103,7 @@ export default function Login() {
                     }          
                     </div>
                 </div>
-                <div className="forgot_pass text-[#D32F2F] cursor-pointer text-sm font-semibold w-full flex justify-end">
+                <div className="forgot_pass text-blue-500 cursor-pointer text-sm font-semibold w-full flex justify-end">
                     Forgot Password ?
                 </div>
                 <motion.button 
@@ -114,7 +114,7 @@ export default function Login() {
                         duration: 0.3,
                         ease: 'linear'
                     }}
-                    type='submit' className='bg-[#D32F2F] text-white text-[25px] w-full rounded-[12px] h-[46px]'>
+                    type='submit' className='bg-blue-500 text-white text-[25px] w-full rounded-[12px] h-[46px]'>
                     Submit
                 </motion.button>
             </form>

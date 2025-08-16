@@ -19,6 +19,7 @@ import { motion } from 'framer-motion';
 import { theme_color } from '../../constants/constants.js';
 import Counter from '../../components/Counter/Counter.jsx';
 import FoodPageSkeleton from '../../components/Loader_Skeletons/FoodPageSkeleton.jsx';
+import SideBar from '../../components_v3/SideBar.jsx';
 
 export default function FoodPage() {
     const { id } = useParams();
@@ -38,95 +39,11 @@ export default function FoodPage() {
     const [quantity, set_quantity] = useState(0);
     const [loading, set_loading] = useState(true);
 
-    const find_quantity = () => {
-        const result = cart.items.filter((f) => {
-            if (f.food.id === id) {
-                return true;
-            }
-            return false;
-        });
-        if (result[0]?.quantity) {
-            set_quantity(result[0]?.quantity);
-        }
-    }
-
-    useEffect(() => {
-        async function find() {
-            try {
-                set_loading(true);
-                const res = await foodById(id);
-                setFood(res);
-                setReviews(res.reviews);
-            } catch (err) {
-                console.log(err);
-            } finally {
-                set_loading(false);
-            }
-        }
-        find();
-        find_quantity();
-    }, []);
-
-    useEffect(() => {
-        async function check() {
-            if (food && userService.getUser() && userService.getUser().id) {
-                const res2 = await isFavourite(food.id, userService.getUser().id);
-                if (res2.success) {
-                    setFavouriteFood(res2.data);
-                }
-            }
-        }
-        check();
-    }, [food])
-
-    const formattedCurrency = food ?
-        new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'INR',
-        }).format(food.price)
-        : null;
-
-    const handleRatingChange = (event, newValue) => {
-        setRatingValue(newValue);
-    };
-    const handleCommentChange = (e) => {
-        setComment(e.target.value);
-    };
-    const onReviewSubmit = async () => {
-        if (comment.length == 0) return;
-        const res = await submitReview(ratingValue, comment, id, auth.user.email, auth.user.name);
-        if (res.success) {
-            setReviews(res.data.reviews);
-            setFood(res.data);
-        }
-        setRatingValue(1);
-        setComment("");
-    }
-    const onReviewDelete = async (reviewId) => {
-        const res = await deleteReviewById(reviewId, id);
-        if (res.success) {
-            setReviews(res.data.reviews);
-            setFood(res.data);
-        }
-    }
-    const handleFavouriteFood = async (foodId) => {
-        if (!userService.getUser()) {
-            navigate("/login");
-            toast.error("login before adding to favourite");
-            return;
-        }
-        if (!favoriteFood) {
-            const res = await addToFavourites(foodId, userService.getUser().id);
-            setFavouriteFood((prev) => !prev);
-        } else {
-            const res = await removeFromFavourites(foodId, userService.getUser().id);
-            setFavouriteFood((prev) => !prev);
-        }
-    }
     return (
-        <>
+        <div className="min-h-screen relative text-gray-200 flex flex-row items-start justify-center font-sans p-[20px]">
+            <SideBar />
             {loading ?
-                <div className=' min-h-screen flex justify-center'>
+                <div className=' min-h-screen w-full flex justify-center'>
                     <FoodPageSkeleton />
                 </div>
                 :
@@ -246,6 +163,6 @@ export default function FoodPage() {
                     :
                     <NotFound message="FoodPage Not Found ! " />
             }
-        </>
+        </div>
     )
 }

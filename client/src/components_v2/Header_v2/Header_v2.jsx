@@ -28,7 +28,7 @@ const Header_v2 = () => {
     };
 
     useEffect(() => {
-        const values = ["AI Search...", "Jaggery", "Gud", "Sweet food"];
+        const values = ["AI Search...", "bulldog", "abc", "def"];
         let ind = 0;
         const interval = setInterval(() => {
             set_fade_placeholder(true);
@@ -43,7 +43,7 @@ const Header_v2 = () => {
 
 
     return (
-        <div className='z-[99999] backdrop-blur-[10px] px-4 grid grid-cols-5 h-[45px] gap-2 '>
+        <div className='z-[99999] grid grid-cols-5 max-lg:h-[50px] h-[60px] gap-[16px] lg:gap-[20px] w-full '>
             <input
                 placeholder={search_placeholder}
                 style={{ placeContent: fade_placeholder && term?.length == 0 ? 0 : 1, transition: "placeContent 1.2s linear" }}
@@ -54,7 +54,7 @@ const Header_v2 = () => {
                         search();
                     }
                 }}
-                className={` bg-gray-200 px-2 text-[20px] focus:outline-none focus:border border-[${theme_color}] font-[400] col-span-4 rounded-[8px]`}>
+                className={` bg-neutral-800 px-2 lg:px-4 text-[20px] focus:outline-none focus:border border-neutral-700/60 font-[400] col-span-4 rounded-[8px]`}>
             </input>
             <motion.button
                 whileTap={{
@@ -65,7 +65,7 @@ const Header_v2 = () => {
                     ease: 'linear'
                 }}
                 onClick={search}
-                className={`bg-[${theme_color}] relative col-span-1 w-full flex justify-center items-center text-white rounded-[8px]`}
+                className={`bg-blue-500 relative col-span-1 w-full flex justify-center items-center text-white rounded-[8px]`}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
             </motion.button>

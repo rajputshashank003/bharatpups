@@ -83,7 +83,7 @@ const GlobeIcon = () => (
 // Main App Component
 const LandingPage = () => {
     return (
-        <div className="min-h-screen text-gray-200 flex flex-row items-center justify-center font-sans p-4">
+        <div className="min-h-screen text-gray-200 flex flex-row items-center justify-center font-sans p-[20px]">
             <SideBar/>
             <div className="w-full max-w-2xl mx-auto flex flex-col items-center">
 

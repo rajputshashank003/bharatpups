@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // SVG Icon Components for clarity and reusability
 
@@ -33,6 +33,14 @@ const ExploreIcon = ({ className }) => (
     </svg>
 );
 
+const FavoriteIcon = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className={`icon icon-tabler icons-tabler-outline icon-tabler-heart ${className}`}><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /></svg>
+);
+
+const ProfileIcon = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className={`icon icon-tabler icons-tabler-filled icon-tabler-user ${className}`}><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" /><path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" /></svg>
+);
+
 
 const RoomsIcon = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -47,6 +55,10 @@ export default function SideBar() {
     const navItems = [
         { icon: <GarageIcon className="w-6 h-6" />, name: 'Home', location: '/' },
         { icon: <ExploreIcon className="w-6 h-6" />, name: 'Explore', location: '/explore' },
+        { icon: <FavoriteIcon className="w-6 h-6" />, name: 'Favorites', location: '/favorites' },
+        { icon: <ProfileIcon className="w-6 h-6" />, name: 'Profile', location: '/profile' },
+        { icon: <ProfileIcon className="w-6 h-6" />, name: 'Add dog', location: '/profile' },
+        { icon: <ProfileIcon className="w-6 h-6" />, name: 'Inquiry', location: '/profile' },
     ];
 
     const pathname = window.location.pathname;
@@ -59,19 +71,19 @@ export default function SideBar() {
         )?.name || null;
 
     console.log(opened_page);
-
+    const navigate = useNavigate();
 
     return (
-        <div className="bg-[#18181B] sticky top-[20px] max-lg:hidden border-[1px] border-neutral-700/60 rounded-[28px] p-[12px] text-white flex flex-col gap-[12px] justify-center items-center h-[95vh] max-w-xs min-w-[250px] w-[300px] font-sans">
+        <div className="bg-[#18181B] sticky top-[20px] max-lg:hidden border-[1px] border-neutral-700/60 rounded-[28px] p-[12px] text-white flex flex-col gap-[12px] justify-center items-center h-[95vh] max-w-xs min-w-[300px] w-[300px] font-sans">
 
                 {/* Header */}
-                <header className="flex justify-start items-center w-full gap-3 p-2">
+                <header onClick={() => navigate('/')} className="flex hover:cursor-pointer hover:bg-neutral-500 rounded-[16px] duration-300 justify-start items-center w-full gap-3 p-2">
                     <div className="p-2 h-fit rounded-full">
                         <div className="h-[50px] w-[50px]">
                         <DogIcon />
                         </div>
                     </div>
-                    <span style={{fontFamily: 'f4, serif' }} className="text-[36px] tracking-tighter">BharatPups</span>
+                    <span style={{fontFamily: 'cdg, serif' }} className="text-[28px] lowercase tracking-tighter">Bharat Pups</span>
                 </header>
 
                 <div className="bg-neutral-700/60 h-[1px] w-full " />
@@ -83,7 +95,7 @@ export default function SideBar() {
                             <li key={index}>
                                 <Link to={item.location} style={{ ...(opened_page === item.name ? { color: '#3B82F6' } : {}) }} className="flex text-[20px] text-white items-center justify-start gap-4 p-3 rounded-lg hover:bg-neutral-800 transition-colors duration-200 hover:text-white">
                                     {item.icon}
-                                    <span style={{ fontFamily: 'cdg, serif' }} className="font-light">{item.name}</span>
+                                    <span style={{ fontFamily: 'cdg, serif' }} className="">{item.name}</span>
                                 </Link>
                             </li>
                         ))}
@@ -94,7 +106,7 @@ export default function SideBar() {
 
                 {/* Auth Buttons */}
                 <footer className="mt-auto w-full flex flex-col gap-3">
-                    <button className="w-full py-3 px-4 bg-[#2C2C2E] rounded-full font-semibold hover:bg-gray-600 transition-colors duration-200">
+                    <button onClick={() => navigate('/login')} className="w-full py-3 px-4 bg-[#2C2C2E] rounded-full font-semibold hover:bg-gray-600 transition-colors duration-200">
                         Log in
                     </button>
                     <button className="w-full py-3 px-4 bg-[#A89AFF] text-black rounded-full font-semibold hover:bg-blue-400 transition-colors duration-200">
