@@ -21,6 +21,7 @@ import EmailVerification from './Pages/EmailVerification/EmailVerification.jsx';
 import NotFound from './components/NotFound/NotFound.jsx';
 import LandingPage from './Pages/LandingPageTemp/LandingPage.jsx';
 import Explore from './Pages/LandingPageTemp/Explore.jsx';
+import AddDog from './Pages/LandingPageTemp/AddDog.jsx';
 
 export default function AppRoutes() {
     return (
@@ -28,6 +29,7 @@ export default function AppRoutes() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/favorites" element={<Explore />} />
+            <Route path="/admin/add" element={<AddDog />} />
             {/* <Route path="/home" element={<HomePage />} />
             <Route path="/search/:searchTerm" element={<HomePage />} />
             <Route path="/tag/:tag" element={<HomePage />} /> */}

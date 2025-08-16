@@ -19,23 +19,24 @@ const ExploreIcon = () => (
 );
 
 const ProfileIcon = () => (
-    <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="inherit" height="inherit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon h-6 w-6 icon-tabler icons-tabler-outline icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg>
 );
 
+const AddIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="inherit" height="inherit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon h-6 w-6 icon-tabler icons-tabler-outline icon-tabler-circle-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M9 12h6" /><path d="M12 9v6" /></svg>
+);
 
 // --- Bottom Navigation Bar Component ---
 const BottomBar = () => {
-    const is_admin = false;
+    const is_admin = true;
     // An array to hold navigation items for easier mapping
     const navItems = [
         { icon: <GarageIcon className="w-6 h-6" />, name: 'Home', location: '/' },
         { icon: <ExploreIcon className="w-6 h-6" />, name: 'Explore', location: '/explore' },
         { icon: <FavoriteIcon className="w-6 h-6" />, name: 'Favorites', location: '/favorites' },
         { icon: <ProfileIcon className="w-6 h-6" />, name: 'Profile', location: '/profile' },
-        ...(is_admin ? [{ icon: <ProfileIcon className="w-6 h-6" />, name: 'Add dog', location: '/profile' },
-        { icon: <ProfileIcon className="w-6 h-6" />, name: 'Inquiry', location: '/profile' }] : [] ),
+        ...(is_admin ? [{ icon: <AddIcon className="w-6 h-6" />, name: 'Add dog', location: '/admin/add' },] 
+        : [] ),
     ];
 
     return (
@@ -47,7 +48,7 @@ const BottomBar = () => {
                         <Link
                             key={index}
                             to={item.location}
-                            className="p-3 rounded-full text-gray-400 hover:text-white hover:bg-gray-800 transition-colors duration-200"
+                            className="p-2 rounded-full text-gray-400 hover:text-white hover:bg-gray-800 transition-colors duration-200"
                             aria-label={item.label}
                         >
                             {item.icon}

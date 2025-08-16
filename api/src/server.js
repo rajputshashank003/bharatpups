@@ -8,6 +8,8 @@ import foodRouter from "./routers/food.router.js";
 import userRouter from "./routers/user.router.js";
 import orderRouter from "./routers/order.router.js";
 import uploadRouter from "./routers/upload.router.js";
+import addDogRouter from "./routers/addDog.router.js";
+
 import { dbConnect } from "./config/database.config.js";
 import { dirname } from "path";
 import path from "path";
@@ -32,6 +34,8 @@ app.use("/api/foods", foodRouter);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
 app.use('/api/upload', uploadRouter);
+
+app.use('/api/add/', addDogRouter);
 
 const publicFolder = path.join(__dirname, "public");
 app.use(express.static(publicFolder));
