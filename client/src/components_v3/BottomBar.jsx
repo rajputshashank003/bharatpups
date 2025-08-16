@@ -1,4 +1,6 @@
 import React from 'react'
+import { FavoriteIcon, GarageIcon } from './SideBar';
+import { Link } from 'react-router-dom';
 
 const SearchIcon = () => (
     <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
@@ -13,9 +15,7 @@ const HomeIcon = () => (
 );
 
 const ExploreIcon = () => (
-    <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 0 1-1.161.886l-.143.048a1.107 1.107 0 0 0-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 0 1-1.652.928l-.679-.906a1.125 1.125 0 0 0-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 0 0-8.862 12.872M12.75 3.031a9 9 0 0 1 6.69 14.036m0 0-.177.177a2.25 2.25 0 0 0-.998 1.787l-2.065 7.653a1.125 1.125 0 0 1-2.262 0l-2.065-7.653a2.25 2.25 0 0 0-.998-1.787L12.75 17.066h.008l.008-.008Z" />
-    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon w-6 h-6 icon-tabler icons-tabler-outline icon-tabler-device-ipad-search"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M11.5 21h-5.5a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v6" /><path d="M9 18h2" /><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M20.2 20.2l1.8 1.8" /></svg>
 );
 
 const ProfileIcon = () => (
@@ -27,12 +27,15 @@ const ProfileIcon = () => (
 
 // --- Bottom Navigation Bar Component ---
 const BottomBar = () => {
+    const is_admin = false;
     // An array to hold navigation items for easier mapping
     const navItems = [
-        { href: '#', icon: <SearchIcon />, label: 'Search' },
-        { href: '#', icon: <HomeIcon />, label: 'Home' },
-        { href: '#', icon: <ExploreIcon />, label: 'Explore' },
-        { href: '#', icon: <ProfileIcon />, label: 'Profile' },
+        { icon: <GarageIcon className="w-6 h-6" />, name: 'Home', location: '/' },
+        { icon: <ExploreIcon className="w-6 h-6" />, name: 'Explore', location: '/explore' },
+        { icon: <FavoriteIcon className="w-6 h-6" />, name: 'Favorites', location: '/favorites' },
+        { icon: <ProfileIcon className="w-6 h-6" />, name: 'Profile', location: '/profile' },
+        ...(is_admin ? [{ icon: <ProfileIcon className="w-6 h-6" />, name: 'Add dog', location: '/profile' },
+        { icon: <ProfileIcon className="w-6 h-6" />, name: 'Inquiry', location: '/profile' }] : [] ),
     ];
 
     return (
@@ -41,15 +44,15 @@ const BottomBar = () => {
                 {/* Flex container to evenly space the navigation items */}
                 <div className="flex justify-around items-center h-20">
                     {navItems.map((item, index) => (
-                        <a
+                        <Link
                             key={index}
-                            href={item.href}
+                            to={item.location}
                             className="p-3 rounded-full text-gray-400 hover:text-white hover:bg-gray-800 transition-colors duration-200"
                             aria-label={item.label}
                         >
                             {item.icon}
                             <span className="sr-only">{item.label}</span>
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </div>
