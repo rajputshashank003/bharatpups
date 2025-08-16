@@ -20,12 +20,14 @@ import AdminRoute from './components/AdminRoute/AdminRoute.jsx';
 import EmailVerification from './Pages/EmailVerification/EmailVerification.jsx';
 import NotFound from './components/NotFound/NotFound.jsx';
 import LandingPage from './Pages/LandingPageTemp/LandingPage.jsx';
+import Explore from './Pages/LandingPageTemp/Explore.jsx';
 
 export default function AppRoutes() {
     return (
         <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/home" element={<HomePage />} />
+            <Route path="/explore" element={<Explore />} />
+            {/* <Route path="/home" element={<HomePage />} />
             <Route path="/search/:searchTerm" element={<HomePage />} />
             <Route path="/tag/:tag" element={<HomePage />} />
             <Route path="/food/:id" element={<FoodPage />} />
@@ -116,7 +118,7 @@ export default function AppRoutes() {
                     </AdminRoute>
                 }
             />
-            <Route path="/email_verification" element={<EmailVerification />} />
+            <Route path="/email_verification" element={<EmailVerification />} /> */}
             <Route path="*" element={<NotFound />} />
         </Routes>
     )
