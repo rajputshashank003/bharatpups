@@ -9,6 +9,7 @@ import userRouter from "./routers/user.router.js";
 import orderRouter from "./routers/order.router.js";
 import uploadRouter from "./routers/upload.router.js";
 import addDogRouter from "./routers/addDog.router.js";
+import dogRouter from "./routers/dog.router.js";
 
 import { dbConnect } from "./config/database.config.js";
 import { dirname } from "path";
@@ -35,7 +36,8 @@ app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
 app.use('/api/upload', uploadRouter);
 
-app.use('/api/add/', addDogRouter);
+app.use('/api/add', addDogRouter);
+app.use('/api/dog', dogRouter);
 
 const publicFolder = path.join(__dirname, "public");
 app.use(express.static(publicFolder));

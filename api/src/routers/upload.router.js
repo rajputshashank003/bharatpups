@@ -10,7 +10,7 @@ const upload = multer();
 
 router.post(
     '/',
-    // admin,
+    admin,
     upload.single('image'),
     handler(async (req, res) => {
         const file = req.file;

@@ -1,26 +1,44 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SideBar from '../../components_v3/SideBar'
 import Thumbnail_v2_Skeleton from '../../components/Loader_Skeletons/Thumbnail_v2_Skeleton'
 import Header_v2 from '../../components_v2/Header_v2/Header_v2';
 import { useNavigate } from 'react-router-dom';
 import Chip_v2 from '../../components_v2/Chip/Chip_v2';
 import SignInCard from './SignInCard';
+import axios from 'axios';
+import Thumbnails_v2 from '../../components_v2/Thumbnails_v2/Thumbnails_v2';
 
 const Explore = () => {
-    const loading = true;
+    const [loading, set_loading] = useState(true);
+    const [data, set_data] = useState();
+    const [breeds, set_breeds] = useState();
+    const [render_sign_in_card, set_render_sign_in_card] = useState(false);
     const is_favorites = window.location.pathname.includes('/favorites');
     const is_logged_in = false;
-    const render_sign_in_card = true;
-    const data = [];
+
+    const fetchAllDogs = async () => {
+        try {
+            set_loading(true);
+            const response = await axios.get('/api/dog');
+            set_data(response.data.dogs);
+            set_breeds(response.data.breeds);
+            console.log(response.data);
+        } catch (error) {
+            console.error("Failed to fetch dog data:", error);
+        } finally {
+            set_loading(false);
+        }
+    };
+
     useEffect(() => {
         if ( is_favorites ) {
             if ( !is_logged_in) {
-                // render sign in card
+                set_render_sign_in_card(true);
             } else {
-                // call for fav data
+                fetchAllDogs();
             }
         } else {
-            // call for all data
+            fetchAllDogs();
         }
     } ,[]);
     const navigate = useNavigate();
@@ -70,24 +88,30 @@ const Explore = () => {
                     </div>
                     <div className={"flex flex-row gap-[12px] lg:gap-[16px] my-[18px] w-full overflow-scroll"}>
                         {
-                            loading &&
+                            loading ?
                             [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4].map((val) => (
+                                <div onClick={() => navigate('/food/23423432')} className="col-span-1 flex justify-center items-center">
+                                    <Chip_v2 tag={''} />
+                                </div>
+                            )) : 
+                            breeds.map((val) => (
                                 <div onClick={() => navigate('/food/23423432')} className="col-span-1 flex justify-center items-center">
                                     <Chip_v2 tag={val} />
                                 </div>
                             ))
-
                         }
                     </div>
                     <div className={"grid grid-cols-1 sm:grid-cols-2 w-full flex-wrap justify-start items-start gap-[24px] mb-4"}>
                         {
-                            loading &&
+                            loading ?
                             [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4].map((val) => (
                                 <div onClick={() => navigate('/food/23423432')} className="col-span-1 flex justify-center items-center">
                                     <Thumbnail_v2_Skeleton />
                                 </div>
+                            )) :
+                            data.map( (d, idx) => (
+                                <Thumbnails_v2 food={d} load_next_5_foods={false} ind={idx} />
                             ))
-
                         }
                     </div>
                 </>

@@ -21,9 +21,8 @@ export default function Thumbnails_v2({ food, load_next_5_foods, ind }) {
     const [quantity, set_quantity] = useState(0);
 
     const handleAddToCart = () => {
-        addToCart(food);
-        set_quantity(1);
-        toast.success("Added to cart!");
+        navigator.clipboard.writeText('9876543214')
+        toast.success("Phone no. copied");
     }
 
     const find_quantity = () => {
@@ -76,23 +75,22 @@ export default function Thumbnails_v2({ food, load_next_5_foods, ind }) {
             onViewportEnter={() => load_next_5_foods(ind)}
             className='w-full max-w-[270px]'
         >
-            <div className='w-full bg-neutral-200 h-[300px] p-[5px] rounded-[8px] gap-2 grid grid-rows-5' >
+            <div className='w-full bg-neutral-800 h-[300px] p-[5px] rounded-[8px] gap-2 grid grid-rows-5' >
                 <div className=' relative row-span-3 w-full h-full'>
-                    <img onClick={() => navigate(`/food/${food.id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer hover:opacity-[0.9] duration-200 rounded-[12px]' src={food.imageUrl} alt="" />
-                    <div onClick={handleFavouriteFood} className='absolute flex justify-center items-center cursor-pointer bg-gray-200 h-[28px] w-[44px] top-0 right-0 rounded-bl-[8px]' >
+                    <img onClick={() => navigate(`/food/${food.id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer hover:opacity-[0.9] duration-200 rounded-[12px]' src={food.image} alt="" />
+                    <div onClick={handleFavouriteFood} className='absolute flex justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-0 right-0 rounded-bl-[8px]' >
                         <FavoriteIcon sx={{ color: favoriteFood ? "#D32F2F" : "grey" }} />
                     </div>
                 </div>
                 <div className='row-span-2 grid grid-rows-2 w-full'>
-                    <div className='text-[20px] bg-neutral-300 rounded-[8px] p-2 pb-4 grid-rows-2 row-span-1 grid font-semibold' onClick={() => navigate(`/food/${food.id}`)} >
+                    <div className='text-[20px] bg-neutral-600 rounded-[8px] p-2 pb-4 grid-rows-2 row-span-1 grid font-semibold' onClick={() => navigate(`/food/${food.id}`)} >
                         <div className='row-span-1 flex flex-row  justify-between w-full'>
                             <span className='flex justify-center items-center'>
-                                <GetShortName food_name={food.name} length={14} />
+                                <GetShortName food_name={food.breed} length={14} />
                             </span>
                             <span className='text-[20px] font-normal flex flex-row gap-2 justify-center items-center'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#FF5733 " class="icon icon-tabler icons-tabler-filled icon-tabler-star"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" /></svg>
                                 <span>
-                                    {food.rating}
+                                    {food.age}
                                 </span>
                             </span>
                         </div>
@@ -116,7 +114,7 @@ export default function Thumbnails_v2({ food, load_next_5_foods, ind }) {
                                     onClick={handleAddToCart}
                                     className={`bg-[${theme_color}] relative w-[40%] h-[70%] flex justify-center items-center text-white rounded-[8px]`}
                                 >
-                                    <AddShoppingCartIcon />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
                                 </motion.button>
                                 :
                                 <div className="w-[50%] h-[70%] ">
