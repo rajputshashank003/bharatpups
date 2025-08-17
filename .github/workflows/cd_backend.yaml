@@ -22,8 +22,8 @@ jobs:
           file: ./api/Dockerfile
           push: true
           tags: |
-            rajputshashank/aiksava-api:latest
-            rajputshashank/aiksava-api:${{ github.sha }}
+            rajputshashank/bharatpups-api:latest
+            rajputshashank/bharatpups-api:${{ github.sha }}
 
       - name: Trigger redeploy on Render
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
