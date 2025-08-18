@@ -11,16 +11,16 @@ import axios from 'axios';
 import BottomBar from './components_v3/BottomBar.jsx';
 
 function App() {
-    // useEffect(() => {
-    //     const start_backend = async () => {
-    //         try {
-    //             await axios.get('/api/check');
-    //         } catch (err) {
-    //             console.log('err: ', err.message);
-    //         }
-    //     }
-    //     start_backend();
-    // }, []);
+    useEffect(() => {
+        const start_backend = async () => {
+            try {
+                await axios.get('/api/check');
+            } catch (err) {
+                console.log('err: ', err.message);
+            }
+        }
+        start_backend();
+    }, []);
     const { width } = useDimensions();
 
     return (
