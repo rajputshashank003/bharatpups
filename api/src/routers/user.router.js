@@ -8,6 +8,7 @@ import auth from "../middleware/Auth.mid.js";
 import admin from "../middleware/admin.mid.js";
 import { sendMail } from "../mailer/mailer.js";
 import { verify_email_content } from "./utils/verify_email_content.js";
+import { jwtDecode } from "jwt-decode";
 
 const router = Router();
 
@@ -216,11 +217,10 @@ router.put(
     '/update',
     admin,
     handler(async (req, res) => {
-        const { id, name, email, address, isAdmin } = req.body;
+        const { id, name, email, isAdmin } = req.body;
         await userModel.findByIdAndUpdate(id, {
             name,
             email,
-            address,
             isAdmin,
         });
 
@@ -241,11 +241,78 @@ const generateTokenResponse = user => {
         email: user.email,
         isAdmin: user.isAdmin,
         name: user.name,
-        address: user.address,
-        phone: user.phone,
         token,
-        is_verified: user.is_verified
     }
 }
+
+router.post("/v2/google/signin",
+    handler(async (req, res) => {
+        const { userInfo } = req.body;
+        const { email, name, picture } = userInfo.data;
+        const already_registered = await userModel.findOne({ email });        
+        if ( !already_registered) {
+            const newUserDetails = {
+                name,
+                email: email.toLowerCase(),
+                image: picture
+            }
+            const resultUser = await userModel.create(newUserDetails);
+        }
+        res.send(generateTokenResponse(already_registered ?? resultUser));
+    })
+);
+
+// router.post("/email/signin", async (req, res) => {
+//     handler(async (req, res) => {
+//         // const { email } = req.body;
+//         const decodedData = jwtDecode(token.credential);
+//         const { email, name } = decodedData;
+
+//         let user = await prisma.user.findUnique({
+//             where: { email }
+//         });
+//         if (!user) {
+//             user = await prisma.user.create({
+//                 data: {
+//                     email,
+//                     name
+//                 }
+//             })
+//         }
+//         const curr_token = jwt.sign(
+//             {
+//                 id: user.id
+//             },
+//             JWT_SECRET,
+//             {
+//                 expiresIn: '12d'
+//             }
+//         );
+
+//         res.status(200).json({
+//             success: true,
+//             token: curr_token,
+//             email: user.email
+//         });
+//         const isAlreadyRegistered = await userModel.findOne({ email });
+//         if (isAlreadyRegistered) return res.status(400).send("user already registered !");
+
+//         const salt_rounds = Number(process.env.SALT_ROUNDS);
+//         const encPass = await bcrypt.hash(password, salt_rounds);
+
+//         const newUserDetails = {
+//             name,
+//             email: email.toLowerCase(),
+//             password: encPass,
+//             address,
+//             phone,
+//         }
+
+//         const resultUser = await userModel.create(newUserDetails);
+
+//         sendMail(email, "Mail Verification", verify_email_content(resultUser.name, resultUser._id));
+//         res.send(generateTokenResponse(resultUser));
+//     })
+// });
 
 export default router;

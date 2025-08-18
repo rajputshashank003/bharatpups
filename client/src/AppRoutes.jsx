@@ -27,9 +27,10 @@ export default function AppRoutes() {
     return (
         <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/explore" element={<Explore />} />
-            <Route path="/favorites" element={<Explore />} />
+            <Route path="/explore" element={<Explore is_favorites_page={false} />} />
+            <Route path="/favorites" element={<Explore is_favorites_page={true} />} />
             <Route path="/admin/add" element={<AddDog />} />
+            <Route path="/dog/:id" element={<FoodPage />} />
             {/* <Route path="/home" element={<HomePage />} />
             <Route path="/search/:searchTerm" element={<HomePage />} />
             <Route path="/tag/:tag" element={<HomePage />} /> */}

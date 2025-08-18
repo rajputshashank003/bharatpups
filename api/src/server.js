@@ -31,13 +31,13 @@ app.get("/api/check", (req, res) => {
     })
 })
 
+app.use('/api/add', addDogRouter);
+app.use('/api/dog', dogRouter);
+
 app.use("/api/foods", foodRouter);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
 app.use('/api/upload', uploadRouter);
-
-app.use('/api/add', addDogRouter);
-app.use('/api/dog', dogRouter);
 
 const publicFolder = path.join(__dirname, "public");
 app.use(express.static(publicFolder));

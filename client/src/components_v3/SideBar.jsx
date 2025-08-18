@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/Hooks/useAuth';
+import { AddIcon } from './BottomBar';
 
 // SVG Icon Components for clarity and reusability
 
@@ -45,14 +47,28 @@ export const ProfileIcon = ({ className }) => (
 
 // Main Sidebar Component
 export default function SideBar() {
+    // const navItems = [
+    //     { icon: <GarageIcon className="w-6 h-6" />, name: 'Home', location: '/' },
+    //     { icon: <ExploreIcon className="w-6 h-6" />, name: 'Explore', location: '/explore' },
+    //     { icon: <FavoriteIcon className="w-6 h-6" />, name: 'Favorites', location: '/favorites' },
+    //     { icon: <ProfileIcon className="w-6 h-6" />, name: 'Profile', location: '/profile' },
+    //     { icon: <ProfileIcon className="w-6 h-6" />, name: 'Add dog', location: '/profile' },
+    //     { icon: <ProfileIcon className="w-6 h-6" />, name: 'Inquiry', location: '/profile' },
+    // ];
+
+    const auth = useAuth();
     const navItems = [
         { icon: <GarageIcon className="w-6 h-6" />, name: 'Home', location: '/' },
         { icon: <ExploreIcon className="w-6 h-6" />, name: 'Explore', location: '/explore' },
         { icon: <FavoriteIcon className="w-6 h-6" />, name: 'Favorites', location: '/favorites' },
         { icon: <ProfileIcon className="w-6 h-6" />, name: 'Profile', location: '/profile' },
-        { icon: <ProfileIcon className="w-6 h-6" />, name: 'Add dog', location: '/profile' },
-        { icon: <ProfileIcon className="w-6 h-6" />, name: 'Inquiry', location: '/profile' },
+        ...(auth.user.isAdmin ? [
+            { icon: <AddIcon className="w-6 h-6" />, name: 'Add dog', location: '/admin/add' }, 
+            { icon: <ExploreIcon className="w-6 h-6" />, name: 'Users', location: '/admin/users' },
+        ] : []
+        ),
     ];
+
 
     const pathname = window.location.pathname;
 
@@ -63,49 +79,74 @@ export default function SideBar() {
                 : pathname.includes(item.location)
         )?.name || null;
 
-    console.log(opened_page);
     const navigate = useNavigate();
+    const logout = () => {
+        auth.logout();
+        navigate('/login');
+    }
 
     return (
         <div className="bg-[#18181B] sticky top-[20px] max-lg:hidden border-[1px] border-neutral-700/60 rounded-[28px] p-[12px] text-white flex flex-col gap-[12px] justify-center items-center h-[95vh] max-w-xs min-w-[300px] w-[300px] font-sans">
-
-                {/* Header */}
-                <header onClick={() => navigate('/')} className="flex hover:cursor-pointer hover:bg-neutral-500 rounded-[16px] duration-300 justify-start items-center w-full gap-3 p-2">
-                    <div className="p-2 h-fit rounded-full">
-                        <div className="h-[50px] w-[50px]">
-                        <DogIcon />
-                        </div>
+            {/* Header */}
+            <header onClick={() => navigate('/')} className="flex hover:cursor-pointer hover:bg-neutral-500 rounded-[16px] duration-300 justify-start items-center w-full gap-3 p-2">
+                <div className="p-2 h-fit rounded-full">
+                    <div className="h-[50px] w-[50px]">
+                    <DogIcon />
                     </div>
-                    <span style={{fontFamily: 'cdg, serif' }} className="text-[28px] lowercase tracking-tighter">Bharat Pups</span>
-                </header>
+                </div>
+                <span style={{fontFamily: 'cdg, serif' }} className="text-[28px] lowercase tracking-tighter">Bharat Pups</span>
+            </header>
 
-                <div className="bg-neutral-700/60 h-[1px] w-full " />
+            <div className="bg-neutral-700/60 h-[1px] w-full " />
 
-                {/* Navigation */}
-                <nav className="flex-grow w-full">
-                    <ul>
-                        {navItems.map((item, index) => (
-                            <li key={index}>
-                                <Link to={item.location} style={{ ...(opened_page === item.name ? { color: '#3B82F6' } : {}) }} className="flex text-[20px] text-white items-center justify-start gap-4 p-3 rounded-lg hover:bg-neutral-800 transition-colors duration-200 hover:text-white">
-                                    {item.icon}
-                                    <span style={{ fontFamily: 'cdg, serif' }} className="">{item.name}</span>
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
+            {/* Navigation */}
+            <nav className="flex-grow w-full">
+                <ul>
+                    {navItems.map((item, index) => (
+                        <li key={index}>
+                            <Link to={item.location} style={{ ...(opened_page === item.name ? { color: '#3B82F6' } : {}) }} className="flex text-[20px] text-white items-center justify-start gap-4 p-3 rounded-lg hover:bg-neutral-800 transition-colors duration-200 hover:text-white">
+                                {item.icon}
+                                <span style={{ fontFamily: 'cdg, serif' }} className="">{item.name}</span>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
 
-                <div className="bg-neutral-700/60 h-[1px] w-full " />
+            <div className="bg-neutral-700/60 h-[1px] w-full " />
 
-                {/* Auth Buttons */}
-                <footer className="mt-auto w-full flex flex-col gap-3">
-                    <button onClick={() => navigate('/login')} className="w-full py-3 px-4 bg-[#2C2C2E] rounded-full font-semibold hover:bg-gray-600 transition-colors duration-200">
-                        Log in
+            {/* Auth Buttons */}
+            <footer className="mt-auto w-full flex flex-col gap-3">
+                {!auth.user.name ? (
+                    <>
+                        <button
+                            onClick={() => navigate('/login')}
+                            className="w-full py-3 px-4 bg-[#2C2C2E] rounded-full font-semibold hover:bg-gray-600 transition-colors duration-200"
+                        >
+                            Log in
+                        </button>
+                        <button
+                            onClick={() => navigate('/signup')}
+                            className="w-full py-3 px-4 bg-[#A89AFF] text-black rounded-full font-semibold hover:bg-blue-400 transition-colors duration-200"
+                        >
+                            Sign up
+                        </button>
+                    </>
+                ) : (
+                    <>
+                    <div className="text-white text-16 w-full text-center">
+                        {auth?.user?.name}
+                    </div>
+                    <button
+                        onClick={logout}
+                        className="w-full py-3 px-4 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-400 transition-colors duration-200"
+                    >
+                        Logout
                     </button>
-                    <button className="w-full py-3 px-4 bg-[#A89AFF] text-black rounded-full font-semibold hover:bg-blue-400 transition-colors duration-200">
-                        Sign up
-                    </button>
-                </footer>
+                    </>
+                )}
+            </footer>
+
         </div>
     );
 }

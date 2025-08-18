@@ -13,21 +13,21 @@ router.post('/',
         const {
             name,
             breed,
-            price,
             age,
             gender,
             description,
-            image
+            image,
+            image_id
         } = req.body;
         console.log(req.body);
         const dog = new DogModel({
             name,
             breed,
-            price,
             age,
             gender,
             description,
             image,
+            image_id
         });
 
         await dog.save();

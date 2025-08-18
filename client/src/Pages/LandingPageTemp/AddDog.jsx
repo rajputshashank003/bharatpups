@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { uploadImage } from '../../Services/uploadService';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const UploadIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -11,11 +12,13 @@ const UploadIcon = () => (
 
 export default function AddDog() {
     const [imageUrl, setImageUrl] = useState(null);
+    const [image_id, set_image_id] = useState(null);
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         image: null,
         name: '',
         breed: '',
-        price: '',
         age: '',
         gender: 'Male',
         description: ''
@@ -47,7 +50,7 @@ export default function AddDog() {
             !imagePreview |
             !formData.name | !formData.age |
             !formData.breed | !formData.description |
-            !formData.gender | !formData.price
+            !formData.gender
         )
     }
 
@@ -57,22 +60,21 @@ export default function AddDog() {
             toast.error('Fill all the fields');
             return ;
         }
-        debugger;
-        console.log(imageUrl);
         try {
             const promise = await axios.post('/api/add', {
                 image: imageUrl,
                 name: formData.name,
                 breed: formData.breed,
-                price: formData.price,
                 age: formData.age,
                 gender: formData.gender,
-                description: formData.description
+                description: formData.description,
+                image_id,
             }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
+            navigate("/explore");
         } catch (err)  {
 
         }
@@ -81,8 +83,9 @@ export default function AddDog() {
     const upload = async event => {
         handleImageChange(event);
         setImageUrl(null);
-        const imageUrl = await uploadImage(event);
+        const {imageUrl, publicId} = await uploadImage(event);
         setImageUrl(imageUrl);
+        set_image_id(publicId);
     };
 
     return (
@@ -118,11 +121,6 @@ export default function AddDog() {
                         <div>
                             <label htmlFor="breed" className="block text-sm font-medium text-neutral-300">Breed</label>
                             <input type="text" name="breed" id="breed" value={formData.breed} onChange={handleInputChange} className="mt-1 block w-full bg-neutral-700 border-neutral-600 rounded-md shadow-sm text-white py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-                        </div>
-
-                        <div>
-                            <label htmlFor="price" className="block text-sm font-medium text-neutral-300">Price</label>
-                            <input type="number" name="price" id="price" value={formData.price} onChange={handleInputChange} className="mt-1 block w-full bg-neutral-700 border-neutral-600 rounded-md shadow-sm text-white py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
                         </div>
 
                         <div>

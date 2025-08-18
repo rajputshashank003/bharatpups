@@ -109,11 +109,11 @@ export async function deleteReviewById(reviewId, foodId) {
 }
 
 export async function addToFavourites(foodId , userId) {
-    const {data} = await axios.post("/api/foods/favourites",{ foodId, userId});
+    const {data} = await axios.post("/api/dog/add/favorite",{ foodId, userId});
     return data;
 }
 export async function removeFromFavourites(foodId , userId) {
-    const {data} = await axios.delete("/api/foods/favourites",{ 
+    const {data} = await axios.delete("/api/dog/remove/favorite",{ 
         params : {foodId, userId}
     });
     return data;

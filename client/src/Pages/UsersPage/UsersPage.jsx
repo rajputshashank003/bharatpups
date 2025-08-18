@@ -38,19 +38,17 @@ export default function UsersPage() {
           placeholder="Search Users"
           margin="0rem 0"
         />
-        <div className={classes.list_item}>
+        <div className={`text-white ${classes.list_item}`}>
           <h3>Name</h3>
           <h3>Email</h3>
-          <h3>Address</h3>
           <h3>Admin</h3>
           <h3>Actions</h3>
         </div>
         {users && 
           users.map(user => (
-            <div key={user.id} className={classes.list_item}>
+            <div key={user.id} className={`text-white ${classes.list_item}`}>
               <span>{user.name}</span>
               <span>{user.email}</span>
-              <span>{user.address}</span>
               <span>{user.isAdmin ? '✅' : '❌'}</span>
               <span className={classes.actions}>
                 <Link  to={'/admin/editUser/' + user.id}>
@@ -65,14 +63,13 @@ export default function UsersPage() {
             </div>
           ))}
           {users && 
-            <ol className={classes.list_item2}>
+          <ol className={`text-white ${classes.list_item2}`}>
               {users.map(user => (
                 <li key={user.id}>User id : {user.id}
                   <ul>
                     <li>NAME : <b>{user.name}</b></li>
                     <li>EMAIL : {user.email}</li>
                     <li>PHONE NO. : {user.phone}</li>
-                    <li>ADDRESS : {user.address}</li>
                     <li>ADMIN : {user.isAdmin ? '✅' : '❌'}</li>
                     <li className={classes.actions}>
                       <Link className={classes.link_button} to={'/admin/editUser/' + user.id}>

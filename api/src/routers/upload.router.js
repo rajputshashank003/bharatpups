@@ -19,8 +19,8 @@ router.post(
             return;
         }
 
-        const imageUrl = await uploadImageToCloudinary(req.file?.buffer);
-        res.send({ imageUrl });
+        const { url, public_id } = await uploadImageToCloudinary(req.file?.buffer);
+        res.send({ imageUrl: url, publicId: public_id });
     })
 );
 
@@ -31,9 +31,9 @@ const uploadImageToCloudinary = imageBuffer => {
         if (!imageBuffer) reject(null);
 
         cloudinary.uploader
-            .upload_stream((error, result) => {
+            .upload_stream({ folder: 'bharatpups' }, (error, result) => {
                 if (error || !result) reject(error);
-                else resolve(result.url);
+                else resolve(result);
             })
             .end(imageBuffer);
     });

@@ -16,7 +16,7 @@ export const uploadImage = async event => {
         },
     });
     toast.dismiss(toastId);
-    return response.data.imageUrl;
+    return response.data;
 };
 
 const getImage = async (event) => {
