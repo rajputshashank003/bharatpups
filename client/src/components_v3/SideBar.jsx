@@ -62,7 +62,7 @@ export default function SideBar() {
         { icon: <ExploreIcon className="w-6 h-6" />, name: 'Explore', location: '/explore' },
         { icon: <FavoriteIcon className="w-6 h-6" />, name: 'Favorites', location: '/favorites' },
         { icon: <ProfileIcon className="w-6 h-6" />, name: 'Profile', location: '/profile' },
-        ...(auth.user.isAdmin ? [
+        ...(auth?.user?.isAdmin ? [
             { icon: <AddIcon className="w-6 h-6" />, name: 'Add dog', location: '/admin/add' }, 
             { icon: <ExploreIcon className="w-6 h-6" />, name: 'Users', location: '/admin/users' },
         ] : []

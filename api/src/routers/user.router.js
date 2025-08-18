@@ -229,7 +229,7 @@ router.put(
 );
 const generateTokenResponse = user => {
     const token = jwt.sign({
-        id: user.id, email: user.email, isAdmin: user.isAdmin,
+        id: user?.id, email: user?.email, isAdmin: user?.isAdmin,
     },
         process.env.JWT_SECRET,
         {

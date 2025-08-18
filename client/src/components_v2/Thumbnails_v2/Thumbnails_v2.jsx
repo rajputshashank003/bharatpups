@@ -60,7 +60,7 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5
             toast.error("login before adding to favourite");
             return;
         }
-        if (!userService.getUser().isAdmin) {
+        if (!userService?.getUser()?.isAdmin) {
             toast.error("Admin credentials required");
             return ;
         }
@@ -81,7 +81,7 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5
         >
             <div className='w-full bg-neutral-800 h-[300px] p-[5px] rounded-[8px] gap-2 grid grid-rows-5' >
                 <div className=' relative row-span-3 w-full h-full shadow-[0px_0px_1px] shadow-neutral-500 rounded-[6px] '>
-                    {userService.getUser().isAdmin && <div onClick={handle_remove_dog} className='absolute flex justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] z-[2] left-[-2px] rounded-br-[8px]' >
+                    {userService?.getUser()?.isAdmin && <div onClick={handle_remove_dog} className='absolute flex justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] z-[2] left-[-2px] rounded-br-[8px]' >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                     </div>}
                     <img onClick={() => navigate(`/dog/${food._id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer object-contain duration-200 rounded-[12px]' src={food.image} alt="" />

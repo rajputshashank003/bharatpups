@@ -5,7 +5,7 @@ import AuthRoute from '../AuthRoute/AuthRoute';
 
 function AdminRoute({ children }) {
   const { user } = useAuth();
-  return user.isAdmin ? (
+  return user?.isAdmin ? (
     children
   ) : (
     <NotFound
