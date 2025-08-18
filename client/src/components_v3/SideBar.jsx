@@ -117,7 +117,7 @@ export default function SideBar() {
 
             {/* Auth Buttons */}
             <footer className="mt-auto w-full flex flex-col gap-3">
-                {!auth.user.name ? (
+                {!auth?.user?.name ? (
                     <>
                         <button
                             onClick={() => navigate('/login')}
