@@ -16,7 +16,7 @@ const Chip_v2 = ({ tag }) => {
                 duration: 0.2,
                 ease: 'linear'
             }}
-            onClick={() => navigate(tag.navigator ? '/home' : `/tag/${tag.name}`)} 
+            onClick={() => navigate(`/explore/breed/?breed=${tag}`)} 
             className="min-w-[50px] flex-row gap-2 text-white cursor-pointer text-center flex whitespace-nowrap items-center justify-center h-[30px] rounded-[8px] px-2 bg-neutral-800"
         >
             {/* {

@@ -2,36 +2,57 @@ import React, { useEffect, useState } from 'react'
 import SideBar from '../../components_v3/SideBar'
 import Thumbnail_v2_Skeleton from '../../components/Loader_Skeletons/Thumbnail_v2_Skeleton'
 import Header_v2 from '../../components_v2/Header_v2/Header_v2';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import Chip_v2 from '../../components_v2/Chip/Chip_v2';
 import SignInCard from './SignInCard';
 import axios from 'axios';
 import Thumbnails_v2 from '../../components_v2/Thumbnails_v2/Thumbnails_v2';
 import { useAuth } from '../../components/Hooks/useAuth';
 
-const Explore = ({ is_favorites_page }) => {
+const Explore = ({ page }) => {
+    console.log(page);
+    const [is_favorites_page, set_is_favorites_page] = useState(false);
     const [loading, set_loading] = useState(true);
     const [data, set_data] = useState([]);
     const [breeds, set_breeds] = useState([]);
     const [favorites, set_favorites] = useState([]);
     const [render_sign_in_card, set_render_sign_in_card] = useState(false);
+    const [is_logged_in, set_is_logged_in] = useState(false);
     const { user } = useAuth();
-    const [is_logged_in, set_is_logged_in ] = useState(false);
+    const [searchParams] = useSearchParams();
+    const breed = searchParams.get("breed");
+    const search = searchParams.get('search');
 
     useEffect(() => {
         set_is_logged_in(user);
     }, [user]);
 
+    useEffect(() => {
+        set_is_favorites_page(page === 'favorites')
+    }, [page]);
+
     const fetchAllDogs = async (favorites) => {
         try {
             set_loading(true);
-            const response = favorites ?
-                await axios.get('/api/dog/favorites') :
-                await axios.get('/api/dog');
+            let url = `/api/dog/`;
+            if (favorites) {
+                url = '/api/dog/favorites'
+            } else { 
+                if ( breed ) {
+                    url += `?breed=${breed}`
+                }
+                if (search ) {
+                    url += `&?search=${search}`
+                }
+            }
+            const response = await axios.get(url);
+
             set_data(response.data.dogs);
             set_breeds(response.data.breeds);
-            const { data: { favoriteDogIds }} = await axios.get('/api/dog/favorites/ids');
-            set_favorites(favoriteDogIds);
+            if ( is_logged_in ) {
+                const { data: { favoriteDogIds } } = await axios.get('/api/dog/favorites/ids');
+                set_favorites(favoriteDogIds);
+            }
         } catch (error) {
             console.error("Failed to fetch dog data:", error);
         } finally {
@@ -39,7 +60,7 @@ const Explore = ({ is_favorites_page }) => {
         }
     };
 
-    useEffect(() => {
+    const fetch = () => {
         if (is_favorites_page) {
             if (!is_logged_in) {
                 set_render_sign_in_card(true);
@@ -49,7 +70,10 @@ const Explore = ({ is_favorites_page }) => {
         } else {
             fetchAllDogs();
         }
-    }, [is_favorites_page]);
+    }
+    useEffect(() => {
+        fetch();
+    }, [page, searchParams]);
 
     const navigate = useNavigate();
 
@@ -64,12 +88,12 @@ const Explore = ({ is_favorites_page }) => {
                     {
                         loading ?
                             [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4].map((val) => (
-                                <div onClick={() => navigate('/food/23423432')} className="col-span-1 flex justify-center items-center">
+                                <div className="col-span-1 flex justify-center items-center">
                                     <Chip_v2 tag={''} />
                                 </div>
                             )) :
-                            breeds.map((val) => (
-                                <div onClick={() => navigate('/food/23423432')} className="col-span-1 flex justify-center items-center">
+                            breeds?.map((val) => (
+                                <div className="col-span-1 flex justify-center items-center">
                                     <Chip_v2 tag={val} />
                                 </div>
                             ))
@@ -79,15 +103,15 @@ const Explore = ({ is_favorites_page }) => {
                     {
                         loading ?
                             [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4].map((val) => (
-                                <div onClick={() => navigate('/food/23423432')} className="col-span-1 flex justify-center items-center">
+                                <div className="col-span-1 flex justify-center items-center">
                                     <Thumbnail_v2_Skeleton />
                                 </div>
                             )) :
-                            data.map((d, idx) => (
+                            data?.map((d, idx) => (
                                 <Thumbnails_v2
                                     set_dogs={set_data}
                                     key={d._id}
-                                    is_favorite={favorites?.some((id) => {console.log(d, id, d.id == id); return d._id == id})}
+                                    is_favorite={favorites?.some((id) => { console.log(d, id, d.id == id); return d._id == id })}
                                     food={d}
                                     load_next_5_foods={false}
                                     ind={idx}

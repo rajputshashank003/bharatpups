@@ -10,17 +10,29 @@ dotenv.config();
 
 const router = Router();
 
-
 router.get('/',
     handler(async (req, res) => {
         try {
-            const dogs = await DogModel.find({});
+            const { breed, search } = req.query;
+            let filter = {};
+
+            if (breed) {
+                filter.breed = breed;
+            }
+
+            if (search) {
+                filter.$or = [
+                    { name: { $regex: search, $options: 'i' } },
+                    { breed: { $regex: search, $options: 'i' } }
+                ];
+            }
+
+            const dogs = await DogModel.find(filter);
             const breeds = await DogModel.distinct('breed');
-            res.send({dogs, breeds});
+
+            res.send({ dogs, breeds });
         } catch (err) {
-            res.status(404).json({
-                message: err.message
-            })
+            res.status(404).json({ message: err.message });
         }
     })
 );

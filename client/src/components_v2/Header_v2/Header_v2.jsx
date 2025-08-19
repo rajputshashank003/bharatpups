@@ -24,7 +24,7 @@ const Header_v2 = () => {
 
     const search = async () => {
         setTerm('');
-        term && term.length > 0 ? navigate("/search/" + term) : navigate("/home");
+        term && term.length > 0 ? navigate(`/explore?search=${term}`) : navigate("/explore");
     };
 
     useEffect(() => {
