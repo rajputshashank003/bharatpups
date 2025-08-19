@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 
 export default function ProfilePage () {
     const {user , updateProfile} = useAuth();
+    const auth = useAuth();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -40,21 +41,37 @@ export default function ProfilePage () {
         const {data} = await userService.sendEmailVerification(user.id);
         toast.success(data.msg);
     }
+    const logout = () => {
+        auth.logout();
+        navigate('/login');
+    }
+
     return (
         <>
             <div className={classes.main}>
                 <div 
                     style={{
-                        backgroundImage: `url('https://t4.ftcdn.net/jpg/05/21/93/15/240_F_521931515_9KUfACTTx8XZrP9pnl2pG9lr8w2mijaL.jpg')`,
+                        backgroundImage: `url('https://images.unsplash.com/photo-1603388360090-41084c4f4b86?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
                         backgroundSize: 'cover', 
                     }} 
                     className="h-fit w-[20rem] md:w-[40rem] duration-300 overflow-hidden shadow-[0px_0px_8px] my-4 mb-6 shadow-black/40 rounded-3xl "
                 >
-                    <div className=" h-full py-8 relative px-8 w-full backdrop-blur-[2px] bg-white/40">
-                        <div className="relative flex text-center justify-center items-center mb-4 font-semibold text-3xl  border-black">
+                    <div className=" h-full py-8 relative px-8 w-full backdrop-blur-[2px] bg-white/10">
+                        <>
+                            <div className="text-white text-16 w-full text-center">
+                                {user?.name}
+                            </div>
+                            <button
+                                onClick={logout}
+                                className="w-full py-3 px-4 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-400 transition-colors duration-200"
+                            >
+                                Logout
+                            </button>
+                        </>
+                        <div className="relative flex text-white text-center justify-center items-center mb-4 font-semibold text-3xl  border-black">
                             Here’s Your Space to Shine!
                         </div>
-                        <div className="relative flex text-center justify-center items-center my-4 font-semibold text-gray-800/50 text-sm  border-black">
+                        <div className="relative flex text-neutral-300 text-center justify-center items-center my-4 font-semibold text-gray-800/50 text-sm  border-black">
                             Personalize and Customize Your Experience.
                         </div>
                         <form className="w-full flex justify-center items-center flex-col" onSubmit={handleSubmit} >
@@ -66,6 +83,7 @@ export default function ProfilePage () {
                                 formData={formData}
                                 onChange={handleChange}
                                 readOnly={true}
+                                className='text-white'
                             />
                             <Form_Title 
                                 name='name'
@@ -75,24 +93,7 @@ export default function ProfilePage () {
                                 formData={formData}
                                 onChange={handleChange}
                                 readOnly={false}
-                            />
-                            <Form_Title 
-                                name='phone'
-                                label="Phone No."
-                                type='text'
-                                variant="outlined"
-                                formData={formData}
-                                onChange={handleChange}
-                                readOnly={false}
-                            />
-                            <Form_Title 
-                                name='address'
-                                label="Address"
-                                type='text'
-                                variant="outlined"
-                                formData={formData}
-                                onChange={handleChange}
-                                readOnly={false}
+                                className='text-white'
                             />
                             <motion.button 
                                 whileTap={{
@@ -105,9 +106,9 @@ export default function ProfilePage () {
                         </form>
                     </div>
                 </div>
-                <form className={classes.details} >
+                {/* <form className={classes.details} >
                     {
-                        user.is_verified &&
+                        user?.is_verified &&
                         <Alert 
                             severity="success"
                             sx={{
@@ -136,7 +137,7 @@ export default function ProfilePage () {
     
                     }
                 </form>
-                <ChangePassword/>
+                <ChangePassword/> */}
             </div>
         </>
     );
@@ -144,13 +145,13 @@ export default function ProfilePage () {
 
 const Form_Title = (props) => {
     return (
-        <div className="relative w-full text-sm mb-2 font-bold text-slate-800">
+        <div className={`${props?.className} relative w-full text-sm mb-2 font-bold text-slate-800`}>
             {props.label}
             <input 
                 name={props.name}
                 type={props.type} 
                 onChange={(e) => props.onChange(e)} 
-                className="h-fit p-2 mt-1 w-full font-normal focus:outline-none border rounded-lg" 
+                className="h-fit p-2 text-black mt-1 w-full font-normal focus:outline-none border rounded-lg" 
                 value={props.formData[props.name]} 
                 readOnly={props.readOnly}
             />

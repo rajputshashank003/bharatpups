@@ -7,6 +7,7 @@ import Chip_v2 from '../../components_v2/Chip/Chip_v2';
 import SignInCard from './SignInCard';
 import axios from 'axios';
 import Thumbnails_v2 from '../../components_v2/Thumbnails_v2/Thumbnails_v2';
+import { useAuth } from '../../components/Hooks/useAuth';
 
 const Explore = ({ is_favorites_page }) => {
     const [loading, set_loading] = useState(true);
@@ -14,7 +15,12 @@ const Explore = ({ is_favorites_page }) => {
     const [breeds, set_breeds] = useState([]);
     const [favorites, set_favorites] = useState([]);
     const [render_sign_in_card, set_render_sign_in_card] = useState(false);
-    const is_logged_in = true;
+    const { user } = useAuth();
+    const [is_logged_in, set_is_logged_in ] = useState(false);
+
+    useEffect(() => {
+        set_is_logged_in(user);
+    }, [user]);
 
     const fetchAllDogs = async (favorites) => {
         try {
@@ -26,7 +32,6 @@ const Explore = ({ is_favorites_page }) => {
             set_breeds(response.data.breeds);
             const { data: { favoriteDogIds }} = await axios.get('/api/dog/favorites/ids');
             set_favorites(favoriteDogIds);
-            console.log(response.data.dogs, favoriteDogIds);
         } catch (error) {
             console.error("Failed to fetch dog data:", error);
         } finally {
