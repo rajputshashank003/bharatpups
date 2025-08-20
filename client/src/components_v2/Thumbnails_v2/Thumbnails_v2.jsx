@@ -92,8 +92,9 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5
                 <div className='row-span-2 grid grid-rows-2 w-full'>
                     <div className='text-[20px] bg-neutral-600 rounded-[8px] p-2 pb-4 grid-rows-2 row-span-1 grid font-semibold' onClick={() => navigate(`/food/${food.id}`)} >
                         <div className='row-span-1 flex flex-row  justify-between w-full'>
-                            <span className='flex justify-center items-center'>
-                                <GetShortName food_name={food.breed} length={14} />
+                            <span
+                                className='flex whitespace-nowrap justify-center items-center'>
+                                <GetShortName food_name={food.breed} length={12} />
                             </span>
                             <span className='text-[20px] font-normal flex flex-row gap-2 justify-center items-center'>
                                 <span>
