@@ -16,16 +16,14 @@ import { theme_color } from '../../constants/constants.js';
 import Counter from '../../components/Counter/Counter.jsx';
 import GetShortName from '../../components/GetShortName/GetShortName.jsx';
 import axios from 'axios';
+import { CircularProgress } from '@mui/material';
+import { copy_phone } from '../../helpers/utils.js';
 
 export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5_foods, ind }) {
     const [quantity, set_quantity] = useState(0);
     const [favoriteFood, setFavouriteFood] = useState(is_favorite);
     const [favorite_count, set_favorite_count] = useState(0);
-
-    const copy_phone = () => {
-        navigator.clipboard.writeText('9876543214')
-        toast.success("Phone no. copied");
-    }
+    const [adding_to_favorite, set_adding_to_favorite] = useState(false);
 
     useEffect(() => {
         setFavouriteFood(is_favorite);
@@ -37,21 +35,28 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5
 
     const navigate = useNavigate();
     const handleFavouriteFood = async () => {
-        if (!userService.getUser()) {
-            navigate("/login");
-            toast.error("login before adding to favourite");
-            return;
+        try {
+            set_adding_to_favorite(true);
+            if (!userService.getUser()) {
+                navigate("/login");
+                toast.error("login before adding to favourite");
+                return;
+            }
+            if (!favoriteFood) {
+                const res = await addToFavourites(food.id, userService.getUser().id);
+                // await saveSearchTerm(userService.getUser().id, food.name);
+                set_favorite_count(prev => prev + 1);
+            } else {
+                const res = await removeFromFavourites(food.id, userService.getUser().id);
+                // await removeSearchTerm(userService.getUser().id, food.name);
+                set_favorite_count(prev => prev - 1);
+            }
+            setFavouriteFood((prev) => !prev);
+        } catch (err) {
+
+        } finally {
+            set_adding_to_favorite(false);
         }
-        if (!favoriteFood) {
-            const res = await addToFavourites(food.id, userService.getUser().id);
-            // await saveSearchTerm(userService.getUser().id, food.name);
-            set_favorite_count(prev => prev + 1);
-        } else {
-            const res = await removeFromFavourites(food.id, userService.getUser().id);
-            // await removeSearchTerm(userService.getUser().id, food.name);
-            set_favorite_count(prev => prev - 1);
-        }
-        setFavouriteFood((prev) => !prev);
     }
 
     const handle_remove_dog = async () => {
@@ -80,33 +85,33 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5
             className='w-full max-w-[270px]'
         >
             <div className='w-full bg-neutral-800 h-[300px] p-[5px] rounded-[8px] gap-2 grid grid-rows-5' >
-                <div className=' relative row-span-3 w-full h-full shadow-[0px_0px_1px] shadow-neutral-500 rounded-[6px] '>
-                    {userService?.getUser()?.isAdmin && <div onClick={handle_remove_dog} className='absolute flex justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] z-[2] left-[-2px] rounded-br-[8px]' >
+                <div className=' relative row-span-3 w-full h-full shadow-[0px_0px_1px] shadow-neutral-500 rounded-b-none rounded-[6px] '>
+                    {/* {userService?.getUser()?.isAdmin && <div onClick={handle_remove_dog} className='absolute flex justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] z-[2] left-[-2px] rounded-br-[8px]' >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                    </div>}
-                    <img onClick={() => navigate(`/dog/${food._id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer object-contain duration-200 rounded-[12px]' src={food.image} alt="" />
-                    <div onClick={handleFavouriteFood} className='absolute flex justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] right-[-2px] rounded-bl-[8px]' >
-                        <FavoriteIcon sx={{ color: favoriteFood ? "#D32F2F" : "grey" }} />
+                    </div>} */}
+                    <div className='h-full relative cursor-pointer object-cover duration-200 rounded-[6px] rounded-b-none overflow-hidden'>
+                        <img onClick={() => navigate(`/dog/${food._id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[1] relative object-contain' src={food.image} alt="" />
+                        <img onClick={() => navigate(`/dog/${food._id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[0] object-cover blur-[12px] absolute top-0 left-0' src={food.image} alt="" />
+                    </div>
+                    <div onClick={handleFavouriteFood} className='absolute flex z-[2] justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] right-[-2px] rounded-bl-[8px]' >
+                        {
+                            !adding_to_favorite ? <FavoriteIcon sx={{ color: favoriteFood ? "#D32F2F" : "grey" }} /> :
+                            <CircularProgress sx={{ height: '18px !important', width: '18px !important', backgroundcolor: 'red', color: !favoriteFood ? "#D32F2F" : "white" }} />
+                        }
                     </div>
                 </div>
                 <div className='row-span-2 grid grid-rows-2 w-full'>
-                    <div className='text-[20px] bg-neutral-600 rounded-[8px] p-2 pb-4 grid-rows-2 row-span-1 grid font-semibold' onClick={() => navigate(`/food/${food.id}`)} >
-                        <div className='row-span-1 flex flex-row  justify-between w-full'>
-                            <span
-                                className='flex whitespace-nowrap justify-center items-center'>
-                                <GetShortName food_name={food.breed} length={12} />
-                            </span>
-                            <span className='text-[20px] font-normal flex flex-row gap-2 justify-center items-center'>
-                                <span>
-                                    {food.age}
-                                </span>
-                            </span>
-                        </div>
+                    <div className='text-[20px] bg-neutral-600 rounded-[8px] rounded-t-none p-2 pb-4 grid-rows-2 row-span-1 grid font-semibold' onClick={() => navigate(`/food/${food.id}`)} >
+                        <span
+                            style={{ fontFamily: 'cdg, serif' }}
+                            className='flex whitespace-nowrap row-span-2 justify-start items-center'>
+                            <GetShortName food_name={food.breed} length={14} />
+                        </span>
                     </div>
                     <div className='row-span-1 flex flex-row justify-between items-center h-full'>
-                        <div className="">
+                        <div className="flex justify-center items-center gap-[4px]">
                             <FavoriteIcon sx={{ color: "#D32F2F" }} />
-                            <span>{favorite_count}</span>
+                            <span style={{ fontFamily: 'cdg, serif'}} className='text-neutral-300 text-bold'>{favorite_count}</span>
                         </div>
                         {
                             quantity == 0 ?
@@ -118,7 +123,7 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5
                                         duration: 0.2,
                                         ease: 'linear'
                                     }}
-                                    onClick={copy_phone}
+                                    onClick={() => copy_phone('asfasdf')}
                                     className={`bg-[${theme_color}] relative w-[40%] h-[70%] flex justify-center items-center text-white rounded-[8px]`}
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>

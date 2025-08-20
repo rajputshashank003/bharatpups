@@ -21,6 +21,7 @@ import Counter from '../../components/Counter/Counter.jsx';
 import FoodPageSkeleton from '../../components/Loader_Skeletons/FoodPageSkeleton.jsx';
 import SideBar from '../../components_v3/SideBar.jsx';
 import axios from 'axios';
+import { copy_phone } from '../../helpers/utils.js';
 
 export default function FoodPage() {
     const { id } = useParams();
@@ -83,7 +84,11 @@ export default function FoodPage() {
                 food ?
                     <div className={classes.box + " px-4 flex justify-start items-start md:items-center "}>
                         <div className={classes.main + " justify-start gap-[22px]"}>
-                            <img className={classes.img + " m-0 max-md:w-full  "} src={food.image} />
+                            {/* <img className={classes.img + " m-0 max-md:w-full  "} src={food.image} /> */}
+                            <div className={classes.img + " m-0 max-md:w-full overflow-hidden relative  "}>
+                                <img onClick={() => navigate(`/dog/${food._id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[1] relative object-contain' src={food.image} alt="" />
+                                <img onClick={() => navigate(`/dog/${food._id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[0] object-cover blur-[12px] absolute top-0 left-0' src={food.image} alt="" />
+                            </div>
                             <div className={" flex flex-col gap-[12px] max-md:mt-[18px] "}>
                                 <h1 className={classes.name_Favourite + " flex  justify-between gap-[12px] items-center"}>
                                     <div className='text-[38px] sm:text-[32px] font-semibold '  >
@@ -91,8 +96,8 @@ export default function FoodPage() {
                                     </div>
                                     <FavoriteIcon onClick={handleFavouriteFood} sx={{ color: favoriteFood ? "red" : "grey", position: "relative", fontSize: "2rem", cursor: 'pointer' }} />
                                 </h1>
-                                <div style={{ fontFamily: "f5, sans-serif" }} className=' text-[22px] font-bold '>
-                                    <Price price={food?.price} />
+                                <div style={{ fontFamily: "cdg, sans-serif" }} className=' text-[22px] font-bold '>
+                                    Age : { food?.age} Y
                                 </div>
                                 {
                                     quantity == 0 ?
@@ -104,9 +109,10 @@ export default function FoodPage() {
                                                 duration: 0.2,
                                                 ease: 'linear'
                                             }}
-                                            className={`bg-[${theme_color}] relative w-[40%] h-[32px] flex justify-center items-center text-white rounded-[8px]`}
+                                            onClick={() => copy_phone('asfasdf')}
+                                            className={`bg-[${theme_color}] relative w-[40%] h-[70%] flex justify-center items-center text-white rounded-[8px]`}
                                         >
-                                            <AddShoppingCartIcon />
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
                                         </motion.button>
                                         :
                                         <div className="w-[70%] max-w-[200px] h-[70%] ">

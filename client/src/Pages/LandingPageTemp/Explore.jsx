@@ -76,7 +76,7 @@ const Explore = ({ page }) => {
                     <div className="absolute bg-[#171717] h-[50px] w-full top-0 -translate-y-[100%] z-[9]"></div>
                     <Header_v2 />
                 </div>
-                <div className={"flex flex-row gap-[12px] lg:gap-[16px] my-[18px] w-full overflow-scroll"}>
+                <div className={"flex flex-row gap-[12px] lg:gap-[16px] my-[18px] w-full overflow-scroll no-scrollbar"}>
                     {
                         loading ?
                             [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4].map((val) => (
@@ -101,14 +101,16 @@ const Explore = ({ page }) => {
                             )) :
                             data?.length > 0 ?
                                 data?.map((d, idx) => (
-                                    <Thumbnails_v2
-                                        set_dogs={set_data}
-                                        key={d._id}
-                                        is_favorite={favorites?.some((id) => { return d._id == id })}
-                                        food={d}
-                                        load_next_5_foods={false}
-                                        ind={idx}
-                                    />
+                                    <div className="col-span-1 flex justify-center items-center">
+                                        <Thumbnails_v2
+                                            set_dogs={set_data}
+                                            key={d._id}
+                                            is_favorite={favorites?.some((id) => { return d._id == id })}
+                                            food={d}
+                                            load_next_5_foods={false}
+                                            ind={idx}
+                                        />
+                                    </div>
                                 )) :
                                 <div style={{ fontFamily: 'cdg, serif'}} className='text-[28px] h-full w-[80vw] text-center'>
                                     No products found
