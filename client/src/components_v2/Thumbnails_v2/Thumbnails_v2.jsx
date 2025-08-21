@@ -82,7 +82,7 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5
     return (
         <motion.div
             // onViewportEnter={() => load_next_5_foods(ind)}
-            className='w-full max-w-[270px]'
+            className='w-full max-w-full'
         >
             <div className='w-full bg-neutral-800 h-[300px] p-[5px] rounded-[8px] gap-2 grid grid-rows-5' >
                 <div className=' relative row-span-3 w-full h-full shadow-[0px_0px_1px] shadow-neutral-500 rounded-b-none rounded-[6px] '>

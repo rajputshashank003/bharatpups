@@ -100,7 +100,7 @@ const Explore = ({ page, first_render }) => {
                             ))
                     }
                 </div>
-                <div className={"grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full flex-wrap justify-start items-start gap-[24px] mb-4"}>
+                <div className={"grid grid-cols-1 mids:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 w-full flex-wrap justify-start items-start gap-[24px] mb-4"}>
                     {
                         loading ?
                             [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4].map((val) => (
