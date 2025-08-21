@@ -8,8 +8,9 @@ import SignInCard from './SignInCard';
 import axios from 'axios';
 import Thumbnails_v2 from '../../components_v2/Thumbnails_v2/Thumbnails_v2';
 import { useAuth } from '../../components/Hooks/useAuth';
+import { mock_api_response } from '../../constants/const_data';
 
-const Explore = ({ page }) => {
+const Explore = ({ page, first_render }) => {
     const [loading, set_loading] = useState(true);
     const [data, set_data] = useState([]);
     const [breeds, set_breeds] = useState([]);
@@ -61,7 +62,15 @@ const Explore = ({ page }) => {
                     fetchAllDogs(true);
                 }
             } else {
-                fetchAllDogs();
+                if ( first_render?.current ) {
+                    set_breeds(mock_api_response.breeds);
+                    set_data(mock_api_response.dogs);
+                    first_render.current = false;
+                    fetchAllDogs();
+                    set_loading(false);
+                } else {
+                    fetchAllDogs();
+                }
             }
         }
         fetch();

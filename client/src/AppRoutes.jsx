@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import HomePage from './Pages/Home/HomePage'
 import { Routes, Route } from "react-router-dom";
 import FoodPage from './Pages/Food/FoodPage.jsx';
@@ -24,10 +24,12 @@ import Explore from './Pages/LandingPageTemp/Explore.jsx';
 import AddDog from './Pages/LandingPageTemp/AddDog.jsx';
 
 export default function AppRoutes() {
+    const first_render = useRef(true);
+
     return (
         <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/explore" element={<Explore page={'explore'} />} />
+            <Route path="/explore" element={<Explore page={'explore'} first_render={first_render} />} />
             <Route path="/explore/breed" element={<Explore page={'breed'} />} />
             <Route path="/favorites" element={<Explore page={'favorites'} />} />
             <Route path="/admin/add" element={<AddDog />} />
