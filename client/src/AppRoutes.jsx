@@ -22,6 +22,8 @@ import NotFound from './components/NotFound/NotFound.jsx';
 import LandingPage from './Pages/LandingPageTemp/LandingPage.jsx';
 import Explore from './Pages/LandingPageTemp/Explore.jsx';
 import AddDog from './Pages/LandingPageTemp/AddDog.jsx';
+import Contact from './Pages/Contact/Contact.jsx';
+import AddDogReview from './Pages/AddDogReview/AddDogReview.jsx';
 
 export default function AppRoutes() {
     const first_render = useRef(true);
@@ -34,21 +36,23 @@ export default function AppRoutes() {
             <Route path="/favorites" element={<Explore page={'favorites'} />} />
             <Route path="/admin/add" element={<AddDog />} />
             <Route path="/dog/:id" element={<FoodPage />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/add/review" element={<AddDogReview />} />
             {/* <Route path="/home" element={<HomePage />} />
             <Route path="/search/:searchTerm" element={<HomePage />} />
             <Route path="/tag/:tag" element={<HomePage />} /> */}
             <Route path="/food/:id" element={<FoodPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/checkout"
+            {/* <Route path="/register" element={<RegisterPage />} /> */}
+            {/* <Route path="/checkout"
                 element={
                     <AuthRoute>
                         <CheckoutPage />
                     </AuthRoute>
                 }
-            />
-            <Route path="/payment"
+            /> */}
+            {/* <Route path="/payment"
                 element={
                     <AuthRoute>
                         <PaymentPage />
@@ -61,7 +65,7 @@ export default function AppRoutes() {
                         <OrderTrack />
                     </AuthRoute>
                 }
-            />
+            /> */}
             <Route path="/profile"
                 element={
                     <AuthRoute>
@@ -69,13 +73,13 @@ export default function AppRoutes() {
                     </AuthRoute>
                 }
             />
-            <Route path="/orders/:filter?"
+            {/* <Route path="/orders/:filter?"
                 element={
                     <AuthRoute>
                         <OrdersPage />
                     </AuthRoute>
                 }
-            />
+            /> */}
             <Route path="/dashboard"
                 element={
                     <AuthRoute>

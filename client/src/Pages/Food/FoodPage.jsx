@@ -25,7 +25,6 @@ import { copy_phone } from '../../helpers/utils.js';
 
 export default function FoodPage() {
     const { id } = useParams();
-    const { addToCart, cart } = useCart();
     const navigate = useNavigate();
     
     const [food, setFood] = useState();
@@ -36,8 +35,8 @@ export default function FoodPage() {
     const auth = useAuth();
     const [quantity, set_quantity] = useState(0);
     const [loading, set_loading] = useState(true);
-
     const [favorite, setFavorite] = useState(false);
+    const [expanded_image, set_expanded_image] = useState(null);
 
     const handleFavouriteFood = async () => {
         if (!userService.getUser()) {
@@ -59,11 +58,10 @@ export default function FoodPage() {
     useEffect(() => {
         async function fetchDog() {
             try {
-                console.log('fetching ', id);
                 set_loading(true);
                 const { data } = await axios.get(`/api/dog/id/${id}`);
-                console.log(data);
-                setFood(data);
+                setFood(data?.dog);
+                setReviews(data?.reviews);
             } catch (err) {
                 console.error("Failed to fetch dog:", err);
             } finally {
@@ -73,8 +71,40 @@ export default function FoodPage() {
         fetchDog();
     }, [id]);
 
+    const handle_add_review = () => {
+        navigate('/add/review', {
+            state: {
+                dog_id : food?._id
+            }
+        });
+    };
+
     return (
         <div className="min-h-screen relative text-gray-200 flex flex-row items-start justify-center font-sans p-[20px]">
+            { expanded_image && 
+                <div className='fixed p-4 z-[9999] bg-black top-0 left-0 h-screen w-screen'>
+                    <span onClick={() => set_expanded_image(null)} className='fixed bg-neutral-500 p-2 rounded-[12px] z-[9999] cursor-pointer top-[24px] right-[24px] text-black text-[24px] font-extrabold'>
+                        X
+                    </span>
+                    <div className='relative h-[65%]'>
+                        <img style={{ padding: 0, margin: 0, width: '100%' }} className='h-full z-[1] opacity-[0.6] object-cover blur-[12px] absolute top-0 left-0' src={expanded_image?.image} alt="" />
+                        <img src={expanded_image?.image} style={{ padding: 0, margin: 0 }} className='h-full relative object-contain z-[2] rounded-[12px] w-full' alt="" />
+                    </div>
+                    <div className='w-full mt-4'>
+                        <div className="w-fit px-2 rounded-[6px] bg-neutral-900 text-white">
+                            Comment
+                        </div>
+                    </div>
+                    <div className='h-[18%] z-[8888888] overflow-scroll m-4 bg-black/70'>
+                        {expanded_image?.comment}
+                    </div>
+                    <div className='w-full flex justify-end'>
+                        <div className="w-fit px-2 rounded-[12px] bg-neutral-800 text-white">
+                            By {expanded_image?.created_by}
+                        </div>
+                    </div>
+                </div>
+            }
             <SideBar />
             {loading ?
                 <div className=' min-h-screen w-full flex justify-center'>
@@ -86,8 +116,8 @@ export default function FoodPage() {
                         <div className={classes.main + " justify-start gap-[22px]"}>
                             {/* <img className={classes.img + " m-0 max-md:w-full  "} src={food.image} /> */}
                             <div className={classes.img + " m-0 max-md:w-full overflow-hidden relative  "}>
-                                <img onClick={() => navigate(`/dog/${food._id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[1] relative object-contain' src={food.image} alt="" />
-                                <img onClick={() => navigate(`/dog/${food._id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[0] object-cover blur-[12px] absolute top-0 left-0' src={food.image} alt="" />
+                                <img  style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[1] relative object-contain' src={food.image} alt="" />
+                                <img style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[0] opacity-60 object-cover blur-[12px] absolute top-0 left-0' src={food.image} alt="" />
                             </div>
                             <div className={" flex flex-col gap-[12px] max-md:mt-[18px] "}>
                                 <h1 className={classes.name_Favourite + " flex  justify-between gap-[12px] items-center"}>
@@ -124,9 +154,38 @@ export default function FoodPage() {
                                 {food?.description}
                             </div>
                         </div>
+                        {auth?.user?.name && 
+                            <div className='w-full '>
+                                <div onClick={handle_add_review} className="addreview p-2 cursor-pointer w-fit px-4 bg-neutral-800 rounded-[12px]">
+                                    Add Review
+                                </div>
+                            </div>
+                        }
+                        <div className="reviews w-full gap-[12px] flex flex-col mt-4">
+                            { reviews?.length > 0 &&
+                                reviews?.map((review) => (
+                                    <div onClick={() => set_expanded_image({ image: review?.image, comment: review?.comment, created_by: review?.created_by?.name })} className='flex flex-col bg-neutral-800 cursor-pointer p-[8px] gap-[4px] rounded-[8px] '>
+                                        <div className='flex flex-row gap-[12px]'>
+                                            <img style={{ padding: 0, margin: 0}}  className='h-[54px] cursor-pointer md:rounded-[12px] w-[54px]' src={review.image} />
+                                            <div className="line-clamp-3 overflow-hidden h-fit text-[12px] text-ellipsis">
+                                                {review.comment}
+                                            </div>
+                                        </div>
+                                        <div className='w-full flex p-x-[12px] items-center gap-[12px] justify-end '>
+                                            <span>
+                                                By
+                                            </span> 
+                                            <div className="line-clamp-1 text-[12px] h-fit text-ellipsis">
+                                                {review?.created_by?.name}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                        </div>
                     </div>
                     :
-                    <NotFound message="FoodPage Not Found ! " />
+                    <NotFound message="Dog Not Found ! " />
             }
         </div>
     )

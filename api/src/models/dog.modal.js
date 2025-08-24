@@ -10,6 +10,7 @@ export const dogSchema = new Schema(
         image: { type: String, required: true },
         favorite_count: { type: Number, default: 0},
         image_id: { type: String, required: true},
+        reviews: [{ type: Schema.Types.ObjectId, ref: 'review' }]
     },
     {
         toJSON: {

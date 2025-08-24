@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SideBar from '../../components_v3/SideBar';
+import { copy_phone } from '../../helpers/utils';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 // SVG Icon Components
 
@@ -82,19 +85,46 @@ const GlobeIcon = () => (
 
 // Main App Component
 const LandingPage = () => {
+    const [loading, set_loading] = useState(true);
+    const [breeds, set_breeds] = useState([]);
+    const [search_term, set_search_term] = useState('');
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                set_loading(true);
+                const url = '/api/dog/breeds';
+                const response = await axios.get(url);
+                set_breeds(response?.data?.slice(0,5));
+            } catch (error) {
+                console.error("Failed to fetch dog data:", error);
+            } finally {
+                set_loading(false);
+            }
+        }
+        fetch();
+    }, []);
+
+    const handle_search = () => {
+        if (search_term?.length < 1 ) return ;
+        search_term && search_term?.length > 0 && navigate(`/explore?search=${search_term}`);
+    }
+
     return (
         <div className="min-h-screen text-gray-200 flex flex-row items-center justify-center font-sans p-[20px]">
-            <SideBar/>
-            <div className="w-full max-w-2xl mx-auto flex flex-col items-center">
+            <SideBar />
+            <div className="w-full relative pb-[50px] max-w-2xl mx-auto flex flex-col items-center">
 
                 {/* Top Banner */}
                 <div className="flex items-center justify-center space-x-2 mb-4 p-2 rounded-full bg-[#1e1e1e] border border-gray-700 text-sm">
                     <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-semibold">new</span>
-                    <span className="text-gray-300">Attachments in Messages</span>
-                    <a href="#" className="text-blue-400 hover:underline flex items-center">
+                    <span className="text-gray-300">German Shepherd</span>
+                    <span onClick={() => navigate(`/explore/breed/?breed=${'German Shepherd'}`)} className="text-blue-400 cursor-pointer hover:underline flex items-center">
                         learn more
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1"><path d="m9 18 6-6-6-6" /></svg>
-                    </a>
+                    </span>
                 </div>
 
                 {/* Pagination Dots */}
@@ -117,33 +147,40 @@ const LandingPage = () => {
                 </div>
 
                 {/* Main Text */}
-                <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-100 mb-3">
-                    Car knowledge unleashed
+                <h1 style={{ fontFamily: 'cdg, serif'}} className="text-4xl md:text-5xl font-bold text-center text-gray-100 mb-3">
+                    Trusted tails unleashed
                 </h1>
                 <p className="text-lg text-gray-400 text-center mb-8">
-                    Ask anything about cars and get instant answers
+                    Where quality pups meet caring homes
                 </p>
 
                 {/* Input Area */}
                 <div className="w-full bg-[#2a2a2a] rounded-2xl p-3 shadow-lg border border-gray-700">
                     <textarea
                         className="w-full bg-transparent text-gray-200 placeholder-gray-500 focus:outline-none resize-none"
-                        placeholder="Ask a question..."
+                        value={search_term}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handle_search();
+                            }
+                        }}
+                        onChange={(e) => set_search_term(e.target.value) }
+                        placeholder="Search here"
                         rows="1"
                     ></textarea>
                     <div className="flex items-center justify-between mt-2">
-                        <div className="flex items-center space-x-2">
-                            <button className="flex items-center space-x-2 bg-[#383838] hover:bg-gray-600 text-gray-300 px-3 py-1.5 rounded-lg text-sm">
+                        <div className="flex opacity-0 items-center w-full border-2 space-x-2">
+                            {/* <button className="flex items-center space-x-2 bg-[#383838] hover:bg-gray-600 text-gray-300 px-3 py-1.5 rounded-lg text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z" /><path d="m14 7 3 3" /><path d="M12 12 2.36 2.36" /><path d="M18 6 7.5 16.5" /><path d="m17 11 4.5 4.5" /><path d="M14 12v1.5a2.5 2.5 0 0 0 5 0V12" /><path d="M6.5 12.5 12 7" /></svg>
                                 <span>Auto</span>
                             </button>
                             <button className="p-1.5 rounded-lg hover:bg-gray-600 text-gray-400"><CarIcon /></button>
                             <button className="p-1.5 rounded-lg hover:bg-gray-600 text-gray-400"><ShieldIcon /></button>
-                            <button className="p-1.5 rounded-lg hover:bg-gray-600 text-gray-400"><GlobeIcon /></button>
+                            <button className="p-1.5 rounded-lg hover:bg-gray-600 text-gray-400"><GlobeIcon /></button> */}
                         </div>
                         <div className="flex items-center space-x-2">
-                            <button className="p-1.5 rounded-lg hover:bg-gray-600 text-gray-400"><PaperclipIcon /></button>
-                            <button className="bg-gray-600 hover:bg-gray-500 text-gray-200 p-2 rounded-lg">
+                            <button className="p-1.5 opacity-0 rounded-lg hover:bg-gray-600 text-gray-400"><PaperclipIcon /></button>
+                            <button onClick={handle_search} className="bg-gray-600 hover:bg-gray-500 text-gray-200 p-2 rounded-lg">
                                 <ArrowUpIcon />
                             </button>
                         </div>
@@ -152,28 +189,30 @@ const LandingPage = () => {
 
                 {/* Suggestion Buttons */}
                 <div className="w-full mt-6 flex flex-wrap items-center justify-center gap-3">
-                    <button className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-full text-sm">
-                        <CarIcon /> Vehicle Support
-                    </button>
-                    <button className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-full text-sm">
-                        <SearchIcon /> Research
-                    </button>
-                    <button className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-full text-sm">
-                        <CompareIcon /> Compare
-                    </button>
-                    <button className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-full text-sm">
-                        <GarageIcon /> Garage
-                    </button>
-                </div>
-                <div className="w-full mt-3 flex flex-wrap items-center justify-center gap-3">
-                    <button className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-full text-sm">
-                        <AlertIcon /> Alerts
-                    </button>
-                    <button className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-full text-sm">
-                        <MaintenanceIcon /> Maintenance
-                    </button>
+
+                    {loading ?
+                        [1, 2, 3, 4, 5].map((breed) => (
+                            <button 
+                                className="flex w-[80px] h-[20px] items-center animate-pulse gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-full text-sm">
+
+                            </button>
+                        )) :
+                        breeds?.length > 0 ?
+                            breeds.map((breed) => (
+                                <button 
+                                    onClick={() => navigate(`/explore/breed/?breed=${breed}`)}
+                                    className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-[4px] rounded-full text-sm">
+                                    {breed}
+                                </button>
+                            )) :
+                            <></>
+                    }
                 </div>
 
+                <div onClick={() => copy_phone()} className='flex absolute bottom-0 text-white gap-[12px] text-[14px] justify-center items-center cursor-pointer bg-neutral-800 p-2 rounded-[12px] w-full '>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
+                    <span style={{ fontFamily: 'cdg, serif' }}>+91 8989786867</span>
+                </div>
             </div>
         </div>
     );

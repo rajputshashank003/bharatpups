@@ -8,10 +8,12 @@ import ChangePassword from "../../components/ChangePassword/ChangePassword";
 import * as userService from "../../Services/userService.js";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage () {
     const {user , updateProfile} = useAuth();
     const auth = useAuth();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -50,24 +52,13 @@ export default function ProfilePage () {
         <>
             <div className={classes.main}>
                 <div 
-                    style={{
-                        backgroundImage: `url('https://images.unsplash.com/photo-1603388360090-41084c4f4b86?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
-                        backgroundSize: 'cover', 
-                    }} 
+                    // style={{
+                    //     backgroundImage: `url('https://images.unsplash.com/photo-1603388360090-41084c4f4b86?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
+                    //     backgroundSize: 'cover', 
+                    // }} 
                     className="h-fit w-[20rem] md:w-[40rem] duration-300 overflow-hidden shadow-[0px_0px_8px] my-4 mb-6 shadow-black/40 rounded-3xl "
                 >
-                    <div className=" h-full py-8 relative px-8 w-full backdrop-blur-[2px] bg-white/10">
-                        <>
-                            <div className="text-white text-16 w-full text-center">
-                                {user?.name}
-                            </div>
-                            <button
-                                onClick={logout}
-                                className="w-full py-3 px-4 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-400 transition-colors duration-200"
-                            >
-                                Logout
-                            </button>
-                        </>
+                    <div className=" h-full py-8 relative px-8 w-full backdrop-blur-[2px] bg-neutral-800">
                         <div className="relative flex text-white text-center justify-center items-center mb-4 font-semibold text-3xl  border-black">
                             Here’s Your Space to Shine!
                         </div>
@@ -138,6 +129,20 @@ export default function ProfilePage () {
                     }
                 </form>
                 <ChangePassword/> */}
+                <div className="flex flex-wrap gap-[12px] ">
+                    {
+                        user?.name && user?.isAdmin &&
+                        <div style={{ fontFamily: 'cdg, serif' }} onClick={() => navigate('/admin/users')} className="bg-neutral-600 rounded-[12px] cursor-pointer text-white p-2 ">
+                            All Users
+                        </div>
+                    }
+                    {
+                        user?.name &&
+                        <div style={{ fontFamily: 'cdg, serif' }} onClick={logout} className="bg-neutral-600 rounded-[12px] cursor-pointer text-white p-2 ">
+                            Logout
+                        </div>
+                    }
+                </div>
             </div>
         </>
     );

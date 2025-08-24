@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import { DogModel } from "../models/dog.modal.js";
 import { userModel } from "../models/user.model.js";
 import { configCloudinary } from "../config/cloudinary.config.js";
+import { ReviewModel } from "../models/reviews.modal.js";
 dotenv.config();
 
 const router = Router();
@@ -185,11 +186,22 @@ router.get("/id/:id",
         const { id } = req.params;
 
         const dog = await DogModel.findById(id).lean();
+        const reviews = await ReviewModel.find({ dog: id });
 
-        if (!dog) {
-            return res.status(404).json({ message: "Dog not found!" });
+        if (!dog || !reviews) {
+            return res.status(404).json({ message: "Data not found!" });
         }
-        res.send(dog);
+        res.send({dog, reviews});
+    })
+);
+
+router.get('/review/:dog_id',
+    handler(async (req, res) => {
+        const reviews = await ReviewModel.find({ dog: dogId });
+        if (!reviews) {
+            return res.status(404).json({ message: "Review not found!" });
+        }
+        res.send(reviews);
     })
 );
 
