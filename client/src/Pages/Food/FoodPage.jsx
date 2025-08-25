@@ -21,7 +21,7 @@ import Counter from '../../components/Counter/Counter.jsx';
 import FoodPageSkeleton from '../../components/Loader_Skeletons/FoodPageSkeleton.jsx';
 import SideBar from '../../components_v3/SideBar.jsx';
 import axios from 'axios';
-import { copy_phone } from '../../helpers/utils.js';
+import { call_us, copy_phone, open_whatsapp } from '../../helpers/utils.js';
 
 export default function FoodPage() {
     const { id } = useParams();
@@ -129,26 +129,32 @@ export default function FoodPage() {
                                 <div style={{ fontFamily: "cdg, sans-serif" }} className=' text-[22px] font-bold '>
                                     Age : { food?.age} Y
                                 </div>
-                                {
-                                    quantity == 0 ?
-                                        <motion.button
-                                            whileTap={{
-                                                scale: 0.75
-                                            }}
-                                            transition={{
-                                                duration: 0.2,
-                                                ease: 'linear'
-                                            }}
-                                            onClick={() => copy_phone('asfasdf')}
-                                            className={`bg-[${theme_color}] relative w-[40%] h-[70%] flex justify-center items-center text-white rounded-[8px]`}
-                                        >
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
-                                        </motion.button>
-                                        :
-                                        <div className="w-[70%] max-w-[200px] h-[70%] ">
-                                            <Counter curr={quantity} setCurr={set_quantity} foodId={food.id} min={0} />
-                                        </div>
-                                }
+                                <motion.button
+                                    whileTap={{
+                                        scale: 0.75
+                                    }}
+                                    transition={{
+                                        duration: 0.2,
+                                        ease: 'linear'
+                                    }}
+                                    onClick={call_us}
+                                    className={`bg-[${theme_color}] relative h-fit w-fit px-[18px] py-[8px] flex justify-center items-center text-white rounded-[8px]`}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
+                                </motion.button>
+                                <motion.button
+                                    whileTap={{
+                                        scale: 0.75
+                                    }}
+                                    transition={{
+                                        duration: 0.2,
+                                        ease: 'linear'
+                                    }}
+                                    onClick={() => open_whatsapp(food?.breed)}
+                                    className={`bg-[#25D366] relative h-fit w-fit px-[18px] py-[8px] flex justify-center items-center text-white rounded-[8px]`}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-whatsapp"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg>
+                                </motion.button>
                             </div>
                             <div className="text-white">
                                 {food?.description}

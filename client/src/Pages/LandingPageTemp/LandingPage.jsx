@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import SideBar from '../../components_v3/SideBar';
-import { copy_phone } from '../../helpers/utils';
+import { copy_phone, open_whatsapp } from '../../helpers/utils';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 // SVG Icon Components
 
@@ -208,10 +209,24 @@ const LandingPage = () => {
                             <></>
                     }
                 </div>
-
-                <div onClick={() => copy_phone()} className='flex absolute bottom-0 text-white gap-[12px] text-[14px] justify-center items-center cursor-pointer bg-neutral-800 p-2 rounded-[12px] w-full '>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
-                    <span style={{ fontFamily: 'cdg, serif' }}>+91 8989786867</span>
+                <div className=' mt-[34px] max-w-[400px] flex flex-row gap-[24px] w-full'>
+                    <div onClick={() => copy_phone()} className='flex text-white gap-[12px] text-[14px] justify-center items-center cursor-pointer bg-neutral-800 p-2 rounded-[12px] w-full '>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
+                        <span style={{ fontFamily: 'cdg, serif' }}>+91 8989786867</span>
+                    </div>
+                    <motion.button
+                        whileTap={{
+                            scale: 0.75
+                        }}
+                        transition={{
+                            duration: 0.2,
+                            ease: 'linear'
+                        }}
+                        onClick={open_whatsapp}
+                        className={`bg-[#25D366] lg:w-full relative p-2 flex justify-center items-center text-white rounded-[12px]`}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-whatsapp"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg>
+                    </motion.button>
                 </div>
             </div>
         </div>
