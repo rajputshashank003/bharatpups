@@ -114,7 +114,7 @@ const LandingPage = () => {
     }
 
     return (
-        <div className="min-h-screen text-gray-200 flex flex-row items-center justify-center font-sans p-[20px]">
+        <div className="min-h-screen text-gray-200 flex flex-row items-start justify-center font-sans p-[20px]">
             <SideBar />
             <div className="w-full relative pb-[50px] max-w-2xl mx-auto flex flex-col items-center">
 
