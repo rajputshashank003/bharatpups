@@ -15,10 +15,6 @@ const Header_v2 = () => {
     const totalCount = cart.totalCount;
 
     useEffect(() => {
-        console.log('changed');
-    }, []);
-
-    useEffect(() => {
         setTerm(searchTerm ?? '');
     }, [searchTerm]);
 
