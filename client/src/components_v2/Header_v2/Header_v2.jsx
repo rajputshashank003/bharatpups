@@ -28,7 +28,7 @@ const Header_v2 = () => {
     };
 
     useEffect(() => {
-        const values = ["AI Search...", "bulldog", "abc", "def"];
+        const values = ["AI Search...", "bulldog", "german"];
         let ind = 0;
         const interval = setInterval(() => {
             set_fade_placeholder(true);
