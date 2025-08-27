@@ -1,5 +1,31 @@
 import axios from 'axios';
 
-let currentLink = import.meta.env.VITE_API;
+let real_api = import.meta.env.VITE_API;
+let mock_api = import.meta.env.VITE_MOCK_API;
 
-axios.defaults.baseURL = import.meta.env.VITE_MODE === 'development' ? 'http://localhost:8080' : currentLink;
+axios.defaults.baseURL = import.meta.env.VITE_MODE === 'development'
+    ? 'http://localhost:8080'
+    : mock_api;
+
+const change_to_real = async () => {
+    try {
+        const res = await fetch(real_api, { method: "GET" });
+        if (res.ok) {
+            axios.defaults.baseURL = import.meta.env.VITE_MODE === 'development'
+                ? 'http://localhost:8080'
+                : real_api;
+            return true;
+        }
+    } catch { }
+    return false;
+};
+
+change_to_real().then((switched) => {
+    if (!switched) {
+        setTimeout(() => {
+            axios.defaults.baseURL = import.meta.env.VITE_MODE === 'development'
+                ? 'http://localhost:8080'
+                : real_api;
+        }, 60000);
+    }
+});

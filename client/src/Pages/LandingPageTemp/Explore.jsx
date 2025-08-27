@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react'
 import SideBar from '../../components_v3/SideBar'
 import Thumbnail_v2_Skeleton from '../../components/Loader_Skeletons/Thumbnail_v2_Skeleton'
 import Header_v2 from '../../components_v2/Header_v2/Header_v2';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Chip_v2 from '../../components_v2/Chip/Chip_v2';
 import SignInCard from './SignInCard';
 import axios from 'axios';
 import Thumbnails_v2 from '../../components_v2/Thumbnails_v2/Thumbnails_v2';
 import { useAuth } from '../../components/Hooks/useAuth';
-import { mock_api_response } from '../../constants/const_data';
 
-const Explore = ({ page, first_render }) => {
+const Explore = ({ page }) => {
     const [loading, set_loading] = useState(true);
     const [data, set_data] = useState([]);
     const [breeds, set_breeds] = useState([]);
@@ -62,15 +61,7 @@ const Explore = ({ page, first_render }) => {
                     fetchAllDogs(true);
                 }
             } else {
-                if ( first_render?.current ) {
-                    set_breeds(mock_api_response.breeds);
-                    set_data(mock_api_response.dogs);
-                    first_render.current = false;
-                    fetchAllDogs();
-                    set_loading(false);
-                } else {
-                    fetchAllDogs();
-                }
+                fetchAllDogs();
             }
         }
         fetch();

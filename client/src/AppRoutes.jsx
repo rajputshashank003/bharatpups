@@ -26,12 +26,11 @@ import Contact from './Pages/Contact/Contact.jsx';
 import AddDogReview from './Pages/AddDogReview/AddDogReview.jsx';
 
 export default function AppRoutes() {
-    const first_render = useRef(true);
 
     return (
         <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/explore" element={<Explore page={'explore'} first_render={first_render} />} />
+            <Route path="/explore" element={<Explore page={'explore'} />} />
             <Route path="/explore/breed" element={<Explore page={'breed'} />} />
             <Route path="/favorites" element={<Explore page={'favorites'} />} />
             <Route path="/admin/add" element={<AddDog />} />
