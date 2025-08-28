@@ -4,6 +4,7 @@ import admin from '../middleware/admin.mid.js';
 import dotenv from "dotenv";
 import { DogModel } from "../models/dog.modal.js";
 import { ReviewModel } from "../models/reviews.modal.js";
+import { database_updated } from "./utils/catche_utils.js";
 dotenv.config();
 
 const router = Router();
@@ -32,6 +33,7 @@ router.post('/',
         });
 
         await dog.save();
+        await database_updated();
         res.send(dog);
     })
 );
@@ -59,6 +61,7 @@ router.post('/review',
         });
 
         await dog_review.save();
+        await database_updated();
         res.send(dog_review);
     })
 );

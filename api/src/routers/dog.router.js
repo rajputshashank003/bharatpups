@@ -7,12 +7,10 @@ import { DogModel } from "../models/dog.modal.js";
 import { userModel } from "../models/user.model.js";
 import { configCloudinary } from "../config/cloudinary.config.js";
 import { ReviewModel } from "../models/reviews.modal.js";
+import { catched_dogs, database_updated, is_data_updated } from "./utils/catche_utils.js";
 dotenv.config();
 
 const router = Router();
-
-let catched_dogs = null;
-let is_data_updated = true;
 
 router.get('/',
     handler(async (req, res) => {
@@ -28,12 +26,12 @@ router.get('/',
 
             let { dogs, breeds } = catched_dogs;
             if (breed) {
-                dogs = dogs.filter(d => d.breed === breed);
+                dogs = dogs?.filter(d => d?.breed === breed);
             }
 
             if (search) {
                 const regex = new RegExp(search, "i");
-                dogs = dogs.filter(d => regex.test(d.name) || regex.test(d.breed));
+                dogs = dogs?.filter(d => regex?.test(d?.name) || regex.test(d?.breed));
             }
             res.send({ dogs, breeds });
         } catch (err) {
@@ -56,8 +54,7 @@ router.delete('/:id',
         if (deletedDog.image_id) {
             await cloudinary.uploader.destroy(deletedDog.image_id);
         }
-        
-        is_data_updated = true;
+        database_updated();
         res.json({
             message: "Dog deleted successfully",
             deletedDog
@@ -70,7 +67,15 @@ router.delete('/:id',
 router.get('/breeds',
     handler(async (req, res) => {
         try {
-            const breeds = await DogModel.distinct('breed');
+            if (!catched_dogs || is_data_updated) {
+                const dogsFromDb = await DogModel.find({});
+                const breedsFromDb = await DogModel.distinct('breed');
+
+                catched_dogs = { dogs: dogsFromDb, breeds: breedsFromDb };
+                is_data_updated = false;
+            }
+
+            const { breeds } = catched_dogs;
             res.send(breeds);
         } catch (err) {
             res.status(500).json({
