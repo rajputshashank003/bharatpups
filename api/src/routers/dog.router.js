@@ -11,26 +11,30 @@ dotenv.config();
 
 const router = Router();
 
+let catched_dogs = null;
+let is_data_updated = true;
+
 router.get('/',
     handler(async (req, res) => {
         try {
             const { breed, search } = req.query;
-            let filter = {};
+            if (!catched_dogs || is_data_updated) {
+                const dogsFromDb = await DogModel.find({});
+                const breedsFromDb = await DogModel.distinct('breed');
 
+                catched_dogs = { dogs: dogsFromDb, breeds: breedsFromDb };
+                is_data_updated = false; 
+            }
+
+            let { dogs, breeds } = catched_dogs;
             if (breed) {
-                filter.breed = breed;
+                dogs = dogs.filter(d => d.breed === breed);
             }
 
             if (search) {
-                filter.$or = [
-                    { name: { $regex: search, $options: 'i' } },
-                    { breed: { $regex: search, $options: 'i' } }
-                ];
+                const regex = new RegExp(search, "i");
+                dogs = dogs.filter(d => regex.test(d.name) || regex.test(d.breed));
             }
-
-            const dogs = await DogModel.find(filter);
-            const breeds = await DogModel.distinct('breed');
-
             res.send({ dogs, breeds });
         } catch (err) {
             res.status(404).json({ message: err.message });
@@ -43,18 +47,17 @@ router.delete('/:id',
     handler ( async (req, res) => {
     try {
         const { id } = req.params;
-        console.log(id);
         const cloudinary = configCloudinary();
         const deletedDog = await DogModel.findByIdAndDelete(id);
         if (!deletedDog) {
             return res.status(404).json({ message: "Dog not found" });
         }
-        console.log(deletedDog);
 
         if (deletedDog.image_id) {
             await cloudinary.uploader.destroy(deletedDog.image_id);
         }
-
+        
+        is_data_updated = true;
         res.json({
             message: "Dog deleted successfully",
             deletedDog

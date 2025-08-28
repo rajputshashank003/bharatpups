@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SideBar from '../../components_v3/SideBar';
-import { call_us, copy_phone, open_whatsapp } from '../../helpers/utils';
+import { BREEDS_KEY, EXPIRY_DAYS, MAX_USES, call_us, copy_phone, open_whatsapp } from '../../helpers/utils';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -93,19 +93,54 @@ const LandingPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetch = async () => {
+        const fetchBreeds = async () => {
+            console.log('fetching...');
             try {
                 set_loading(true);
-                const url = '/api/dog/breeds';
-                const response = await axios.get(url);
-                set_breeds(response?.data?.slice(0,5));
+                const response = await axios.get("/api/dog/breeds");
+                const data = response?.data?.slice(0, 5) || [];
+                localStorage.setItem(
+                    BREEDS_KEY,
+                    JSON.stringify({
+                        data,
+                        timestamp: Date.now(),
+                        usedCount: 1,
+                    })
+                );
+                set_breeds(data);
             } catch (error) {
                 console.error("Failed to fetch dog data:", error);
             } finally {
                 set_loading(false);
             }
+        };
+
+        const cached = localStorage.getItem(BREEDS_KEY);
+
+        if (cached) {
+            console.log('catched');
+            const { data, timestamp, usedCount = 0 } = JSON.parse(cached);
+            const now = Date.now();
+            const expired = now - timestamp > BREEDS_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+
+            if (expired || usedCount >= MAX_BREEDS_USES) {
+                localStorage.removeItem(BREEDS_KEY);
+                fetchBreeds();
+            } else {
+                set_breeds(data);
+                localStorage.setItem(
+                    BREEDS_KEY,
+                    JSON.stringify({
+                        data,
+                        timestamp,
+                        usedCount: usedCount + 1,
+                    })
+                );
+                set_loading(false);
+            }
+        } else {
+            fetchBreeds();
         }
-        fetch();
     }, []);
 
     const handle_search = () => {
