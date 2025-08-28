@@ -94,7 +94,6 @@ const LandingPage = () => {
 
     useEffect(() => {
         const fetchBreeds = async () => {
-            console.log('fetching...');
             try {
                 set_loading(true);
                 const response = await axios.get("/api/dog/breeds");
@@ -118,7 +117,6 @@ const LandingPage = () => {
         const cached = localStorage.getItem(BREEDS_KEY);
 
         if (cached) {
-            console.log('catched');
             const { data, timestamp, usedCount = 0 } = JSON.parse(cached);
             const now = Date.now();
             const expired = now - timestamp > BREEDS_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
