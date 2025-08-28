@@ -165,7 +165,7 @@ const LandingPage = () => {
                             </button>
                         )) :
                         breeds?.length > 0 ?
-                            breeds.map((breed) => (
+                            breeds?.map((breed) => (
                                 <button 
                                     onClick={() => navigate(`/explore/breed/?breed=${breed}`)}
                                     className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-[4px] rounded-full text-sm">

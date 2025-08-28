@@ -7,7 +7,7 @@ import { DogModel } from "../models/dog.modal.js";
 import { userModel } from "../models/user.model.js";
 import { configCloudinary } from "../config/cloudinary.config.js";
 import { ReviewModel } from "../models/reviews.modal.js";
-import { catched_dogs, database_updated, is_data_updated } from "./utils/catche_utils.js";
+import { cache_state, database_updated } from "./utils/catche_utils.js";
 dotenv.config();
 
 const router = Router();
@@ -16,15 +16,15 @@ router.get('/',
     handler(async (req, res) => {
         try {
             const { breed, search } = req.query;
-            if (!catched_dogs || is_data_updated) {
+            if (!cache_state.catched_dogs || cache_state.is_data_updated) {
                 const dogsFromDb = await DogModel.find({});
                 const breedsFromDb = await DogModel.distinct('breed');
 
-                catched_dogs = { dogs: dogsFromDb, breeds: breedsFromDb };
-                is_data_updated = false; 
+                cache_state.catched_dogs = { dogs: dogsFromDb, breeds: breedsFromDb };
+                cache_state.is_data_updated = false; 
             }
 
-            let { dogs, breeds } = catched_dogs;
+            let { dogs, breeds } = cache_state.catched_dogs;
             if (breed) {
                 dogs = dogs?.filter(d => d?.breed === breed);
             }
@@ -67,18 +67,17 @@ router.delete('/:id',
 router.get('/breeds',
     handler(async (req, res) => {
         try {
-            if (!catched_dogs || is_data_updated) {
+            if (!cache_state.catched_dogs || cache_state.is_data_updated) {
                 const dogsFromDb = await DogModel.find({});
                 const breedsFromDb = await DogModel.distinct('breed');
-
-                catched_dogs = { dogs: dogsFromDb, breeds: breedsFromDb };
-                is_data_updated = false;
+                cache_state.catched_dogs = { dogs: dogsFromDb, breeds: breedsFromDb };
+                cache_state.is_data_updated = false;
             }
 
-            const { breeds } = catched_dogs;
+            const { breeds } = cache_state.catched_dogs;
             res.send(breeds);
         } catch (err) {
-            res.status(500).json({
+            res.status(404).json({
                 message: err.message
             });
         }
