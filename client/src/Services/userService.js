@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BREEDS_KEY } from "../helpers/utils";
 
 export const getUser = () => {
     return localStorage.getItem("user") ? 
@@ -13,6 +14,7 @@ export const login = async (email, password) => {
 
 export const logout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem(BREEDS_KEY);
 }
 
 export const register = async (registerData) => {
