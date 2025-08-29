@@ -41,28 +41,33 @@ router.post('/',
 router.post('/review',
     admin,
     handler(async (req, res) => {
-        const {
-            comment, 
-            rating,
-            image,
-            image_id,
-            dog
-        } = req.body;
-        const dog_review = new ReviewModel({
-            comment,
-            rating,
-            image,
-            image_id,
-            dog,
-            created_by: {
-                id: req?.user?.id,
-                name: req?.user?.name,
-            },
-        });
+        try {
+            const {
+                comment,
+                rating,
+                image,
+                image_id,
+                dog
+            } = req.body;
 
-        await dog_review.save();
-        await database_updated();
-        res.send(dog_review);
+            const dog_review = new ReviewModel({
+                comment,
+                rating,
+                image,
+                image_id,
+                dog,
+                created_by: {
+                    id: req?.user?.id,
+                    name: req?.user?.name,
+                },
+            });
+
+            await dog_review.save();
+            await database_updated();
+            res.send(dog_review);
+        } catch (err) {
+            console.log(err.message);
+        }
     })
 );
 

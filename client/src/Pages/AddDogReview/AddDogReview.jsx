@@ -4,6 +4,7 @@ import { uploadImage } from '../../Services/uploadService';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Rating } from '@mui/material';
+import { useAuth } from '../../components/Hooks/useAuth';
 
 const UploadIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -16,11 +17,18 @@ export default function AddDogReview() {
     const [image_id, set_image_id] = useState(null);
     const [dog_id, set_dog_id] = useState(null);
     const [rating, set_rating] = useState(5);
+    const [uploading_image, set_uploading_image] = useState(false);
+    const [uploading, set_uploading] = useState(false);
+    const auth = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
     
     useEffect(() => {
+        if (!auth?.user?.name) {
+            navigate('/');
+        }
+
         if (location?.state?.dog_id) {
             set_dog_id(location.state.dog_id);
         } else {
@@ -64,13 +72,14 @@ export default function AddDogReview() {
 
     const handleAddClick = async (e) => {
         e.preventDefault();
-        if (!dog_id) return ;
+        if (!dog_id || uploading || uploading_image) return ;
 
         if (any_one_is_empty()) {
             toast.error('Fill all the fields');
             return;
         }
         try {
+            set_uploading(true);
             const promise = await axios.post('/api/add/review', {
                 image: imageUrl,
                 comment: formData.comment,
@@ -85,16 +94,25 @@ export default function AddDogReview() {
             navigate(`/dog/${dog_id}`);
         } catch (err) {
 
+        } finally {
+            set_uploading(false);
         }
     };
 
     const upload = async event => {
         if (!dog_id) return ;
-        handleImageChange(event);
-        setImageUrl(null);
-        const { imageUrl, publicId } = await uploadImage(event);
-        setImageUrl(imageUrl);
-        set_image_id(publicId);
+        try {
+            set_uploading_image(true);
+            handleImageChange(event);
+            setImageUrl(null);
+            const { imageUrl, publicId } = await uploadImage(event);
+            setImageUrl(imageUrl);
+            set_image_id(publicId);
+        } catch (err) {
+            
+        } finally {
+            set_uploading_image(false);
+        }
     };
 
     return (
@@ -143,11 +161,16 @@ export default function AddDogReview() {
 
                     <div>
                         <button
+                            style={{ cursor: uploading_image || uploading ? 'default' : 'pointer' }}
                             type="submit"
                             onClick={handleAddClick}
                             className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-black bg-white hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-800 focus:ring-white transition-colors"
                         >
-                            Add
+                            {uploading_image || uploading ?
+                                <img src='/Loader.svg' className='h-full text-black w-[18px]' />
+                                :
+                                <>Add</>
+                            }
                         </button>
                     </div>
                 </form>

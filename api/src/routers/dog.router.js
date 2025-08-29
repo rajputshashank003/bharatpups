@@ -193,7 +193,7 @@ router.get("/id/:id",
         const { id } = req.params;
 
         const dog = await DogModel.findById(id).lean();
-        const reviews = await ReviewModel.find({ dog: id });
+        const reviews = await ReviewModel.find({ dog: id }).sort({ createdAt: -1 });
 
         if (!dog || !reviews) {
             return res.status(404).json({ message: "Data not found!" });
@@ -202,9 +202,10 @@ router.get("/id/:id",
     })
 );
 
-router.get('/review/:dog_id',
+router.get('/review/:id',
     handler(async (req, res) => {
-        const reviews = await ReviewModel.find({ dog: dogId });
+        const { id } = req.params;
+        const reviews = await ReviewModel.find({ dog: id }).sort({ createdAt: -1 });
         if (!reviews) {
             return res.status(404).json({ message: "Review not found!" });
         }
