@@ -8,6 +8,7 @@ import SignInCard from './SignInCard';
 import axios from 'axios';
 import Thumbnails_v2 from '../../components_v2/Thumbnails_v2/Thumbnails_v2';
 import { useAuth } from '../../components/Hooks/useAuth';
+import Carousel from '../../components_v2/Carousel/Carousel';
 
 const Explore = ({ page }) => {
     const [loading, set_loading] = useState(true);
@@ -72,10 +73,15 @@ const Explore = ({ page }) => {
     const render_hits = () => {
         return (
             <>
-                <div className='sticky top-[24px] bg-[#171717] border-[1px] border-t-0 border-l-0 border-r-0 border-b-neutral-700/60 pb-[42px] z-[99] w-full ' >
+                <div className='sticky top-[24px] bg-[#171717] border-[1px] border-t-0 border-l-0 border-r-0 border-b-neutral-700/60 pb-[24px] lg:pb-[42px] z-[99] w-full ' >
                     <div className="absolute bg-[#171717] h-[50px] w-full top-0 -translate-y-[100%] z-[9]"></div>
                     <Header_v2 />
                 </div>
+                {page === 'explore' && 
+                    <div className=" mt-[24px] h-fit rounded-[12px] w-full">
+                        <Carousel />
+                    </div>
+                }
                 <div className={"flex flex-row gap-[12px] lg:gap-[16px] my-[18px] w-full overflow-scroll no-scrollbar"}>
                     {
                         loading ?
