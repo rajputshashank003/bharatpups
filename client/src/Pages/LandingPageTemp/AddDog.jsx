@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { uploadImage } from '../../Services/uploadService';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const UploadIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -13,7 +13,10 @@ const UploadIcon = () => (
 export default function AddDog() {
     const [imageUrl, setImageUrl] = useState(null);
     const [image_id, set_image_id] = useState(null);
-    const navigate = useNavigate();
+    const [loading, set_loading] = useState(false);
+    const [uploading_image, set_uploading_image] = useState(false);
+    const [image_updated, set_image_updated] = useState(false);
+    const saved_ref = useRef(false);
 
     const [formData, setFormData] = useState({
         image: null,
@@ -23,8 +26,53 @@ export default function AddDog() {
         gender: 'Male',
         description: ''
     });
-
     const [imagePreview, setImagePreview] = useState('');
+
+    const navigate = useNavigate();
+    const { id } = useParams();
+
+    useEffect(() => {
+        return () => {
+            if (!saved_ref.current && image_id && image_updated) {
+                axios.delete('/api/upload', { data: { image_id } })
+                    .then(() => console.log("Deleted unused image:", image_id))
+                    .catch(err => console.error("Failed to delete image:", err));
+            }
+        };
+    }, [image_id, image_updated]);
+
+    useEffect(() => {
+        async function fetchDog() {
+            try {
+                set_loading(true);
+                const { data } = await axios.get(`/api/dog/id/${id}`);
+                if (data?.dog) {
+                    const dog = data.dog;
+                    setFormData({
+                        image: dog.image || null,
+                        name: dog.name || '',
+                        breed: dog.breed || '',
+                        age: dog.age || '',
+                        gender: dog.gender || 'Male',
+                        description: dog.description || '',
+                        delete_image: dog?.image_id
+                    });
+                    if (dog.image) {
+                        setImagePreview(dog.image);
+                        setImageUrl(dog.image);
+                        set_image_id(dog.image_id);
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to fetch dog:", err);
+            } finally {
+                set_loading(false);
+            }
+        }
+        if ( id ) {
+            fetchDog();
+        }
+    }, [id]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -60,20 +108,31 @@ export default function AddDog() {
             toast.error('Fill all the fields');
             return ;
         }
+        const data = {
+            image: imageUrl,
+            name: formData.name,
+            breed: formData.breed,
+            age: formData.age,
+            gender: formData.gender,
+            description: formData.description,
+            delete_image: formData.delete_image,
+            image_id,
+        };
         try {
-            const promise = await axios.post('/api/add', {
-                image: imageUrl,
-                name: formData.name,
-                breed: formData.breed,
-                age: formData.age,
-                gender: formData.gender,
-                description: formData.description,
-                image_id,
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+            if ( id ) {
+                const promise = await axios.put(`/api/dog/${id}`, data, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            } else {
+                const promise = await axios.post('/api/add', data, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            }
+            saved_ref.current = true;
             navigate("/explore");
         } catch (err)  {
 
@@ -81,11 +140,23 @@ export default function AddDog() {
     };
 
     const upload = async event => {
-        handleImageChange(event);
-        setImageUrl(null);
-        const {imageUrl, publicId} = await uploadImage(event);
-        setImageUrl(imageUrl);
-        set_image_id(publicId);
+        try {
+            set_uploading_image(true);
+            handleImageChange(event);
+            setImageUrl(null);
+            const { imageUrl, publicId } = await uploadImage(event);
+            setImageUrl(imageUrl);
+            set_image_id(publicId);
+            set_image_updated(true);
+            setFormData(prev => ({
+                ...prev,
+                delete_image: image_id
+            }));
+        } catch (err) {
+
+        } finally {
+            set_uploading_image(false);
+        }
     };
 
     return (

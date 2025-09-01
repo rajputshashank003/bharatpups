@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { uploadImage } from '../../Services/uploadService';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Rating } from '@mui/material';
 import { useAuth } from '../../components/Hooks/useAuth';
+import Loader from '../../components_v2/Loader/Loader';
 
 const UploadIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -19,6 +20,8 @@ export default function AddDogReview() {
     const [rating, set_rating] = useState(5);
     const [uploading_image, set_uploading_image] = useState(false);
     const [uploading, set_uploading] = useState(false);
+    const saved_ref = useRef(false);
+
     const auth = useAuth();
 
     const navigate = useNavigate();
@@ -35,6 +38,16 @@ export default function AddDogReview() {
             navigate(-1);
         }
     }, []);
+
+    useEffect(() => {
+        return () => {
+            if (!saved_ref.current) {
+                axios.delete('/api/upload', { data: { image_id } })
+                    .then(() => console.log("Deleted unused image:", image_id))
+                    .catch(err => console.error("Failed to delete image:", err));
+            }
+        }
+    }, [image_id]);
 
     const [formData, setFormData] = useState({
         image: null,
@@ -91,6 +104,7 @@ export default function AddDogReview() {
                     'Content-Type': 'application/json'
                 }
             });
+            saved_ref.current = true;
             navigate(`/dog/${dog_id}`);
         } catch (err) {
 
@@ -104,6 +118,12 @@ export default function AddDogReview() {
         try {
             set_uploading_image(true);
             handleImageChange(event);
+            if (image_id) {
+                axios.delete('/api/upload', { data: { image_id } })
+                    .then(() => console.log("Deleted unused image:", image_id))
+                    .catch(err => console.error("Failed to delete image:", err));
+            }
+
             setImageUrl(null);
             const { imageUrl, publicId } = await uploadImage(event);
             setImageUrl(imageUrl);
@@ -167,7 +187,7 @@ export default function AddDogReview() {
                             className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-black bg-white hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-800 focus:ring-white transition-colors"
                         >
                             {uploading_image || uploading ?
-                                <img src='/Loader.svg' className='h-full text-black w-[18px]' />
+                                <Loader color='white' height={2} width={2} />
                                 :
                                 <>Add</>
                             }

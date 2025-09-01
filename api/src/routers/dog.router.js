@@ -11,6 +11,7 @@ import { cache_state, database_updated } from "./utils/catche_utils.js";
 dotenv.config();
 
 const router = Router();
+const cloudinary = configCloudinary();
 
 router.get('/',
     handler(async (req, res) => {
@@ -45,7 +46,6 @@ router.delete('/:id',
     handler ( async (req, res) => {
     try {
         const { id } = req.params;
-        const cloudinary = configCloudinary();
         const deletedDog = await DogModel.findByIdAndDelete(id);
         if (!deletedDog) {
             return res.status(404).json({ message: "Dog not found" });
@@ -63,6 +63,48 @@ router.delete('/:id',
         res.status(500).json({ message: err.message });
     }
 }));
+
+router.put(
+    '/:id',
+    admin,
+    handler(async (req, res) => {
+        const { id } = req.params;
+        const {
+            name,
+            breed,
+            age,
+            gender,
+            description,
+            image,
+            image_id,
+            delete_image
+        } = req.body;
+        const dog = await DogModel.findByIdAndUpdate(
+            id,
+            {
+                name,
+                breed,
+                age,
+                gender,
+                description,
+                image,
+                image_id
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!dog) {
+            return res.status(404).send({ error: "Dog not found" });
+        }
+        if (delete_image) {
+            await cloudinary.uploader.destroy(delete_image);
+        }
+
+        await database_updated();
+        res.send(dog);
+    })
+);
+
 
 router.get('/breeds',
     handler(async (req, res) => {
@@ -213,5 +255,26 @@ router.get('/review/:id',
     })
 );
 
+router.delete('/review/:id', 
+    admin,
+    handler(async (req, res) => {
+        const { id } = req.params;
+        
+        const review = await ReviewModel.findOneAndDelete({ _id: id});
+        console.log(review);
+        if (!review) {
+            return res.status(404).json({ message: "Dog not found" });
+        }
+
+        if (review?.image_id) {
+            await cloudinary.uploader.destroy(review.image_id);
+        }
+        await database_updated();
+        res.json({
+            message: "Review deleted successfully",
+            review
+        })
+    })
+);
 
 export default router;

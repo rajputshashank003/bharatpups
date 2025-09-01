@@ -22,6 +22,7 @@ import FoodPageSkeleton from '../../components/Loader_Skeletons/FoodPageSkeleton
 import SideBar from '../../components_v3/SideBar.jsx';
 import axios from 'axios';
 import { call_us, copy_phone, open_whatsapp } from '../../helpers/utils.js';
+import Loader from '../../components_v2/Loader/Loader.jsx';
 
 export default function FoodPage() {
     const { id } = useParams();
@@ -37,6 +38,7 @@ export default function FoodPage() {
     const [loading, set_loading] = useState(true);
     const [favorite, setFavorite] = useState(false);
     const [expanded_image, set_expanded_image] = useState(null);
+    const [deleting_review , set_deleting_review] = useState(false);
 
     const handleFavouriteFood = async () => {
         if (!userService.getUser()) {
@@ -79,9 +81,25 @@ export default function FoodPage() {
         });
     };
 
+    const delete_review = async (id) => {
+        try {
+            set_deleting_review(true);
+            const response = await axios.delete(`/api/dog/review/${id}`);
+            if (response?.status === 200) {
+                setReviews(prev => (
+                    prev.filter(review => review?._id !== id)
+                ));
+            }
+        } catch (err) {
+            console.log(err.message);
+        } finally {
+            set_deleting_review(false);
+        }
+    }
+
     return (
         <div className="min-h-screen relative text-gray-200 flex flex-row items-start justify-center font-sans p-[20px]">
-            { expanded_image && 
+            { expanded_image && false && 
                 <div className='fixed p-4 z-[9999] bg-black top-0 left-0 h-screen w-screen'>
                     <span onClick={() => set_expanded_image(null)} className='fixed bg-neutral-500 p-2 rounded-[12px] z-[9999] cursor-pointer top-[24px] right-[24px] text-black text-[24px] font-extrabold'>
                         X
@@ -129,32 +147,47 @@ export default function FoodPage() {
                                 <div style={{ fontFamily: "cdg, sans-serif" }} className=' text-[22px] font-bold '>
                                     Age : { food?.age} Y
                                 </div>
-                                <motion.button
-                                    whileTap={{
-                                        scale: 0.75
-                                    }}
-                                    transition={{
-                                        duration: 0.2,
-                                        ease: 'linear'
-                                    }}
-                                    onClick={call_us}
-                                    className={`bg-[${theme_color}] relative h-fit w-fit px-[18px] py-[8px] flex justify-center items-center text-white rounded-[8px]`}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
-                                </motion.button>
-                                <motion.button
-                                    whileTap={{
-                                        scale: 0.75
-                                    }}
-                                    transition={{
-                                        duration: 0.2,
-                                        ease: 'linear'
-                                    }}
-                                    onClick={() => open_whatsapp(food?.breed)}
-                                    className={`bg-[#25D366] relative h-fit w-fit px-[18px] py-[8px] flex justify-center items-center text-white rounded-[8px]`}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-whatsapp"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg>
-                                </motion.button>
+                                <div className='flex flex-wrap gap-[16px]'>
+                                    <motion.button
+                                        whileTap={{
+                                            scale: 0.75
+                                        }}
+                                        transition={{
+                                            duration: 0.2,
+                                            ease: 'linear'
+                                        }}
+                                        onClick={call_us}
+                                        className={`bg-[${theme_color}] relative h-fit w-fit px-[18px] py-[8px] flex justify-center items-center text-white rounded-[8px]`}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
+                                    </motion.button>
+                                    <motion.button
+                                        whileTap={{
+                                            scale: 0.75
+                                        }}
+                                        transition={{
+                                            duration: 0.2,
+                                            ease: 'linear'
+                                        }}
+                                        onClick={() => open_whatsapp(food?.breed)}
+                                        className={`bg-[#25D366] relative h-fit w-fit px-[18px] py-[8px] flex justify-center items-center text-white rounded-[8px]`}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-whatsapp"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg>
+                                    </motion.button>
+                                    { auth?.user?.isAdmin && <motion.button
+                                        whileTap={{
+                                            scale: 0.75
+                                        }}
+                                        transition={{
+                                            duration: 0.2,
+                                            ease: 'linear'
+                                        }}
+                                        onClick={() => navigate(`/admin/edit/${food?._id}`)}
+                                        className={`bg-cyan-800 relative h-fit w-fit px-[18px] py-[8px] flex justify-center items-center text-white rounded-[8px]`}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                                    </motion.button>}
+                                </div>
                             </div>
                             <div className="text-white">
                                 {food?.description}
@@ -170,19 +203,24 @@ export default function FoodPage() {
                         <div className="reviews w-full gap-[12px] flex flex-col mt-4">
                             { reviews?.length > 0 &&
                                 reviews?.map((review) => (
-                                    <div onClick={() => set_expanded_image({ image: review?.image, comment: review?.comment, created_by: review?.created_by?.name })} className='flex flex-col bg-neutral-800 cursor-pointer p-[8px] gap-[4px] rounded-[8px] '>
+                                    <div onClick={() => set_expanded_image({ image: review?.image, comment: review?.comment, created_by: review?.created_by?.name })} className='flex flex-col bg-neutral-800 cursor-pointer p-[8px] gap-[8px] rounded-[8px] '>
                                         <div className='flex flex-row gap-[12px]'>
                                             <img style={{ padding: 0, margin: 0}}  className='h-[54px] cursor-pointer md:rounded-[12px] w-[54px]' src={review.image} />
                                             <div className="line-clamp-3 overflow-hidden h-fit text-[12px] text-ellipsis">
                                                 {review.comment}
                                             </div>
                                         </div>
-                                        <div className='w-full flex p-x-[12px] items-center gap-[12px] justify-end '>
-                                            <span>
-                                                By
-                                            </span> 
-                                            <div className="line-clamp-1 text-[12px] h-fit text-ellipsis">
-                                                {review?.created_by?.name}
+                                        <div className="w-full bg-neutral-50/10 h-[0.5px]"></div>
+                                        <div className='w-full flex px-[12px] text-[12px] items-center gap-[12px] justify-end h-[32px] '>
+                                            {auth?.user?.isAdmin && <div onClick={() => delete_review(review?._id)} className="bg-red-700 px-2 flex justify-center items-center h-full rounded-[6px] ">
+                                                {deleting_review ?
+                                                    <Loader color='white' height={12} width={12} />
+                                                    :
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                                }
+                                            </div>}
+                                            <div className={` ${auth?.user?.isAdmin ? 'h-full' : 'h-fit' } line-clamp-1 text-[12px] bg-neutral-600 px-2 rounded-[6px] shadow-[0px_0px_2px] shadow-neutral-900 justify-center items-center flex text-ellipsis`}>
+                                                By {review?.created_by?.name}
                                             </div>
                                         </div>
                                     </div>

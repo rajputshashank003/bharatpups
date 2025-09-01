@@ -8,8 +8,7 @@ import { configCloudinary } from '../config/cloudinary.config.js';
 const router = Router();
 const upload = multer();
 
-router.post(
-    '/',
+router.post('/',
     admin,
     upload.single('image'),
     handler(async (req, res) => {
@@ -23,6 +22,16 @@ router.post(
         res.send({ imageUrl: url, publicId: public_id });
     })
 );
+
+router.delete('/',
+    admin,
+    handler(async (req, res) => {
+        const { image_id } = req.body;
+        const cloudinary = configCloudinary();
+        await cloudinary.uploader.destroy(image_id);
+        res.send('Image deleted success');
+    })
+)
 
 const uploadImageToCloudinary = imageBuffer => {
     const cloudinary = configCloudinary();

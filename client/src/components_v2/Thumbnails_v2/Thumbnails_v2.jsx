@@ -18,6 +18,7 @@ import GetShortName from '../../components/GetShortName/GetShortName.jsx';
 import axios from 'axios';
 import { CircularProgress } from '@mui/material';
 import { open_whatsapp } from '../../helpers/utils.js';
+import Loader from '../Loader/Loader.jsx';
 
 export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5_foods, ind }) {
     const [quantity, set_quantity] = useState(0);
@@ -96,7 +97,7 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5
                     <div onClick={handleFavouriteFood} className='absolute flex z-[2] justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] right-[-2px] rounded-bl-[8px]' >
                         {
                             !adding_to_favorite ? <FavoriteIcon sx={{ color: favoriteFood ? "#D32F2F" : "grey" }} /> :
-                            <CircularProgress sx={{ height: '18px !important', width: '18px !important', backgroundcolor: 'red', color: !favoriteFood ? "#D32F2F" : "white" }} />
+                                <Loader color={!favoriteFood ? "#D32F2F" : "white"}  />
                         }
                     </div>
                 </div>

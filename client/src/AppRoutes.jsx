@@ -33,7 +33,20 @@ export default function AppRoutes() {
             <Route path="/explore" element={<Explore page={'explore'} />} />
             <Route path="/explore/breed" element={<Explore page={'breed'} />} />
             <Route path="/favorites" element={<Explore page={'favorites'} />} />
-            <Route path="/admin/add" element={<AddDog />} />
+            <Route path="/admin/add" 
+                element={
+                    <AuthRoute>
+                        <AddDog />
+                    </AuthRoute>
+                } 
+            />
+            <Route path="/admin/edit/:id"
+                element={
+                    <AuthRoute>
+                        <AddDog />
+                    </AuthRoute>
+                }
+            />
             <Route path="/dog/:id" element={<FoodPage />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/add/review" element={<AddDogReview />} />
