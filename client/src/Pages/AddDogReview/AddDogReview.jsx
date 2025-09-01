@@ -41,7 +41,7 @@ export default function AddDogReview() {
 
     useEffect(() => {
         return () => {
-            if (!saved_ref.current) {
+            if (!saved_ref.current && image_id) {
                 axios.delete('/api/upload', { data: { image_id } })
                     .then(() => console.log("Deleted unused image:", image_id))
                     .catch(err => console.error("Failed to delete image:", err));

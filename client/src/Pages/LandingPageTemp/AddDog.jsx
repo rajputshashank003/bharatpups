@@ -162,7 +162,9 @@ export default function AddDog() {
     return (
         <div className=" min-h-screen flex items-center justify-center p-4 font-sans">
             <div className="w-full max-w-lg mx-auto bg-[#1C1C1E] shadow-[0px_0px_1px] shadow-neutral-400  p-8 rounded-2xl">
-                <h1 style={{ fontFamily: 'cdg, serif'}} className="text-3xl font-bold text-white mb-8 text-center">Add a New Dog</h1>
+                <h1 style={{ fontFamily: 'cdg, serif'}} className="text-3xl font-bold text-white mb-8 text-center">
+                    { id ? 'Update dog' : 'Add a New Dog'}
+                </h1>
                 <form className="space-y-6">
                     <div>
                         <label className="block text-sm font-medium text-neutral-300 mb-2">Image</label>

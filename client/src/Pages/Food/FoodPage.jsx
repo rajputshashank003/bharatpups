@@ -38,7 +38,7 @@ export default function FoodPage() {
     const [loading, set_loading] = useState(true);
     const [favorite, setFavorite] = useState(false);
     const [expanded_image, set_expanded_image] = useState(null);
-    const [deleting_review , set_deleting_review] = useState(false);
+    const [deleting_review, set_deleting_review] = useState(null);
 
     const handleFavouriteFood = async () => {
         if (!userService.getUser()) {
@@ -83,7 +83,7 @@ export default function FoodPage() {
 
     const delete_review = async (id) => {
         try {
-            set_deleting_review(true);
+            set_deleting_review(id);
             const response = await axios.delete(`/api/dog/review/${id}`);
             if (response?.status === 200) {
                 setReviews(prev => (
@@ -93,7 +93,7 @@ export default function FoodPage() {
         } catch (err) {
             console.log(err.message);
         } finally {
-            set_deleting_review(false);
+            set_deleting_review(null);
         }
     }
 
@@ -205,7 +205,7 @@ export default function FoodPage() {
                                 reviews?.map((review) => (
                                     <div onClick={() => set_expanded_image({ image: review?.image, comment: review?.comment, created_by: review?.created_by?.name })} className='flex flex-col bg-neutral-800 cursor-pointer p-[8px] gap-[8px] rounded-[8px] '>
                                         <div className='flex flex-row gap-[12px]'>
-                                            <img style={{ padding: 0, margin: 0}}  className='h-[54px] cursor-pointer md:rounded-[12px] w-[54px]' src={review.image} />
+                                            <img style={{ padding: 0, margin: 0}}  className='h-[54px] cursor-pointer object-cover md:rounded-[12px] w-[54px]' src={review.image} />
                                             <div className="line-clamp-3 overflow-hidden h-fit text-[12px] text-ellipsis">
                                                 {review.comment}
                                             </div>
@@ -213,7 +213,7 @@ export default function FoodPage() {
                                         <div className="w-full bg-neutral-50/10 h-[0.5px]"></div>
                                         <div className='w-full flex px-[12px] text-[12px] items-center gap-[12px] justify-end h-[32px] '>
                                             {auth?.user?.isAdmin && <div onClick={() => delete_review(review?._id)} className="bg-red-700 px-2 flex justify-center items-center h-full rounded-[6px] ">
-                                                {deleting_review ?
+                                                {deleting_review === review?._id ?
                                                     <Loader color='white' height={12} width={12} />
                                                     :
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
