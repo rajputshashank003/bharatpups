@@ -24,7 +24,8 @@ export default function AddDog() {
         breed: '',
         age: '',
         gender: 'Male',
-        description: ''
+        description: '',
+        in_stock: true,
     });
     const [imagePreview, setImagePreview] = useState('');
 
@@ -55,6 +56,7 @@ export default function AddDog() {
                         age: dog.age || '',
                         gender: dog.gender || 'Male',
                         description: dog.description || '',
+                        in_stock: dog.in_stock || true,
                         delete_image: dog?.image_id
                     });
                     if (dog.image) {
@@ -75,10 +77,10 @@ export default function AddDog() {
     }, [id]);
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({
+        const { name, type, checked, value } = e.target;
+        setFormData((prevState) => ({
             ...prevState,
-            [name]: value
+            [name]: type === "checkbox" ? checked : value,
         }));
     };
 
@@ -116,6 +118,7 @@ export default function AddDog() {
             gender: formData.gender,
             description: formData.description,
             delete_image: formData.delete_image,
+            in_stock: formData.in_stock,
             image_id,
         };
         try {
@@ -207,6 +210,10 @@ export default function AddDog() {
                                 <option className='bg-neutral-900' >Male</option>
                                 <option className='bg-neutral-900'>Female</option>
                             </select>
+                        </div>
+                        <div class="flex items-center">
+                            <input name='in_stock' onChange={handleInputChange} id="in_stock" type="checkbox" checked={formData.in_stock} class="w-4 h-4 text-blue-600 rounded-sm  ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"/>
+                            <label for="in_stock" class="ms-2 text-sm font-medium text-gray-200">In Stock</label>
                         </div>
                     </div>
 

@@ -147,6 +147,9 @@ export default function FoodPage() {
                                 <div style={{ fontFamily: "cdg, sans-serif" }} className=' text-[22px] font-bold '>
                                     Age : { food?.age} Y
                                 </div>
+                                <div className='bg-neutral-800 px-[12px] rounded-[6px] py-[8px] w-fit'>
+                                    { food?.in_stock ? 'In stock' : 'Out of stock'} 
+                                </div>
                                 <div className='flex flex-wrap gap-[16px]'>
                                     <motion.button
                                         whileTap={{

@@ -77,6 +77,7 @@ router.put(
             description,
             image,
             image_id,
+            in_stock,
             delete_image
         } = req.body;
         const dog = await DogModel.findByIdAndUpdate(
@@ -88,6 +89,7 @@ router.put(
                 gender,
                 description,
                 image,
+                in_stock,
                 image_id
             },
             { new: true, runValidators: true }

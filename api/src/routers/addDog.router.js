@@ -20,7 +20,8 @@ router.post('/',
             gender,
             description,
             image,
-            image_id
+            image_id,
+            in_stock
         } = req.body;
         const dog = new DogModel({
             name,
@@ -29,7 +30,8 @@ router.post('/',
             gender,
             description,
             image,
-            image_id
+            image_id,
+            in_stock
         });
 
         await dog.save();
