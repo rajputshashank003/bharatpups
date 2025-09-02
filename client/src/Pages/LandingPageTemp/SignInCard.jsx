@@ -19,17 +19,17 @@ export default function SignInCard() {
                     textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
                 }}
                     className="lg:hidden relative z-[99] text-neutral-300 text-[18px]">
-                    Sign in to your account to manage your vehicle garage and access all features.
+                    Sign in to your account to access all features.
                 </div>
                 <img
                     src="/dane.png"
                     className="w-full h-full absolute m-0 top-0 z-[0] left-0 lg:hidden object-cover"
                 />
                 <div style={{ fontFamily: 'cdg, serif' }} className="max-lg:hidden text-[28px]">
-                    Welcome to Your Garage
+                    Welcome
                 </div>
                 <div style={{ fontFamily: 'cdg, serif' }} className="max-lg:hidden mt-[12px] text-neutral-500 text-[16px]">
-                    Sign in to your account to manage your vehicle garage, track maintenance, service history, recalls, and get personalized automotive insights.
+                    Sign in to your account to access all feature.
                 </div>
                 <div onClick={() => navigate('/login') } className="flex justify-center items-center cursor-pointer absolute bottom-[24px] lg:bottom-[12px] max-lg:w-[80%] max-lg:left-[10%] lg:w-[70%] lg:translate-x-[7%] py-3 px-4 bg-[#A89AFF] text-black rounded-full font-semibold">
                     Sign in
