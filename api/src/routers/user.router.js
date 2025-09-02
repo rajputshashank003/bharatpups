@@ -250,15 +250,17 @@ router.post("/v2/google/signin",
         const { userInfo } = req.body;
         const { email, name, picture } = userInfo.data;
         const already_registered = await userModel.findOne({ email });        
-        if ( !already_registered) {
+        if ( !already_registered ) {
             const newUserDetails = {
                 name,
                 email: email.toLowerCase(),
                 image: picture
             }
             const resultUser = await userModel.create(newUserDetails);
+            res.send(generateTokenResponse(resultUser));
+            return;
         }
-        res.send(generateTokenResponse(already_registered ?? resultUser));
+        res.send(generateTokenResponse(already_registered));
     })
 );
 
