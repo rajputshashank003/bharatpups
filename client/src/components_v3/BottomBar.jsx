@@ -42,6 +42,8 @@ const BottomBar = () => {
     ];
 
     return (
+        <>
+        <nav className='lg:hidden h-[50px] '></nav>
         <nav className="fixed lg:hidden bottom-0 bg-[#171717] left-0 right-0 border-t-[1px] border-t-neutral-700/60 shadow-t-lg z-50">
             <div className="max-w-md mx-auto px-4">
                 {/* Flex container to evenly space the navigation items */}
@@ -60,6 +62,7 @@ const BottomBar = () => {
                 </div>
             </div>
         </nav>
+        </>
     );
 };
 

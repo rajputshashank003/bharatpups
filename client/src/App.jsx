@@ -30,7 +30,7 @@ function App() {
                             <Header_v2 />
                         </>
                 } */}
-                <div className='mb-24'>
+                <div className=''>
                     <AppRoutes />
                 </div>
                 {/* <Footer /> */}

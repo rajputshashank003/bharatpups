@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import DogLogo from './DogLogo';
+import TopBanner from './TopBanner';
 
 const PaperclipIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -76,39 +77,21 @@ const LandingPage = () => {
     }, []);
 
     const handle_search = () => {
-        if (search_term?.length < 1 ) return ;
+        if (search_term?.length < 1) return;
         search_term && search_term?.length > 0 && navigate(`/explore?search=${search_term}`);
     }
 
     return (
-        <div className="min-h-screen text-gray-200 flex flex-row items-start justify-center font-sans p-[20px]">
+        <div className=" h-full bg-gradient-to-r from-neutral-950 via-cyan-950/10 to-neutral-900 text-gray-200 flex flex-row items-start justify-center font-sans p-[20px]">
             <SideBar />
             <div className="w-full relative pb-[50px] max-w-2xl mx-auto flex flex-col items-center">
-
-                {/* Top Banner */}
-                <div className="flex items-center justify-center space-x-2 mb-4 p-2 rounded-full bg-[#1e1e1e] border border-gray-700 text-sm">
-                    <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-semibold">new</span>
-                    <span className="text-gray-300">German Shepherd</span>
-                    <span onClick={() => navigate(`/explore/breed/?breed=${'German Shepherd'}`)} className="text-blue-400 cursor-pointer hover:underline flex items-center">
-                        learn more
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
-                            <path d="m9 18 6-6-6-6" />
-                        </svg>
-                    </span>
-                </div>
-
-                {/* Pagination Dots */}
-                <div className="flex space-x-2 mb-8">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
-                    <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
-                </div>
-
+                {/* {top banner} */}
+                <TopBanner />
                 {/* Dog Illustration */}
                 <DogLogo />
 
                 {/* Main Text */}
-                <h1 style={{ fontFamily: 'cdg, serif'}} className="text-4xl md:text-5xl font-bold text-center text-gray-100 mb-3">
+                <h1 style={{ fontFamily: 'cdg, serif' }} className="text-4xl md:text-5xl font-bold text-center text-gray-100 mb-3">
                     Trusted tails unleashed
                 </h1>
                 <p className="text-lg text-gray-400 text-center mb-8">
@@ -125,7 +108,7 @@ const LandingPage = () => {
                                 handle_search();
                             }
                         }}
-                        onChange={(e) => set_search_term(e.target.value) }
+                        onChange={(e) => set_search_term(e.target.value)}
                         placeholder="Search here"
                         rows="1"
                     ></textarea>
@@ -153,14 +136,14 @@ const LandingPage = () => {
 
                     {loading ?
                         [1, 2, 3, 4, 5].map((breed) => (
-                            <button 
+                            <button
                                 className="flex w-[80px] h-[20px] items-center animate-pulse gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-2 rounded-full text-sm">
 
                             </button>
                         )) :
                         breeds?.length > 0 ?
                             breeds?.map((breed) => (
-                                <button 
+                                <button
                                     onClick={() => navigate(`/explore/breed/?breed=${breed}`)}
                                     className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-[4px] rounded-full text-sm">
                                     {breed}
@@ -173,7 +156,7 @@ const LandingPage = () => {
                     <div onClick={call_us} className='flex text-white gap-[12px] text-[14px] justify-center items-center cursor-pointer bg-neutral-800 p-2 rounded-[12px] w-full '>
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
+                            <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
                         <span style={{ fontFamily: 'cdg, serif' }}>{import.meta.env.VITE_PHONE}</span>
                     </div>
                     <motion.button

@@ -14,7 +14,7 @@ const DogLogo = () => {
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: 1 }}
                     transition={{
-                        duration: 4,
+                        duration: 2.5,
                         ease: "easeInOut"
                     }}
                 />
