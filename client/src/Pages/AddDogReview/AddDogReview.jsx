@@ -77,7 +77,6 @@ export default function AddDogReview() {
     };
 
     const any_one_is_empty = () => {
-        console.log(formData.comment);
         return (
             !imagePreview | !formData.comment
         )
@@ -183,6 +182,7 @@ export default function AddDogReview() {
                         <button
                             style={{ cursor: uploading_image || uploading ? 'default' : 'pointer' }}
                             type="submit"
+                            disabled={uploading_image || uploading}
                             onClick={handleAddClick}
                             className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-black bg-white hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-800 focus:ring-white transition-colors"
                         >

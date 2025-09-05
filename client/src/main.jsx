@@ -16,7 +16,7 @@ const clientId = import.meta.env.VITE_GOOGLE_SIGNIN_ID;
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
         <GoogleOAuthProvider clientId={clientId}>
-            <div className=' min-h-svh pb-2 main_file w-screen bg-[#171717]'>
+            <div className=' min-h-svh main_file w-screen bg-[#171717]'>
                 <BrowserRouter >
                     <AuthProvider>
                         <CartProvider>

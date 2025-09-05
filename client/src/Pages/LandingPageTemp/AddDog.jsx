@@ -106,6 +106,10 @@ export default function AddDog() {
 
     const handleAddClick = async (e) => {
         e.preventDefault();
+        if( uploading_image ) {
+            toast.error('uploading image!');
+            return ;
+        }
         if ( any_one_is_empty() ) {
             toast.error('Fill all the fields');
             return ;
@@ -224,6 +228,7 @@ export default function AddDog() {
 
                     <div>
                         <button
+                            disabled={uploading_image}
                             type="submit"
                             onClick={handleAddClick}
                             className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-black bg-white hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-800 focus:ring-white transition-colors"
