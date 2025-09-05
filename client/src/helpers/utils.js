@@ -17,6 +17,10 @@ export const call_us = () => {
     copy_phone(import.meta.env.VITE_PHONE);
 }
 
+// landing page
 export const BREEDS_KEY = "BREEDS_KEY";
-export const BREEDS_EXPIRY_DAYS = 2;
-export const MAX_BREEDS_USES = 5;
+export const BREEDS_EXPIRY_DAYS = 1;
+export const MAX_BREEDS_USES = 3;
+
+// explore page
+export const EXPLORE_DATA_KEY = 'explore_data_key';

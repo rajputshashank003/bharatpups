@@ -9,6 +9,7 @@ import axios from 'axios';
 import Thumbnails_v2 from '../../components_v2/Thumbnails_v2/Thumbnails_v2';
 import { useAuth } from '../../components/Hooks/useAuth';
 import Carousel from '../../components_v2/Carousel/Carousel';
+import { EXPLORE_DATA_KEY } from '../../helpers/utils';
 
 const Explore = ({ page }) => {
     const [loading, set_loading] = useState(true);
@@ -40,7 +41,38 @@ const Explore = ({ page }) => {
                         url += `?${queryParams.join("&")}`;
                     }
                 }
-                const response = await axios.get(url);
+                let response;
+                if (url === "/api/dog/") {
+                    const cachedData = localStorage.getItem(EXPLORE_DATA_KEY);
+
+                    if (cachedData) {
+                        const parsedData = JSON.parse(cachedData);
+                        const now = Date.now();
+                        const diffMinutes = (now - parsedData.created_at) / (1000 * 60);
+
+                        if (diffMinutes < 15) {
+                            response = parsedData.response;
+                        } else {
+                            localStorage.removeItem(EXPLORE_DATA_KEY);
+                            const res = await axios.get(url);
+                            response = res;
+                            localStorage.setItem(
+                                EXPLORE_DATA_KEY,
+                                JSON.stringify({ response: { data: response?.data}, created_at: Date.now() })
+                            );
+                        }
+                    } else {
+                        const res = await axios.get(url);
+                        response = res;
+                        localStorage.setItem(
+                            EXPLORE_DATA_KEY,
+                            JSON.stringify({ response: { data: response?.data }, created_at: Date.now() })
+                        );
+                    }
+                } else {
+                    response = await axios.get(url);
+                }
+
                 set_data(response.data.dogs);
                 set_breeds(['All', ...response.data.breeds]);
                 if (user?.name) {
