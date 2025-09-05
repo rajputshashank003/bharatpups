@@ -83,7 +83,7 @@ const LandingPage = () => {
 
     return (
         <div className="relative h-full bg-gradient-to-r from-neutral-950 via-cyan-950/10 to-neutral-900 text-gray-200 flex flex-row items-start justify-center font-sans p-[20px]">
-            <div className="absolute w-[400px] bg-neutral-950 top-0 -left-[400px] h-full bg-"></div>
+            <div className="absolute w-[400px] bg-neutral-950 max-lg:hidden top-0 -left-[400px] h-full bg-"></div>
             <SideBar />
             <div className="w-full relative pb-[50px] max-w-2xl mx-auto flex flex-col items-center">
                 {/* {top banner} */}
