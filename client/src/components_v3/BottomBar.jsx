@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FavoriteIcon, GarageIcon } from './SideBar';
-import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/Hooks/useAuth';
+import {motion} from 'framer-motion';
+import { capitalize } from '@mui/material';
 
 const SearchIcon = () => (
     <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
@@ -30,6 +32,10 @@ export const AddIcon = () => (
 // --- Bottom Navigation Bar Component ---
 const BottomBar = () => {
     const auth = useAuth();
+    const navigate = useNavigate();
+    const params = useLocation();
+    const [selected_icon, set_selected_icon] = useState(capitalize(params.pathname.slice(1) === '' ? 'home' : params.pathname.slice(1) ));
+
     const navItems = [
         { icon: <GarageIcon className="w-6 h-6" />, name: 'Home', location: '/' },
         { icon: <ExploreIcon className="w-6 h-6" />, name: 'Explore', location: '/explore' },
@@ -47,17 +53,28 @@ const BottomBar = () => {
         <nav className="fixed lg:hidden bottom-0 bg-[#171717] left-0 right-0 border-t-[1px] border-t-neutral-700/60 shadow-t-lg z-50">
             <div className="max-w-md mx-auto px-4">
                 {/* Flex container to evenly space the navigation items */}
-                <div className="flex justify-around items-center h-20">
+                <div className="flex justify-around items-center h-20 p-4">
                     {navItems.map((item, index) => (
-                        <Link
-                            key={index}
-                            to={item.location}
-                            className="p-2 rounded-full text-gray-400 hover:text-white hover:bg-gray-800 transition-colors duration-200"
-                            aria-label={item.label}
+                        <motion.div
+                            whileTap={{
+                                scale: 0.75
+                            }}
+                            animate={{
+                                scale: selected_icon === item.name ? 1.2 : 1,
+                            }}
+                            transition={{
+                                duration: 0.2,
+                                ease: 'linear'
+                            }}
+                            onClick={() => {
+                                set_selected_icon(item.name);
+                                navigate(item.location);
+                            }}
+                            className={` h-fit p-[4px] rounded-[8px] ${selected_icon === item.name ? 'bg-neutral-600 text-white shadow-[0px_0px_1px] shadow-neutral-100 ' : 'bg-transparent text-neutral-300/90' } cursor-pointer transition-colors duration-200`}
                         >
                             {item.icon}
                             <span className="sr-only">{item.label}</span>
-                        </Link>
+                        </motion.div>
                     ))}
                 </div>
             </div>

@@ -23,8 +23,8 @@ export const PlusIcon = ({ className }) => (
     </svg>
 );
 
-export const GarageIcon = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className={`icon icon-tabler icons-tabler-outline icon-tabler-dog ${className}`}><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M11 5h2" /><path d="M19 12c-.667 5.333 -2.333 8 -5 8h-4c-2.667 0 -4.333 -2.667 -5 -8" /><path d="M11 16c0 .667 .333 1 1 1s1 -.333 1 -1h-2z" /><path d="M12 18v2" /><path d="M10 11v.01" /><path d="M14 11v.01" /><path d="M5 4l6 .97l-6.238 6.688a1.021 1.021 0 0 1 -1.41 .111a.953 .953 0 0 1 -.327 -.954l1.975 -6.815z" /><path d="M19 4l-6 .97l6.238 6.688c.358 .408 .989 .458 1.41 .111a.953 .953 0 0 0 .327 -.954l-1.975 -6.815z" /></svg>
+export const GarageIcon = ({ className, fill = 'none' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className={` ${className} icon icon-tabler icons-tabler-outline icon-tabler-door`}><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14 12v.01" /><path d="M3 21h18" /><path d="M6 21v-16a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v16" /></svg>
 );
 
 export const ExploreIcon = ({ className }) => (
@@ -47,14 +47,6 @@ export const ProfileIcon = ({ className }) => (
 
 // Main Sidebar Component
 export default function SideBar() {
-    // const navItems = [
-    //     { icon: <GarageIcon className="w-6 h-6" />, name: 'Home', location: '/' },
-    //     { icon: <ExploreIcon className="w-6 h-6" />, name: 'Explore', location: '/explore' },
-    //     { icon: <FavoriteIcon className="w-6 h-6" />, name: 'Favorites', location: '/favorites' },
-    //     { icon: <ProfileIcon className="w-6 h-6" />, name: 'Profile', location: '/profile' },
-    //     { icon: <ProfileIcon className="w-6 h-6" />, name: 'Add dog', location: '/profile' },
-    //     { icon: <ProfileIcon className="w-6 h-6" />, name: 'Inquiry', location: '/profile' },
-    // ];
 
     const auth = useAuth();
     const navItems = [
