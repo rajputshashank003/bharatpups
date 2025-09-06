@@ -1,9 +1,11 @@
 import { motion, useAnimate } from 'framer-motion';
 import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const TopBanner = () => {
     const [scope, animate] = useAnimate();
-
+    const navigate = useNavigate();
+    
     const handleMotion1 = async () => {
         console.log("motion1");
         await animate(
