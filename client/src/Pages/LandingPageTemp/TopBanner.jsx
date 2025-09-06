@@ -1,11 +1,12 @@
 import { motion, useAnimate } from 'framer-motion';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const TopBanner = () => {
     const [scope, animate] = useAnimate();
     const navigate = useNavigate();
-    
+    const [selected_name, set_selected_name] = useState('German Shepherd');
+
     const handleMotion1 = async () => {
         console.log("motion1");
         await animate(
@@ -22,7 +23,7 @@ const TopBanner = () => {
         await animate(
             '.dot_1',
             {
-                scale: [1.4, 1.2],
+                scale: [1.4, 1],
                 opacity: 1,
                 filter: 'blur(0px)'
             },
@@ -43,19 +44,7 @@ const TopBanner = () => {
                 ease: 'backInOut'
             }
         );
-        await animate(
-            '.dot_3',
-            {
-                scale: [1.2, 1],
-                opacity: 1,
-                filter: 'blur(0px)'
-            },
-            {
-                duration: 0.2,
-                ease: 'backInOut'
-            }
-        );
-        await animate(
+        animate(
             '.learn_more_arrow_1',
             {
                 x: 0,
@@ -70,8 +59,59 @@ const TopBanner = () => {
         );
     }
 
+    const handle_banner_motion = async () => {
+        await animate(
+            '.german_shepherd',
+            {
+                y: -40,
+                opacity: 0,
+                filter: 'blur(5px)'
+            },
+            {
+                duration: 1.5,
+                ease: 'backOut',
+                delay: 1.5,
+            }
+        );
+        await animate(
+            '.german_shepherd',
+            {
+                y: 40,
+                opacity: 0,
+            },
+            {
+                duration: 0.1,
+            }
+        );
+        set_selected_name(prev => (prev === 'German Shepherd' ? 'Bull dog' : 'German Shepherd'));
+        await animate(
+            '.german_shepherd',
+            {
+                y: 0,
+                opacity: 1,
+                filter: 'blur(0px)'
+            },
+            {
+                duration: 1.5,
+                ease: 'backOut',
+            }
+        );
+    };
+
     useEffect(() => {
         handleMotion1();
+        const timeout = setTimeout(() => {
+            handle_banner_motion();
+        }, 3000);
+
+        const interval = setInterval(() => {
+            handle_banner_motion();
+        }, 8000);
+
+        return () => {
+            clearInterval(interval);
+            clearTimeout(timeout);
+        };
     }, []);
 
     return (
@@ -82,10 +122,14 @@ const TopBanner = () => {
                     y: -100,
                     filter: 'blur(8px)'
                 }}
-                className="flex top_banner items-center justify-center space-x-2 mb-4 p-2 rounded-full bg-[#1e1e1e] border border-gray-700 text-sm shadow-[0_0px_1px_rgba(0,255,255,0.1),0_0px_5px_rgba(0,0,255,0.2)] ">
+                layout
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="flex top_banner overflow-hidden items-center justify-center space-x-2 mb-4 p-2 rounded-full bg-[#1e1e1e] border border-gray-700 text-sm shadow-[0_0px_1px_rgba(0,255,255,0.1),0_0px_5px_rgba(0,0,255,0.2)] ">
                 <span className="bg-gradient-to-tr from-cyan-300 via-blue-400 to-blue-800 text-white px-3 py-1 rounded-full text-xs font-semibold">new</span>
-                <span className="text-gray-300">German Shepherd</span>
-                <span onClick={() => navigate(`/explore/breed/?breed=${'German Shepherd'}`)} className="text-blue-400 cursor-pointer hover:underline flex items-center">
+                <motion.div className="text-gray-300 german_shepherd">
+                    {selected_name}
+                </motion.div>
+                <span onClick={() => navigate(`/explore/breed/?breed=${selected_name}`)} className="text-blue-400 cursor-pointer hover:underline flex items-center">
                     learn more
                     <motion.svg
                         initial={{
@@ -94,7 +138,9 @@ const TopBanner = () => {
                             scale: 0,
                             filter: 'blur(5px)'
                         }}
-                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1 learn_more_arrow_1">
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" 
+                        className="ml-1 learn_more_arrow_1"
+                    >
                         <path d="m9 18 6-6-6-6" />
                     </motion.svg>
                 </span>
@@ -108,21 +154,14 @@ const TopBanner = () => {
                         opacity: 0,
                         filter: 'blur(5px)'
                     }}
-                    className="w-2 dot_1 h-2 bg-gradient-to-tr from-cyan-200 via-cyan-600 to-blue-800 rounded-full" />
+                    className={`w-2 dot_1 h-2  rounded-full ${selected_name === 'Bull dog' ? 'bg-gray-600' : 'bg-gradient-to-tr from-cyan-200 via-cyan-600 to-blue-800'}`}/>
                 <motion.div
                     initial={{
                         scale: 0,
                         opacity: 0,
                         filter: 'blur(5px)'
                     }}
-                    className="w-2 dot_2 h-2 bg-gray-600 rounded-full" />
-                <motion.div
-                    initial={{
-                        scale: 0,
-                        opacity: 0,
-                        filter: 'blur(5px)'
-                    }}
-                    className="w-2 dot_3 h-2 bg-gray-600 rounded-full" />
+                    className={`w-2 dot_2 h-2 bg-gray-600 rounded-full ${selected_name !== 'Bull dog' ? 'bg-gray-600' : 'bg-gradient-to-tr from-cyan-200 via-cyan-600 to-blue-800'}`} />
             </div>
         </div>
     )
