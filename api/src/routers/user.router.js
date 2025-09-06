@@ -229,7 +229,7 @@ router.put(
 );
 const generateTokenResponse = user => {
     const token = jwt.sign({
-        id: user?.id, email: user?.email, isAdmin: user?.isAdmin, name: user?.name
+        id: user?.id, email: user?.email, isAdmin: user?.isAdmin, name: user?.name, image: user?.image
     },
         process.env.JWT_SECRET,
         {
@@ -241,6 +241,7 @@ const generateTokenResponse = user => {
         email: user.email,
         isAdmin: user.isAdmin,
         name: user.name,
+        image: user?.image,
         token,
     }
 }

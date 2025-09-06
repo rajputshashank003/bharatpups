@@ -1,6 +1,7 @@
 import React from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import GoogleSignIn from './GoogleSignIn';
+import { toast } from 'react-toastify';
 
 // SVG Icon for Apple
 const AppleIcon = () => (
@@ -78,8 +79,11 @@ export default function Login() {
 
                     {/* Submit Button */}
                     <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            toast.error('Feature under maintenance!');
+                        }}
                         style={{ fontFamily: 'cdg, serif' }}
-                        type="submit"
                         className="w-full py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition duration-300"
                     >
                         Continue with Email

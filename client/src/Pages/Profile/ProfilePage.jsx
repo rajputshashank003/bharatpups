@@ -50,13 +50,13 @@ export default function ProfilePage () {
 
     return (
         <>
-            <div className={classes.main}>
+            <div className={classes.main + "  max-lg:mb-[38px] "}>
                 <div 
                     // style={{
                     //     backgroundImage: `url('https://images.unsplash.com/photo-1603388360090-41084c4f4b86?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
                     //     backgroundSize: 'cover', 
                     // }} 
-                    className="h-fit w-[20rem] md:w-[40rem] duration-300 overflow-hidden shadow-[0px_0px_8px] my-4 mb-6 shadow-black/40 rounded-3xl "
+                    className="h-fit max-w-[500px] w-[20rem] md:w-[40rem] duration-300 overflow-hidden shadow-[0px_0px_8px] my-4 mb-6 shadow-black/40 rounded-3xl "
                 >
                     <div className=" h-full py-8 relative px-8 w-full backdrop-blur-[2px] bg-neutral-800">
                         <div className="relative flex text-white text-center justify-center items-center mb-4 font-semibold text-3xl  border-black">
@@ -64,6 +64,10 @@ export default function ProfilePage () {
                         </div>
                         <div className="relative flex text-neutral-300 text-center justify-center items-center my-4 font-semibold text-gray-800/50 text-sm  border-black">
                             Personalize and Customize Your Experience.
+                        </div>
+                        <div className={"w-full overflow-hidden rounded-[12px] relative mb-[12px] "}>
+                            <img style={{ padding: 0, margin: 0, width: '100%' }} className='h-[100px] cursor-pointer z-[1] relative object-contain' src={user?.image} alt="" />
+                            <img style={{ padding: 0, margin: 0, width: '100%' }} className='h-[100px] opacity-40 cursor-pointer z-[0] object-cover blur-[12px] absolute top-0 left-0' src={user?.image} alt="" />
                         </div>
                         <form className="w-full flex justify-center items-center flex-col" onSubmit={handleSubmit} >
                             <Form_Title 
