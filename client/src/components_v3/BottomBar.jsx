@@ -47,6 +47,10 @@ const BottomBar = () => {
         ),
     ];
 
+    useEffect(() => {
+        set_selected_icon(capitalize(params.pathname.slice(1) === '' ? 'home' : params.pathname.slice(1)));
+    }, [params?.pathname]);
+
     return (
         <>
         <nav className='lg:hidden h-[50px] '></nav>
