@@ -93,10 +93,11 @@ const LandingPage = () => {
 
                 {/* Main Text */}
                 <h1 style={{ fontFamily: 'cdg, serif' }} className="text-4xl md:text-5xl font-bold text-center text-gray-100 mb-3">
-                    Trusted tails unleashed
+                    BharatPups
                 </h1>
-                <p className="text-lg text-gray-400 text-center mb-8">
-                    Where quality pups meet caring homes
+                <p className="text-lg text-gray-400 flex flex-col text-center mb-8">
+                    <span className='text-gray-300'>Trusted tails unleashed</span>
+                    <span>Where quality pups meet caring homes</span>
                 </p>
 
                 {/* Input Area */}
