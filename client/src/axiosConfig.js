@@ -22,10 +22,12 @@ const change_to_real = async () => {
 
 change_to_real().then((switched) => {
     if (!switched) {
-        setTimeout(() => {
-            axios.defaults.baseURL = import.meta.env.VITE_MODE === 'development'
-                ? 'http://localhost:8080'
-                : real_api;
-        }, 60000);
+        const interval = setInterval(() => {
+            change_to_real().then((didSwitch) => {
+                if (didSwitch) {
+                    clearInterval(interval); // stop checking
+                }
+            });
+        }, 6000);
     }
 });
