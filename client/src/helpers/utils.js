@@ -24,3 +24,7 @@ export const MAX_BREEDS_USES = 3;
 
 // explore page
 export const EXPLORE_DATA_KEY = 'explore_data_key';
+
+export function add_quality_to_cloudinary(url, quality = 10) {
+    return url.replace("/upload/", `/upload/q_${quality}/`);
+}
