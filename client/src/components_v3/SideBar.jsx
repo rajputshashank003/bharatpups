@@ -65,7 +65,7 @@ export default function SideBar() {
     const pathname = window.location.pathname;
 
     const opened_page =
-        navItems.find(item =>
+        navItems?.find(item =>
             item.location === '/'
                 ? pathname === '/'
                 : pathname.includes(item.location)

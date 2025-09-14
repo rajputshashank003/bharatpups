@@ -2,7 +2,7 @@ import React from 'react';
 
 const Thumbnail_v2_Skeleton = () => {
     return (
-        <div className="w-full max-w-xs bg-neutral-800 rounded-lg shadow-md overflow-hidden">
+        <div className="w-full max-w-full bg-neutral-800 rounded-lg shadow-md overflow-hidden">
 
             {/* Image Placeholder */}
             <div className="relative">

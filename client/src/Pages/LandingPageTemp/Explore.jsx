@@ -132,7 +132,7 @@ const Explore = ({ page }) => {
                 <div className={"grid grid-cols-1 mids:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 w-full flex-wrap justify-start items-start gap-[24px] mb-4"}>
                     {
                         loading ?
-                            [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4].map((val) => (
+                            [1, 2, 3, 4, 1, 2, 3, 4, 1].map((val) => (
                                 <div className="col-span-1 flex justify-center items-center">
                                     <Thumbnail_v2_Skeleton />
                                 </div>
@@ -142,11 +142,11 @@ const Explore = ({ page }) => {
                                     <div className="col-span-1 flex justify-center items-center">
                                         <Thumbnails_v2
                                             set_dogs={set_data}
-                                            key={d._id}
-                                            is_favorite={favorites?.some((id) => { return d._id == id })}
+                                            key={d?._id}
+                                            is_favorite={favorites?.some((id) => { return d?._id == id })}
                                             food={d}
-                                            load_next_5_foods={false}
-                                            ind={idx}
+                                            // load_next_5_foods={false}
+                                            // ind={idx}
                                         />
                                     </div>
                                 )) :

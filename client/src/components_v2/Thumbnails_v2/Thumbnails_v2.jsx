@@ -1,30 +1,22 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import { useNavigate } from "react-router-dom";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import * as userService from "../../Services/userService.js"
-import { addToFavourites, isFavourite, removeFromFavourites, saveSearchTerm, removeSearchTerm } from '../../Services/services.js';
+import { addToFavourites, removeFromFavourites, saveSearchTerm, removeSearchTerm } from '../../Services/services.js';
 import { toast } from 'react-toastify';
 import { motion } from "framer-motion";
-import Price from '../../components/Price/Price.jsx';
-import { useCart } from '../../components/Hooks/useCart.jsx';
-import { theme_color } from '../../constants/constants.js';
-import Counter from '../../components/Counter/Counter.jsx';
 import GetShortName from '../../components/GetShortName/GetShortName.jsx';
 import axios from 'axios';
-import { CircularProgress } from '@mui/material';
 import { add_quality_to_cloudinary, open_whatsapp } from '../../helpers/utils.js';
 import Loader from '../Loader/Loader.jsx';
 
-export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5_foods, ind }) {
-    const [quantity, set_quantity] = useState(0);
+export default function Thumbnails_v2({ set_dogs, is_favorite, food}) {
     const [favoriteFood, setFavouriteFood] = useState(is_favorite);
     const [favorite_count, set_favorite_count] = useState(0);
     const [adding_to_favorite, set_adding_to_favorite] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setFavouriteFood(is_favorite);
@@ -34,7 +26,6 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5
         set_favorite_count(food?.favorite_count);
     }, [food]);
 
-    const navigate = useNavigate();
     const handleFavouriteFood = async () => {
         try {
             set_adding_to_favorite(true);
@@ -81,7 +72,7 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5
     }
 
     return (
-        <motion.div
+        <div
             // onViewportEnter={() => load_next_5_foods(ind)}
             className='w-full max-w-full'
         >
@@ -130,6 +121,6 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food, load_next_5
                     </div>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 }
