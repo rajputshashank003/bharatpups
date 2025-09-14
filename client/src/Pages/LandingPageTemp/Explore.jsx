@@ -122,8 +122,8 @@ const Explore = ({ page }) => {
                                     <Chip_v2 tag={''} />
                                 </div>
                             )) :
-                            breeds?.map((val) => (
-                                <div className="col-span-1 flex justify-center items-center">
+                            breeds?.map((val, ind) => (
+                                <div key={`key-${val?.id}-${ind}`} className="col-span-1 flex justify-center items-center">
                                     <Chip_v2 tag={val} />
                                 </div>
                             ))
@@ -132,17 +132,16 @@ const Explore = ({ page }) => {
                 <div className={"grid grid-cols-1 mids:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 w-full flex-wrap justify-start items-start gap-[24px] mb-4"}>
                     {
                         loading ?
-                            [1, 2, 3, 4, 1, 2, 3, 4, 1].map((val) => (
-                                <div className="col-span-1 flex justify-center items-center">
+                            [1, 2, 3, 4, 1, 2, 3, 4, 1].map((val, ind) => (
+                                <div key={ind} className="col-span-1 flex justify-center items-center">
                                     <Thumbnail_v2_Skeleton />
                                 </div>
                             )) :
                             data?.length > 0 ?
                                 data?.map((d, idx) => (
-                                    <div className="col-span-1 flex justify-center items-center">
+                                    <div key={d?._id} className="col-span-1 flex justify-center items-center">
                                         <Thumbnails_v2
                                             set_dogs={set_data}
-                                            key={d?._id}
                                             is_favorite={favorites?.some((id) => { return d?._id == id })}
                                             food={d}
                                             // load_next_5_foods={false}

@@ -22,7 +22,7 @@ export default function AddDog() {
         image: null,
         name: '',
         breed: '',
-        age: '',
+        age: 2,
         gender: 'Male',
         description: '',
         in_stock: true,
