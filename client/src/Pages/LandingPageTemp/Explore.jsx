@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import SideBar from '../../components_v3/SideBar'
 import Thumbnail_v2_Skeleton from '../../components/Loader_Skeletons/Thumbnail_v2_Skeleton'
 import Header_v2 from '../../components_v2/Header_v2/Header_v2';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Chip_v2 from '../../components_v2/Chip/Chip_v2';
 import SignInCard from './SignInCard';
 import axios from 'axios';
 import Thumbnails_v2 from '../../components_v2/Thumbnails_v2/Thumbnails_v2';
 import { useAuth } from '../../components/Hooks/useAuth';
-import Carousel from '../../components_v2/Carousel/Carousel';
+// import Carousel from '../../components_v2/Carousel/Carousel';
 import { EXPLORE_DATA_KEY } from '../../helpers/utils';
 
 const Explore = ({ page }) => {
@@ -107,11 +107,11 @@ const Explore = ({ page }) => {
                     <div className="absolute bg-[#171717] h-[50px] w-full top-0 -translate-y-[100%] z-[9]"></div>
                     <Header_v2 />
                 </div>
-                {page === 'explore' && 
+                {/* {page === 'explore' && 
                     <div className=" mt-[24px] h-fit rounded-[12px] w-full">
                         <Carousel />
                     </div>
-                }
+                } */}
                 <div className={"flex flex-row gap-[12px] lg:gap-[16px] my-[18px] w-full overflow-scroll no-scrollbar"}>
                     {
                         loading ?
