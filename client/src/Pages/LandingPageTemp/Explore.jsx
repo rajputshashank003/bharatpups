@@ -100,8 +100,6 @@ const Explore = ({ page }) => {
         fetch();
     }, [page, searchParams]);
 
-    const navigate = useNavigate();
-
     const render_hits = () => {
         return (
             <>
