@@ -28,6 +28,6 @@ change_to_real().then((switched) => {
                     clearInterval(interval); // stop checking
                 }
             });
-        }, 6000);
+        }, 5000);
     }
 });
