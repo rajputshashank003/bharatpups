@@ -100,16 +100,6 @@ const Explore = ({ page }) => {
         fetch();
     }, [page, searchParams]);
 
-    const handle_scroll_to_top = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    const handle_scroll_to_bottom = () => {
-        window.scrollTo({
-            top: document.body.scrollHeight,
-            behavior: 'smooth'
-        });
-    };
     const render_hits = () => {
         return (
             <>
@@ -122,9 +112,9 @@ const Explore = ({ page }) => {
                         <Carousel />
                     </div>
                 }
-                <button
+                {/* <button
                     onClick={handle_scroll_to_bottom}
-                >scroll2</button>
+                >scroll2</button> */}
                 <div className={"flex flex-row gap-[12px] lg:gap-[16px] my-[18px] w-full overflow-scroll no-scrollbar"}>
                     {
                         loading ?
@@ -181,9 +171,9 @@ const Explore = ({ page }) => {
                         </div> :
                     render_hits()
                 }
-            <button
+            {/* <button
                     onClick={handle_scroll_to_top}
-            >scroll</button>
+            >scroll</button> */}
             </div>
         </div>
     )
