@@ -100,6 +100,16 @@ const Explore = ({ page }) => {
         fetch();
     }, [page, searchParams]);
 
+    const handle_scroll_to_top = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handle_scroll_to_bottom = () => {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    };
     const render_hits = () => {
         return (
             <>
@@ -112,6 +122,9 @@ const Explore = ({ page }) => {
                         <Carousel />
                     </div>
                 }
+                <button
+                    onClick={handle_scroll_to_bottom}
+                >scroll2</button>
                 <div className={"flex flex-row gap-[12px] lg:gap-[16px] my-[18px] w-full overflow-scroll no-scrollbar"}>
                     {
                         loading ?
@@ -140,7 +153,7 @@ const Explore = ({ page }) => {
                                     <div key={d?._id} className="col-span-1 flex justify-center items-center">
                                         <Thumbnails_v2
                                             set_dogs={set_data}
-                                            is_favorite={favorites?.some((id) => { return d?._id == id })}
+                                            is_favorite={true} //  {favorites?.some((id) => { return d?._id == id })}
                                             food={d}
                                             // load_next_5_foods={false}
                                             // ind={idx}
@@ -168,6 +181,9 @@ const Explore = ({ page }) => {
                         </div> :
                     render_hits()
                 }
+            <button
+                    onClick={handle_scroll_to_top}
+            >scroll</button>
             </div>
         </div>
     )
