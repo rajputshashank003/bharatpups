@@ -153,7 +153,7 @@ const Explore = ({ page }) => {
                                     <div key={d?._id} className="col-span-1 flex justify-center items-center">
                                         <Thumbnails_v2
                                             set_dogs={set_data}
-                                            is_favorite={true} //  {favorites?.some((id) => { return d?._id == id })}
+                                            is_favorite={favorites?.some((id) => { return d?._id == id })}
                                             food={d}
                                             // load_next_5_foods={false}
                                             // ind={idx}
