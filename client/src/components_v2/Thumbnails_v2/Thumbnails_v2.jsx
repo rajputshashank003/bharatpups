@@ -81,9 +81,9 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food}) {
                     {userService?.getUser()?.isAdmin && <div onClick={handle_remove_dog} className='absolute flex justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] z-[2] left-[-2px] rounded-br-[8px]' >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                     </div>}
-                    <div className='h-full relative cursor-pointer object-cover duration-200 rounded-[6px] rounded-b-none overflow-hidden'>
-                        <img onClick={() => navigate(`/dog/${food._id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[2] relative object-contain' src={add_quality_to_cloudinary(food.image, 10)} alt="" />
-                        {/* it create lag or glitch on website the blur only  */}
+                    <div onClick={() => navigate(`/dog/${food._id}`)} className='h-full relative cursor-pointer object-cover duration-200 rounded-[6px] rounded-b-none overflow-hidden'>
+                        {/* it create lag or glitch on website -> the blur, object cover fill etc even bg as image also show glitch   */}
+                        <img style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[2] relative object-contain' src={add_quality_to_cloudinary(food.image, 10)} alt="" />
                         {/* <img style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[1] object-cover absolute top-0 left-0' src={add_quality_to_cloudinary(food.image)} alt="" /> */}
                     </div>
                     <div onClick={handleFavouriteFood} className='absolute flex z-[2] justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] right-[-2px] rounded-bl-[8px]' >
