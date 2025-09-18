@@ -21,7 +21,7 @@ import Counter from '../../components/Counter/Counter.jsx';
 import FoodPageSkeleton from '../../components/Loader_Skeletons/FoodPageSkeleton.jsx';
 import SideBar from '../../components_v3/SideBar.jsx';
 import axios from 'axios';
-import { call_us, copy_phone, open_whatsapp } from '../../helpers/utils.js';
+import { call_us, copy_phone, open_whatsapp, scroll_to_top } from '../../helpers/utils.js';
 import Loader from '../../components_v2/Loader/Loader.jsx';
 
 export default function FoodPage() {
@@ -39,6 +39,10 @@ export default function FoodPage() {
     const [favorite, setFavorite] = useState(false);
     const [expanded_image, set_expanded_image] = useState(null);
     const [deleting_review, set_deleting_review] = useState(null);
+
+    useEffect(() => {
+        scroll_to_top();
+    }, []);
 
     const handleFavouriteFood = async () => {
         if (!userService.getUser()) {
