@@ -82,7 +82,7 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food}) {
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                     </div>}
                     <div className='h-full relative cursor-pointer object-cover duration-200 rounded-[6px] rounded-b-none overflow-hidden'>
-                        <img onClick={() => navigate(`/dog/${food._id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[2] relative object-cover' src={add_quality_to_cloudinary(food.image, 50)} alt="" />
+                        <img onClick={() => navigate(`/dog/${food._id}`)} style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[2] relative object-cover' src={add_quality_to_cloudinary(food.image, 10)} alt="" />
                         {/* it create lag or glitch on website the blur only  */}
                         {/* <img style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[1] object-cover absolute top-0 left-0' src={add_quality_to_cloudinary(food.image)} alt="" /> */}
                     </div>
