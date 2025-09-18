@@ -28,3 +28,14 @@ export const EXPLORE_DATA_KEY = 'explore_data_key';
 export function add_quality_to_cloudinary(url, quality = 10) {
     return url.replace("/upload/", `/upload/q_${quality}/`);
 }
+
+export const scroll_to_top = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+export const scroll_to_bottom = () => {
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+    });
+};

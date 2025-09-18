@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import SideBar from '../../components_v3/SideBar'
 import Thumbnail_v2_Skeleton from '../../components/Loader_Skeletons/Thumbnail_v2_Skeleton'
 import Header_v2 from '../../components_v2/Header_v2/Header_v2';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Chip_v2 from '../../components_v2/Chip/Chip_v2';
 import SignInCard from './SignInCard';
 import axios from 'axios';
@@ -100,8 +100,6 @@ const Explore = ({ page }) => {
         fetch();
     }, [page, searchParams]);
 
-    const navigate = useNavigate();
-
     const render_hits = () => {
         return (
             <>
@@ -114,14 +112,17 @@ const Explore = ({ page }) => {
                         <Carousel />
                     </div>
                 }
+                {/* <button
+                    onClick={handle_scroll_to_bottom}
+                >scroll2</button> */}
                 <div className={"flex flex-row gap-[12px] lg:gap-[16px] my-[18px] w-full overflow-scroll no-scrollbar"}>
                     {
                         loading ?
-                            [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4].map((val) => (
-                                <div className="col-span-1 flex justify-center items-center">
+                            ([1, 2, 3, 4, 5, 6, 7, 8].map((val) => (
+                                <div key={val} className="col-span-1 flex justify-center items-center">
                                     <Chip_v2 tag={''} />
                                 </div>
-                            )) :
+                            ))) :
                             breeds?.map((val, ind) => (
                                 <div key={`key-${val?.id}-${ind}`} className="col-span-1 flex justify-center items-center">
                                     <Chip_v2 tag={val} />
@@ -170,6 +171,9 @@ const Explore = ({ page }) => {
                         </div> :
                     render_hits()
                 }
+            {/* <button
+                    onClick={handle_scroll_to_top}
+            >scroll</button> */}
             </div>
         </div>
     )

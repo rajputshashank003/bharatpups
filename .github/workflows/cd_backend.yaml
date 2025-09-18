@@ -1,7 +1,11 @@
 name: Deploy the Bharatpups backend
+
 on:
   push:
-    branch: [ main ]
+    branches: 
+      - main
+      - preprod
+
 jobs:
   build: 
     runs-on: ubuntu-latest
@@ -14,8 +18,22 @@ jobs:
         with: 
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
-      - name: Build and push
+
+      # Build and push Docker image for preprod
+      - name: Build and push (preprod)
+        if: github.ref == 'refs/heads/preprod'
+        uses: docker/build-push-action@v4
+        with:
+          context: ./api
+          file: ./api/Dockerfile
+          push: true
+          tags: |
+            rajputshashank/bharatpups-api:preprod
+            rajputshashank/bharatpups-api:${{ github.sha }}
+
+      # Build and push Docker image for main
+      - name: Build and push (main)
+        if: github.ref == 'refs/heads/main'
         uses: docker/build-push-action@v4
         with:
           context: ./api
@@ -25,5 +43,12 @@ jobs:
             rajputshashank/bharatpups-api:latest
             rajputshashank/bharatpups-api:${{ github.sha }}
 
-      - name: Trigger redeploy on Render
+      # Trigger Render deploy hook for preprod
+      - name: Trigger redeploy on Render (preprod)
+        if: github.ref == 'refs/heads/preprod'
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_PREPROD }}
+
+      # Trigger Render deploy hook for main
+      - name: Trigger redeploy on Render (main)
+        if: github.ref == 'refs/heads/main'
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
