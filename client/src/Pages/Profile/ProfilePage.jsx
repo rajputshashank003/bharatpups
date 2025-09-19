@@ -50,7 +50,7 @@ export default function ProfilePage() {
 
     return (
         <>
-            <div className={classes.main + "  max-lg:mb-[38px] "}>
+            <div className={classes.main + "  max-lg:mb-[38px] max-lg:pb-[55px] "}>
                 <div
                     // style={{
                     //     backgroundImage: `url('https://images.unsplash.com/photo-1603388360090-41084c4f4b86?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
@@ -94,7 +94,7 @@ export default function ProfilePage() {
                                 whileTap={{
                                     scale: 0.7
                                 }}
-                                type="submit" className="bg-[#D32F2F] duration-300  text-2xl mt-2 p-2 rounded-xl flex justify-center items-center text-neutral-200"
+                                type="submit" className="bg-gradient-to-tr overflow-hidden from-cyan-300 via-blue-500 to-blue-800 duration-300  text-2xl mt-2 p-2 rounded-xl flex justify-center items-center text-neutral-200"
                             >
                                 Submit
                             </motion.button>
@@ -136,7 +136,7 @@ export default function ProfilePage() {
                 <div className="flex flex-wrap gap-[12px] ">
                     {
                         user?.name && user?.isAdmin &&
-                        <div onClick={() => navigate('/admin/users')} className="bg-neutral-600 rounded-[12px] cursor-pointer text-white p-2 ">
+                        <div onClick={() => navigate('/admin/users')} className="bg-gradient-to-tr overflow-hidden from-cyan-300 via-blue-500 to-blue-800 rounded-[12px] cursor-pointer text-white p-2 ">
                             All Users
                         </div>
                     }
