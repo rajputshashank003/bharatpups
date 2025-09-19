@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import DogLogo from './DogLogo';
 import TopBanner from './TopBanner';
+import AnimatedButton from '../../components_v3/AnimatedButton';
 
 const PaperclipIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -92,7 +93,7 @@ const LandingPage = () => {
                 <DogLogo />
 
                 {/* Main Text */}
-                <h1 style={{ fontFamily: 'cdg, serif' }} className="text-4xl md:text-5xl font-bold text-center text-gray-100 mb-3">
+                <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-100 mb-3">
                     BharatPups
                 </h1>
                 <p className="text-lg text-gray-400 flex flex-col text-center mb-8">
@@ -101,7 +102,7 @@ const LandingPage = () => {
                 </p>
 
                 {/* Input Area */}
-                <div className="w-full bg-[#2a2a2a] rounded-2xl p-3 shadow-lg border border-gray-700">
+                <div className="w-full bg-[#2a2a2a] rounded-2xl p-3 shadow-[0px_0px_4px] shadow-black/30">
                     <textarea
                         className="w-full bg-transparent text-gray-200 placeholder-gray-500 focus:outline-none resize-none"
                         value={search_term}
@@ -125,10 +126,17 @@ const LandingPage = () => {
                             <button className="p-1.5 rounded-lg hover:bg-gray-600 text-gray-400"><GlobeIcon /></button> */}
                         </div>
                         <div className="flex items-center space-x-2">
-                            <button className="p-1.5 opacity-0 rounded-lg hover:bg-gray-600 text-gray-400"><PaperclipIcon /></button>
-                            <button onClick={handle_search} className="bg-gray-600 hover:bg-gray-500 text-gray-200 p-2 rounded-lg">
-                                <ArrowUpIcon />
-                            </button>
+                            <button className="p-1.5 pointer-events-none opacity-0 rounded-lg hover:bg-gray-600 text-gray-400"><PaperclipIcon /></button>
+                            <AnimatedButton>
+                                <button
+                                    onClick={handle_search}
+                                    className="relative bg-gradient-to-tr from-cyan-300 via-blue-400 to-blue-800 text-gray-200 p-2 rounded-lg overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-tr before:from-cyan-400 before:via-blue-700 before:to-blue-950 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
+                                >
+                                    <span className="relative z-10">
+                                        <ArrowUpIcon />
+                                    </span>
+                                </button>
+                            </AnimatedButton>
                         </div>
                     </div>
                 </div>
@@ -145,11 +153,13 @@ const LandingPage = () => {
                         )) :
                         breeds?.length > 0 ?
                             breeds?.map((breed) => (
-                                <button
-                                    onClick={() => navigate(`/explore/breed/?breed=${breed}`)}
-                                    className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-[4px] rounded-full text-sm">
-                                    {breed}
-                                </button>
+                                <AnimatedButton>
+                                    <button
+                                        onClick={() => navigate(`/explore/breed/?breed=${breed}`)}
+                                        className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-[4px] rounded-full text-sm">
+                                        {breed}
+                                    </button>
+                                </AnimatedButton>
                             )) :
                             <></>
                     }
@@ -159,7 +169,7 @@ const LandingPage = () => {
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
-                        <span style={{ fontFamily: 'cdg, serif' }}>{import.meta.env.VITE_PHONE}</span>
+                        <span >{import.meta.env.VITE_PHONE}</span>
                     </div>
                     <motion.button
                         whileTap={{

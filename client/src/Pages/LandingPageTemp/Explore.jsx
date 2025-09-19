@@ -58,7 +58,7 @@ const Explore = ({ page }) => {
                             response = res;
                             localStorage.setItem(
                                 EXPLORE_DATA_KEY,
-                                JSON.stringify({ response: { data: response?.data}, created_at: Date.now() })
+                                JSON.stringify({ response: { data: response?.data }, created_at: Date.now() })
                             );
                         }
                     } else {
@@ -107,7 +107,7 @@ const Explore = ({ page }) => {
                     <div className="absolute bg-[#171717] h-[50px] w-full top-0 -translate-y-[100%] z-[9]"></div>
                     <Header_v2 />
                 </div>
-                {page === 'explore' && 
+                {page === 'explore' &&
                     <div className=" mt-[24px] h-fit rounded-[12px] w-full">
                         <Carousel />
                     </div>
@@ -145,12 +145,12 @@ const Explore = ({ page }) => {
                                             set_dogs={set_data}
                                             is_favorite={favorites?.some((id) => { return d?._id == id })}
                                             food={d}
-                                            // load_next_5_foods={false}
-                                            // ind={idx}
+                                        // load_next_5_foods={false}
+                                        // ind={idx}
                                         />
                                     </div>
                                 )) :
-                                <div style={{ fontFamily: 'cdg, serif'}} className='text-[28px] h-full w-[80vw] text-center'>
+                                <div className='text-[28px] h-full w-[80vw] text-center'>
                                     No products found
                                 </div>
                     }
@@ -171,7 +171,7 @@ const Explore = ({ page }) => {
                         </div> :
                     render_hits()
                 }
-            {/* <button
+                {/* <button
                     onClick={handle_scroll_to_top}
             >scroll</button> */}
             </div>

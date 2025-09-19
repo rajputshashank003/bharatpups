@@ -53,8 +53,8 @@ export default function AppRoutes() {
             {/* <Route path="/home" element={<HomePage />} />
             <Route path="/search/:searchTerm" element={<HomePage />} />
             <Route path="/tag/:tag" element={<HomePage />} /> */}
-            <Route path="/food/:id" element={<FoodPage />} />
-            <Route path="/cart" element={<CartPage />} />
+            {/* <Route path="/food/:id" element={<FoodPage />} />
+            <Route path="/cart" element={<CartPage />} /> */}
             <Route path="/login" element={<Login />} />
             {/* <Route path="/register" element={<RegisterPage />} /> */}
             {/* <Route path="/checkout"
@@ -99,7 +99,7 @@ export default function AppRoutes() {
                     </AuthRoute>
                 }
             />
-            <Route
+            {/* <Route
                 path="/admin/foods/:searchTerm?"
                 element={
                     <AdminRoute>
@@ -123,7 +123,7 @@ export default function AppRoutes() {
                         <FoodEditPage />
                     </AdminRoute>
                 }
-            />
+            /> */}
             <Route
                 path="/admin/users/:searchTerm?"
                 element={

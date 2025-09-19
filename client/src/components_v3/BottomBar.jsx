@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FavoriteIcon, GarageIcon } from './SideBar';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/Hooks/useAuth';
-import {motion} from 'framer-motion';
+import { motion } from 'framer-motion';
 import { capitalize } from '@mui/material';
 
 const SearchIcon = () => (
@@ -34,55 +34,54 @@ const BottomBar = () => {
     const auth = useAuth();
     const navigate = useNavigate();
     const params = useLocation();
-    const [selected_icon, set_selected_icon] = useState(capitalize(params.pathname.slice(1) === '' ? 'home' : params.pathname.slice(1) ));
+    const [selected_icon, set_selected_icon] = useState(capitalize(params.pathname.slice(1) === '' ? 'home' : params.pathname.slice(1)));
 
     const navItems = [
-        { icon: <GarageIcon className="w-6 h-6" />, name: 'Home', location: '/' },
-        { icon: <ExploreIcon className="w-6 h-6" />, name: 'Explore', location: '/explore' },
-        { icon: <FavoriteIcon className="w-6 h-6" />, name: 'Favorites', location: '/favorites' },
-        { icon: <ProfileIcon className="w-6 h-6" />, name: 'Profile', location: '/profile' },
+        { icon: <GarageIcon className="w-6 h-6" />, value: ['home'], name: 'Home', location: '/' },
+        { icon: <ExploreIcon className="w-6 h-6" />, value: ['explore', 'dog', 'review'], name: 'Explore', location: '/explore' },
+        { icon: <FavoriteIcon className="w-6 h-6" />, value: ['favorites'], name: 'Favorites', location: '/favorites' },
+        { icon: <ProfileIcon className="w-6 h-6" />, value: ['profile', 'login'], name: 'Profile', location: '/profile' },
         ...(auth?.user?.isAdmin ? [
-            { icon: <AddIcon className="w-6 h-6" />, name: 'Add dog', location: '/admin/add' },
-        ] : []
-        ),
+            { icon: <AddIcon className="w-6 h-6" />, value: ['add'], name: 'Add dog', location: '/admin/add' },
+        ] : []),
     ];
 
     useEffect(() => {
-        set_selected_icon(capitalize(params.pathname.slice(1) === '' ? 'home' : params.pathname.slice(1)));
+        set_selected_icon(params.pathname.slice(1) === '' ? 'home' : params.pathname.slice(1));
     }, [params?.pathname]);
 
     return (
         <>
-        <nav className='lg:hidden h-[50px] '></nav>
-        <nav className="fixed lg:hidden bottom-0 bg-[#171717] left-0 right-0 border-t-[1px] border-t-neutral-700/60 shadow-t-lg z-50">
-            <div className="max-w-md mx-auto px-4">
-                {/* Flex container to evenly space the navigation items */}
-                <div className="flex justify-around items-center h-20 p-4">
-                    {navItems.map((item, index) => (
-                        <motion.div
-                            whileTap={{
-                                scale: 0.75
-                            }}
-                            animate={{
-                                scale: selected_icon === item.name ? 1.2 : 1,
-                            }}
-                            transition={{
-                                duration: 0.2,
-                                ease: 'linear'
-                            }}
-                            onClick={() => {
-                                set_selected_icon(item.name);
-                                navigate(item.location);
-                            }}
-                            className={` h-fit p-[4px] rounded-[8px] ${selected_icon === item.name ? 'bg-neutral-600 text-white shadow-[0px_0px_1px] shadow-neutral-100 ' : 'bg-transparent text-neutral-300/90' } cursor-pointer transition-colors duration-200`}
-                        >
-                            {item.icon}
-                            <span className="sr-only">{item.label}</span>
-                        </motion.div>
-                    ))}
+            <nav className='lg:hidden h-[50px] '></nav>
+            <nav className="fixed lg:hidden bottom-0 bg-[#171717] left-0 right-0 border-t-[1px] border-t-neutral-700/60 shadow-t-lg z-50">
+                <div className="max-w-md mx-auto px-4">
+                    {/* Flex container to evenly space the navigation items */}
+                    <div className="flex justify-around items-center h-20 p-4">
+                        {navItems.map((item, index) => (
+                            <motion.div
+                                whileTap={{
+                                    scale: 0.75
+                                }}
+                                animate={{
+                                    scale: item.value.some(v => selected_icon.toLowerCase().includes(v.toLowerCase())) ? 1.2 : 1,
+                                }}
+                                transition={{
+                                    duration: 0.2,
+                                    ease: 'linear'
+                                }}
+                                onClick={() => {
+                                    set_selected_icon(item.name);
+                                    navigate(item.location);
+                                }}
+                                className={` h-fit p-[4px] rounded-[8px] ${item.value.some(v => selected_icon.toLowerCase().includes(v.toLowerCase())) ? 'bg-gradient-to-tr from-cyan-300 via-blue-400 to-blue-800 text-white shadow-[0px_0px_1px] shadow-neutral-100 ' : 'bg-transparent text-neutral-300/90'} cursor-pointer transition-colors duration-200`}
+                            >
+                                {item.icon}
+                                <span className="sr-only">{item.label}</span>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
         </>
     );
 };
