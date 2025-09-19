@@ -50,7 +50,7 @@ const GoogleSignIn = () => {
             className="w-full max-sm:text-[14px] flex gap-[12px] items-center justify-center py-3 px-4 bg-[#2c2c2e] hover:bg-[#3a3a3c] text-white font-semibold rounded-xl transition duration-300"
         >
             <img src="/google_logo.svg" className="h-[20px] w-[20px]" alt="" />
-            <span style={{ fontFamily: "cdg, serif" }}>
+            <span >
                 {waiting ? "Loading..." : "Continue with Google"}
             </span>
         </button>

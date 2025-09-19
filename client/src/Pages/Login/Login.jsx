@@ -39,14 +39,14 @@ const GoogleIcon = () => (
 export default function Login() {
     return (
         // Main container with a dark background and centered content
-        <div  className="flex items-center justify-center min-h-screen text-gray-300 font-sans">
+        <div className="flex items-center justify-center min-h-screen text-gray-300 font-sans">
             {/* Card container */}
             <div className="bg-[#1c1c1e] p-4 lg:p-8 rounded-2xl shadow-lg w-full max-lg:w-[80%] max-w-sm">
 
                 {/* Header Section */}
                 <div className="text-center mb-8">
-                    <h1 style={{ fontFamily: 'cdg, serif' }} className="text-[28px] max-lg:text-[20px] text-white mb-2">Welcome to Bharatpups</h1>
-                    <p style={{ fontFamily: 'cdg, serif' }} className="text-gray-400 text-[16px] ">Sign in to your account to continue</p>
+                    <h1 className="text-[28px] max-lg:text-[20px] text-white mb-2">Welcome to Bharatpups</h1>
+                    <p className="text-gray-400 text-[16px] ">Sign in to your account to continue</p>
                 </div>
 
                 {/* Social Login Buttons */}
@@ -58,18 +58,17 @@ export default function Login() {
                 {/* Divider */}
                 <div className="flex items-center my-6 flex-row">
                     <div className="bg-neutral-700/60 h-[1px] w-full " />
-                    <span style={{ fontFamily: 'cdg, serif' }} className="mx-4 text-gray-500 whitespace-nowrap text-sm">Or continue with email</span>
+                    <span className="mx-4 text-gray-500 whitespace-nowrap text-sm">Or continue with email</span>
                     <div className="bg-neutral-700/60 h-[1px] w-full " />
                 </div>
 
                 {/* Email Form */}
                 <form>
                     <div className="mb-6">
-                        <label style={{ fontFamily: 'cdg, serif' }} htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
                             Email address
                         </label>
                         <input
-                            style={{ fontFamily: 'cdg, serif' }}
                             type="email"
                             id="email"
                             placeholder="name@example.com"
@@ -83,7 +82,6 @@ export default function Login() {
                             e.preventDefault();
                             toast.error('Feature under maintenance!');
                         }}
-                        style={{ fontFamily: 'cdg, serif' }}
                         className="w-full py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl transition duration-300"
                     >
                         Continue with Email
@@ -91,7 +89,7 @@ export default function Login() {
                 </form>
 
                 {/* Footer Text */}
-                <p style={{ fontFamily: 'cdg, serif' }} className="text-center text-xs text-gray-500 mt-8">
+                <p className="text-center text-xs text-gray-500 mt-8">
                     By clicking continue, you agree to our{' '}
                     <a href="#" className="underline hover:text-gray-300">
                         Terms of Service

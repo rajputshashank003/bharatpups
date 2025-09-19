@@ -99,7 +99,6 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food}) {
                 <div className='row-span-2 grid grid-rows-2 w-full'>
                     <div className='text-[20px] bg-neutral-600 rounded-[8px] rounded-t-none p-2 pb-4 grid-rows-2 row-span-1 grid font-semibold' onClick={() => navigate(`/food/${food.id}`)} >
                         <span
-                            style={{ fontFamily: 'cdg, serif' }}
                             className='flex whitespace-nowrap row-span-2 justify-start items-center'>
                             <GetShortName food_name={food.breed} length={14} />
                         </span>
@@ -107,7 +106,7 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food}) {
                     <div className='row-span-1 flex flex-row justify-between items-center h-full'>
                         <div className="flex justify-center items-center gap-[4px]">
                             <FavoriteIcon sx={{ color: "#D32F2F" }} />
-                            <span style={{ fontFamily: 'cdg, serif'}} className='text-neutral-300 text-bold'>{favorite_count}</span>
+                            <span className='text-neutral-300 text-bold'>{favorite_count}</span>
                         </div>
                         <motion.button
                             whileTap={{

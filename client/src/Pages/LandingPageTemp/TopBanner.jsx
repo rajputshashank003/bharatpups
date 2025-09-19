@@ -130,7 +130,6 @@ const TopBanner = () => {
                 <motion.div
                     className="relative inline-block bg-gradient-to-r overflow-hidden from-cyan-300 via-blue-500 to-blue-800 text-white px-3 py-1 rounded-full text-xs font-semibold"
                     style={{
-                        fontFamily: 'cdg',
                         backgroundSize: '300% 300%'
                     }}
                     animate={{
@@ -167,10 +166,10 @@ const TopBanner = () => {
                     />
                 </motion.div>
 
-                <motion.div style={{ fontFamily: 'cdg' }} className="text-gray-300 german_shepherd">
+                <motion.div className="text-gray-300 german_shepherd">
                     {selected_name}
                 </motion.div>
-                <span style={{ fontFamily: 'cdg' }} onClick={() => navigate(`/explore/breed/?breed=${selected_name}`)} className="text-blue-400 cursor-pointer hover:underline flex items-center">
+                <span onClick={() => navigate(`/explore/breed/?breed=${selected_name}`)} className="text-blue-400 cursor-pointer hover:underline flex items-center">
                     learn more
                     <motion.svg
                         initial={{

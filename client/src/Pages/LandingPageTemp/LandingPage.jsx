@@ -93,7 +93,7 @@ const LandingPage = () => {
                 <DogLogo />
 
                 {/* Main Text */}
-                <h1 style={{ fontFamily: 'cdg, serif' }} className="text-4xl md:text-5xl font-bold text-center text-gray-100 mb-3">
+                <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-100 mb-3">
                     BharatPups
                 </h1>
                 <p className="text-lg text-gray-400 flex flex-col text-center mb-8">
@@ -104,7 +104,6 @@ const LandingPage = () => {
                 {/* Input Area */}
                 <div className="w-full bg-[#2a2a2a] rounded-2xl p-3 shadow-[0px_0px_4px] shadow-black/30">
                     <textarea
-                        style={{ fontFamily: 'cdg' }}
                         className="w-full bg-transparent text-gray-200 placeholder-gray-500 focus:outline-none resize-none"
                         value={search_term}
                         onKeyDown={(e) => {
@@ -156,7 +155,6 @@ const LandingPage = () => {
                             breeds?.map((breed) => (
                                 <AnimatedButton>
                                     <button
-                                        style={{ fontFamily: 'cdg' }}
                                         onClick={() => navigate(`/explore/breed/?breed=${breed}`)}
                                         className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-[4px] rounded-full text-sm">
                                         {breed}
@@ -171,7 +169,7 @@ const LandingPage = () => {
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-phone">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg>
-                        <span style={{ fontFamily: 'cdg, serif' }}>{import.meta.env.VITE_PHONE}</span>
+                        <span >{import.meta.env.VITE_PHONE}</span>
                     </div>
                     <motion.button
                         whileTap={{

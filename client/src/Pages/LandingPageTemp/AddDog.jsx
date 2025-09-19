@@ -71,7 +71,7 @@ export default function AddDog() {
                 set_loading(false);
             }
         }
-        if ( id ) {
+        if (id) {
             fetchDog();
         }
     }, [id]);
@@ -106,13 +106,13 @@ export default function AddDog() {
 
     const handleAddClick = async (e) => {
         e.preventDefault();
-        if( uploading_image ) {
+        if (uploading_image) {
             toast.error('uploading image!');
-            return ;
+            return;
         }
-        if ( any_one_is_empty() ) {
+        if (any_one_is_empty()) {
             toast.error('Fill all the fields');
-            return ;
+            return;
         }
         const data = {
             image: imageUrl,
@@ -126,7 +126,7 @@ export default function AddDog() {
             image_id,
         };
         try {
-            if ( id ) {
+            if (id) {
                 const promise = await axios.put(`/api/dog/${id}`, data, {
                     headers: {
                         'Content-Type': 'application/json'
@@ -141,7 +141,7 @@ export default function AddDog() {
             }
             saved_ref.current = true;
             navigate("/explore");
-        } catch (err)  {
+        } catch (err) {
 
         }
     };
@@ -169,8 +169,8 @@ export default function AddDog() {
     return (
         <div className=" min-h-screen flex items-center justify-center p-4 font-sans">
             <div className="w-full max-w-lg mx-auto bg-[#1C1C1E] shadow-[0px_0px_1px] shadow-neutral-400  p-8 rounded-2xl">
-                <h1 style={{ fontFamily: 'cdg, serif'}} className="text-3xl font-bold text-white mb-8 text-center">
-                    { id ? 'Update dog' : 'Add a New Dog'}
+                <h1 className="text-3xl font-bold text-white mb-8 text-center">
+                    {id ? 'Update dog' : 'Add a New Dog'}
                 </h1>
                 <form className="space-y-6">
                     <div>
@@ -216,7 +216,7 @@ export default function AddDog() {
                             </select>
                         </div>
                         <div class="flex items-center">
-                            <input name='in_stock' onChange={handleInputChange} id="in_stock" type="checkbox" checked={formData.in_stock} class="w-4 h-4 text-blue-600 rounded-sm  ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"/>
+                            <input name='in_stock' onChange={handleInputChange} id="in_stock" type="checkbox" checked={formData.in_stock} class="w-4 h-4 text-blue-600 rounded-sm  ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600" />
                             <label for="in_stock" class="ms-2 text-sm font-medium text-gray-200">In Stock</label>
                         </div>
                     </div>

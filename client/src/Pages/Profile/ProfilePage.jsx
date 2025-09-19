@@ -1,4 +1,4 @@
-import React , {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./ProfilePage.module.css";
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
@@ -10,8 +10,8 @@ import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-export default function ProfilePage () {
-    const {user , updateProfile} = useAuth();
+export default function ProfilePage() {
+    const { user, updateProfile } = useAuth();
     const auth = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -20,27 +20,27 @@ export default function ProfilePage () {
         password: '',
         confirmPassword: '',
         address: '',
-        phone : '',
+        phone: '',
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         updateProfile(formData);
     }
-    useEffect ( ()=> {
+    useEffect(() => {
         setFormData(user);
     }, [user])
 
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({
-          ...formData,
-          [name]: value
+            ...formData,
+            [name]: value
         });
     };
 
     const sendEmailVerification = async () => {
-        const {data} = await userService.sendEmailVerification(user.id);
+        const { data } = await userService.sendEmailVerification(user.id);
         toast.success(data.msg);
     }
     const logout = () => {
@@ -51,7 +51,7 @@ export default function ProfilePage () {
     return (
         <>
             <div className={classes.main + "  max-lg:mb-[38px] "}>
-                <div 
+                <div
                     // style={{
                     //     backgroundImage: `url('https://images.unsplash.com/photo-1603388360090-41084c4f4b86?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
                     //     backgroundSize: 'cover', 
@@ -70,7 +70,7 @@ export default function ProfilePage () {
                             <img style={{ padding: 0, margin: 0, width: '100%' }} className='h-[100px] opacity-40 cursor-pointer z-[0] object-cover blur-[12px] absolute top-0 left-0' src={user?.image} alt="" />
                         </div>
                         <form className="w-full flex justify-center items-center flex-col" onSubmit={handleSubmit} >
-                            <Form_Title 
+                            <Form_Title
                                 name='email'
                                 label="E-mail"
                                 type='text'
@@ -80,7 +80,7 @@ export default function ProfilePage () {
                                 readOnly={true}
                                 className='text-white'
                             />
-                            <Form_Title 
+                            <Form_Title
                                 name='name'
                                 label="Name"
                                 type='text'
@@ -90,9 +90,9 @@ export default function ProfilePage () {
                                 readOnly={false}
                                 className='text-white'
                             />
-                            <motion.button 
+                            <motion.button
                                 whileTap={{
-                                    scale : 0.7
+                                    scale: 0.7
                                 }}
                                 type="submit" className="bg-[#D32F2F] duration-300  text-2xl mt-2 p-2 rounded-xl flex justify-center items-center text-neutral-200"
                             >
@@ -136,13 +136,13 @@ export default function ProfilePage () {
                 <div className="flex flex-wrap gap-[12px] ">
                     {
                         user?.name && user?.isAdmin &&
-                        <div style={{ fontFamily: 'cdg, serif' }} onClick={() => navigate('/admin/users')} className="bg-neutral-600 rounded-[12px] cursor-pointer text-white p-2 ">
+                        <div onClick={() => navigate('/admin/users')} className="bg-neutral-600 rounded-[12px] cursor-pointer text-white p-2 ">
                             All Users
                         </div>
                     }
                     {
                         user?.name &&
-                        <div style={{ fontFamily: 'cdg, serif' }} onClick={logout} className="bg-neutral-600 rounded-[12px] cursor-pointer text-white p-2 ">
+                        <div onClick={logout} className="bg-neutral-600 rounded-[12px] cursor-pointer text-white p-2 ">
                             Logout
                         </div>
                     }
@@ -156,12 +156,12 @@ const Form_Title = (props) => {
     return (
         <div className={`${props?.className} relative w-full text-sm mb-2 font-bold text-slate-800`}>
             {props.label}
-            <input 
+            <input
                 name={props.name}
-                type={props.type} 
-                onChange={(e) => props.onChange(e)} 
-                className="h-fit p-2 text-black mt-1 w-full font-normal focus:outline-none border rounded-lg" 
-                value={props.formData[props.name]} 
+                type={props.type}
+                onChange={(e) => props.onChange(e)}
+                className="h-fit p-2 text-black mt-1 w-full font-normal focus:outline-none border rounded-lg"
+                value={props.formData[props.name]}
                 readOnly={props.readOnly}
             />
         </div>

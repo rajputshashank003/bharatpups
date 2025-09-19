@@ -37,12 +37,12 @@ const BottomBar = () => {
     const [selected_icon, set_selected_icon] = useState(capitalize(params.pathname.slice(1) === '' ? 'home' : params.pathname.slice(1) ));
 
     const navItems = [
-        { icon: <GarageIcon className="w-6 h-6" />, name: 'Home', location: '/' },
-        { icon: <ExploreIcon className="w-6 h-6" />, name: 'Explore', location: '/explore' },
-        { icon: <FavoriteIcon className="w-6 h-6" />, name: 'Favorites', location: '/favorites' },
-        { icon: <ProfileIcon className="w-6 h-6" />, name: 'Profile', location: '/profile' },
+        { icon: <GarageIcon className="w-6 h-6" />, value: 'Home', name: 'Home', location: '/' },
+        { icon: <ExploreIcon className="w-6 h-6" />, value: 'explore', name: 'Explore', location: '/explore' },
+        { icon: <FavoriteIcon className="w-6 h-6" />, value: 'favorites' ,name: 'Favorites', location: '/favorites' },
+        { icon: <ProfileIcon className="w-6 h-6" />, value: 'profile, login', name: 'Profile', location: '/profile' },
         ...(auth?.user?.isAdmin ? [
-            { icon: <AddIcon className="w-6 h-6" />, name: 'Add dog', location: '/admin/add' },
+            { icon: <AddIcon className="w-6 h-6" />, value: 'add dog', name: 'Add dog', location: '/admin/add' },
         ] : []
         ),
     ];
@@ -64,7 +64,7 @@ const BottomBar = () => {
                                 scale: 0.75
                             }}
                             animate={{
-                                scale: selected_icon === item.name ? 1.2 : 1,
+                                scale: item.value.toLocaleLowerCase().includes(selected_icon.toLowerCase()) ? 1.2 : 1,
                             }}
                             transition={{
                                 duration: 0.2,
@@ -74,7 +74,7 @@ const BottomBar = () => {
                                 set_selected_icon(item.name);
                                 navigate(item.location);
                             }}
-                            className={` h-fit p-[4px] rounded-[8px] ${selected_icon === item.name ? 'bg-gradient-to-tr from-cyan-300 via-blue-400 to-blue-800 text-white shadow-[0px_0px_1px] shadow-neutral-100 ' : 'bg-transparent text-neutral-300/90' } cursor-pointer transition-colors duration-200`}
+                            className={` h-fit p-[4px] rounded-[8px] ${item.value.toLocaleLowerCase().includes(selected_icon.toLowerCase()) ? 'bg-gradient-to-tr from-cyan-300 via-blue-400 to-blue-800 text-white shadow-[0px_0px_1px] shadow-neutral-100 ' : 'bg-transparent text-neutral-300/90' } cursor-pointer transition-colors duration-200`}
                         >
                             {item.icon}
                             <span className="sr-only">{item.label}</span>

@@ -86,7 +86,7 @@ export default function SideBar() {
                     <DogIcon />
                     </div>
                 </div>
-                <span style={{fontFamily: 'cdg, serif' }} className="text-[28px] lowercase tracking-tighter">Bharat Pups</span>
+                <span className="text-[28px] lowercase tracking-tighter">Bharat Pups</span>
             </header>
 
             <div className="bg-neutral-700/60 h-[1px] w-full " />
@@ -98,7 +98,7 @@ export default function SideBar() {
                         <li key={index}>
                             <Link to={item.location} style={{ ...(opened_page === item.name ? { color: '#3B82F6' } : {}) }} className="flex text-[20px] text-white items-center justify-start gap-4 p-3 rounded-lg hover:bg-neutral-800 transition-colors duration-200 hover:text-white">
                                 {item.icon}
-                                <span style={{ fontFamily: 'cdg, serif' }} className="">{item.name}</span>
+                                <span className="">{item.name}</span>
                             </Link>
                         </li>
                     ))}

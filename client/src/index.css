@@ -53,6 +53,6 @@
     src: url('/Fonts/cdg.woff2') format('woff2');
 }
 
-*{
-  font-family: 'cdg, f1';
+* {
+  font-family: 'cdg', monospace;
 }
