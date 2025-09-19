@@ -41,7 +41,7 @@ const BottomBar = () => {
         { icon: <ExploreIcon className="w-6 h-6" />, value: ['explore', 'dog', 'review'], name: 'Explore', location: '/explore' },
         { icon: <FavoriteIcon className="w-6 h-6" />, value: ['favorites'], name: 'Favorites', location: '/favorites' },
         { icon: <ProfileIcon className="w-6 h-6" />, value: ['profile', 'login'], name: 'Profile', location: '/profile' },
-        ...(!auth?.user?.isAdmin ? [
+        ...(auth?.user?.isAdmin ? [
             { icon: <AddIcon className="w-6 h-6" />, value: ['add'], name: 'Add dog', location: '/admin/add' },
         ] : []),
     ];
