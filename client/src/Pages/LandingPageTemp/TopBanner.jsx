@@ -124,12 +124,53 @@ const TopBanner = () => {
                 }}
                 layout
                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="flex top_banner overflow-hidden items-center justify-center space-x-2 mb-4 p-2 rounded-full bg-[#1e1e1e] border border-gray-700 text-sm shadow-[0_0px_1px_rgba(0,255,255,0.1),0_0px_5px_rgba(0,0,255,0.2)] ">
-                <span className="bg-gradient-to-tr from-cyan-300 via-blue-400 to-blue-800 text-white px-3 py-1 rounded-full text-xs font-semibold">new</span>
-                <motion.div className="text-gray-300 german_shepherd">
+                className="flex top_banner overflow-hidden items-center justify-center space-x-2 mb-4 p-2 rounded-full bg-[#1e1e1e] border border-gray-700 text-sm shadow-[0_0px_1px_rgba(0,255,255,0.1),0_0px_5px_rgba(0,0,255,0.2)] "
+            >
+                {/* new icon */}
+                <motion.div
+                    className="relative inline-block bg-gradient-to-r overflow-hidden from-cyan-300 via-blue-500 to-blue-800 text-white px-3 py-1 rounded-full text-xs font-semibold"
+                    style={{
+                        fontFamily: 'cdg',
+                        backgroundSize: '300% 300%'
+                    }}
+                    animate={{
+                        backgroundPosition: ["20% 50%", "100% 50%", "20% 50%"]
+                    }}
+                    transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                >
+                    <span className="relative z-10">new</span>
+
+                    {/* Animated shine line */}
+                    <motion.div
+                        className="absolute inset-0 w-full h-full"
+                        style={{
+                            background: 'linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.6) 50%, transparent 70%)',
+                            backgroundSize: '200% 180%',
+                            rotate: '-35deg',
+                            width: '120%',
+                            height: '180%',
+                            left: '0%',
+                            top: '-60%',
+                        }}
+                        animate={{
+                            backgroundPosition: ["-100% 0%", "100% 0%"]
+                        }}
+                        transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "linear"
+                        }}
+                    />
+                </motion.div>
+
+                <motion.div style={{ fontFamily: 'cdg' }} className="text-gray-300 german_shepherd">
                     {selected_name}
                 </motion.div>
-                <span onClick={() => navigate(`/explore/breed/?breed=${selected_name}`)} className="text-blue-400 cursor-pointer hover:underline flex items-center">
+                <span style={{ fontFamily: 'cdg' }} onClick={() => navigate(`/explore/breed/?breed=${selected_name}`)} className="text-blue-400 cursor-pointer hover:underline flex items-center">
                     learn more
                     <motion.svg
                         initial={{

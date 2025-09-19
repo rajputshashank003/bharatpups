@@ -104,6 +104,7 @@ const LandingPage = () => {
                 {/* Input Area */}
                 <div className="w-full bg-[#2a2a2a] rounded-2xl p-3 shadow-lg border border-gray-700">
                     <textarea
+                        style={{ fontFamily: 'cdg' }}
                         className="w-full bg-transparent text-gray-200 placeholder-gray-500 focus:outline-none resize-none"
                         value={search_term}
                         onKeyDown={(e) => {
@@ -126,10 +127,15 @@ const LandingPage = () => {
                             <button className="p-1.5 rounded-lg hover:bg-gray-600 text-gray-400"><GlobeIcon /></button> */}
                         </div>
                         <div className="flex items-center space-x-2">
-                            <button className="p-1.5 opacity-0 rounded-lg hover:bg-gray-600 text-gray-400"><PaperclipIcon /></button>
+                            <button className="p-1.5 pointer-events-none opacity-0 rounded-lg hover:bg-gray-600 text-gray-400"><PaperclipIcon /></button>
                             <AnimatedButton>
-                                <button onClick={handle_search} className="bg-gradient-to-tr from-cyan-300 via-blue-400 to-blue-800 hover:to-blue-900 hover:via-blue-700 duration-300 text-gray-200 p-2 rounded-lg">
-                                    <ArrowUpIcon />
+                                <button
+                                    onClick={handle_search}
+                                    className="relative bg-gradient-to-tr from-cyan-300 via-blue-400 to-blue-800 text-gray-200 p-2 rounded-lg overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-tr before:from-cyan-400 before:via-blue-700 before:to-blue-950 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
+                                >
+                                    <span className="relative z-10">
+                                        <ArrowUpIcon />
+                                    </span>
                                 </button>
                             </AnimatedButton>
                         </div>
@@ -148,11 +154,14 @@ const LandingPage = () => {
                         )) :
                         breeds?.length > 0 ?
                             breeds?.map((breed) => (
-                                <button
-                                    onClick={() => navigate(`/explore/breed/?breed=${breed}`)}
-                                    className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-[4px] rounded-full text-sm">
-                                    {breed}
-                                </button>
+                                <AnimatedButton>
+                                    <button
+                                        style={{ fontFamily: 'cdg' }}
+                                        onClick={() => navigate(`/explore/breed/?breed=${breed}`)}
+                                        className="flex items-center gap-2 bg-[#1e1e1e] hover:bg-gray-800 border border-gray-700 text-gray-300 px-4 py-[4px] rounded-full text-sm">
+                                        {breed}
+                                    </button>
+                                </AnimatedButton>
                             )) :
                             <></>
                     }
