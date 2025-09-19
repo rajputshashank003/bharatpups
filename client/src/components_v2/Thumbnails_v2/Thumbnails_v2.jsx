@@ -78,7 +78,7 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food}) {
         >
             <div className='w-full bg-neutral-800 h-[300px] p-[5px] rounded-[8px] gap-2 grid grid-rows-5' >
                 <div className=' relative row-span-3 w-full h-full shadow-[0px_0px_1px] shadow-neutral-500 rounded-b-none rounded-[6px] '>
-                    {userService?.getUser()?.isAdmin && <div onClick={handle_remove_dog} className='absolute flex justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] z-[2] left-[-2px] rounded-br-[8px]' >
+                    {userService?.getUser()?.isAdmin && <div onClick={handle_remove_dog} className='absolute flex justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] z-[3] left-[-2px] rounded-br-[8px]' >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                     </div>}
                     <div onClick={() => navigate(`/dog/${food._id}`)} className='h-full relative cursor-pointer duration-200 rounded-[6px] rounded-b-none overflow-hidden'>
@@ -86,8 +86,8 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food}) {
                         {/* it create lag or glitch on website -> the blur, object cover fill etc even bg as image also show glitch   */}
                         {/* i think the glitch is due to object-cover and fill not blur  */}
                         <img style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[2] relative object-contain' src={add_quality_to_cloudinary(food.image, 10)} alt="" />
-                        <img style={{ padding: 0, margin: 0 }} className='h-full w-fit cursor-pointer z-[1] object-contain blur-[6px] absolute top-0 left-0' src={add_quality_to_cloudinary(food.image, 10)} alt="" />
-                        <img style={{ padding: 0, margin: 0 }} className='h-full w-fit cursor-pointer z-[1] object-contain blur-[6px] absolute top-0 right-0' src={add_quality_to_cloudinary(food.image, 10)} alt="" />
+                        <img style={{ padding: 0, margin: 0 }} className='h-fit w-fit cursor-pointer z-[1] object-contain blur-[6px] absolute top-0 left-0' src={add_quality_to_cloudinary(food.image, 10)} alt="" />
+                        <img style={{ padding: 0, margin: 0 }} className='h-fit w-fit cursor-pointer z-[1] object-contain blur-[6px] absolute bottom-0 right-0' src={add_quality_to_cloudinary(food.image, 10)} alt="" />
                     </div>
                     <div onClick={handleFavouriteFood} className='absolute flex z-[2] justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] right-[-2px] rounded-bl-[8px]' >
                         {
