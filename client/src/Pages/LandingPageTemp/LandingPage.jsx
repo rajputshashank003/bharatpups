@@ -102,7 +102,7 @@ const LandingPage = () => {
                 </p>
 
                 {/* Input Area */}
-                <div className="w-full bg-[#2a2a2a] rounded-2xl p-3 shadow-lg border border-gray-700">
+                <div className="w-full bg-[#2a2a2a] rounded-2xl p-3 shadow-[0px_0px_4px] shadow-black/30">
                     <textarea
                         style={{ fontFamily: 'cdg' }}
                         className="w-full bg-transparent text-gray-200 placeholder-gray-500 focus:outline-none resize-none"
