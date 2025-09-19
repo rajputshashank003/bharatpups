@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import DogLogo from './DogLogo';
 import TopBanner from './TopBanner';
+import AnimatedButton from '../../components_v3/AnimatedButton';
 
 const PaperclipIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -126,9 +127,11 @@ const LandingPage = () => {
                         </div>
                         <div className="flex items-center space-x-2">
                             <button className="p-1.5 opacity-0 rounded-lg hover:bg-gray-600 text-gray-400"><PaperclipIcon /></button>
-                            <button onClick={handle_search} className="bg-gray-600 hover:bg-gray-500 text-gray-200 p-2 rounded-lg">
-                                <ArrowUpIcon />
-                            </button>
+                            <AnimatedButton>
+                                <button onClick={handle_search} className="bg-gradient-to-tr from-cyan-300 via-blue-400 to-blue-800 hover:to-blue-900 hover:via-blue-700 duration-300 text-gray-200 p-2 rounded-lg">
+                                    <ArrowUpIcon />
+                                </button>
+                            </AnimatedButton>
                         </div>
                     </div>
                 </div>

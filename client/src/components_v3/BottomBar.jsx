@@ -74,7 +74,7 @@ const BottomBar = () => {
                                 set_selected_icon(item.name);
                                 navigate(item.location);
                             }}
-                            className={` h-fit p-[4px] rounded-[8px] ${selected_icon === item.name ? 'bg-neutral-600 text-white shadow-[0px_0px_1px] shadow-neutral-100 ' : 'bg-transparent text-neutral-300/90' } cursor-pointer transition-colors duration-200`}
+                            className={` h-fit p-[4px] rounded-[8px] ${selected_icon === item.name ? 'bg-gradient-to-tr from-cyan-300 via-blue-400 to-blue-800 text-white shadow-[0px_0px_1px] shadow-neutral-100 ' : 'bg-transparent text-neutral-300/90' } cursor-pointer transition-colors duration-200`}
                         >
                             {item.icon}
                             <span className="sr-only">{item.label}</span>
