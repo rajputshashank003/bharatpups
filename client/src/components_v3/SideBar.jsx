@@ -119,7 +119,7 @@ export default function SideBar() {
                         </button>
                         <button
                             onClick={() => navigate('/signup')}
-                            className="w-full py-3 px-4 bg-[#A89AFF] text-black rounded-full font-semibold hover:bg-blue-400 transition-colors duration-200"
+                            className="w-full py-3 px-4 bg-gradient-to-tr from-cyan-300 via-blue-400 to-blue-800 text-white rounded-full font-semibold hover:bg-blue-400 transition-colors duration-200"
                         >
                             Sign up
                         </button>
@@ -131,7 +131,7 @@ export default function SideBar() {
                     </div>
                     <button
                         onClick={logout}
-                        className="w-full py-3 px-4 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-400 transition-colors duration-200"
+                                className="w-full py-3 px-4 bg-gradient-to-tr from-cyan-300 via-blue-400 to-blue-800 text-white rounded-full font-semibold hover:bg-blue-400 transition-colors duration-200"
                     >
                         Logout
                     </button>
