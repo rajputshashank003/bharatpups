@@ -15,10 +15,6 @@
     scrollbar-width: none;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @font-face {
     font-family: 'f1';
     src: url('/Fonts/GuthenBloots.woff2') format('woff2');
@@ -54,5 +50,9 @@
 }
 
 * {
-  font-family: 'cdg', monospace;
+    font-family: 'cdg', monospace !important;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
