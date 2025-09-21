@@ -5,6 +5,7 @@ import { AuthProvider } from '../Hooks/useAuth'
 import CartProvider from '../Hooks/useCart'
 import App from '../../App'
 import { ToastContainer } from 'react-toastify'
+import { WelcomeModalProvider } from '../Hooks/useWelcomeModal'
 const clientId = import.meta.env.VITE_GOOGLE_SIGNIN_ID;
 
 const Wrappers = () => {
@@ -14,12 +15,14 @@ const Wrappers = () => {
                 <BrowserRouter >
                     <AuthProvider>
                         <CartProvider>
-                            <App />
-                            <ToastContainer
-                                position='bottom-right' autoClose={5000} hideProgressBar={false}
-                                newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable
-                                pauseOnHover theme='light'
-                            />
+                            <WelcomeModalProvider>
+                                <App />
+                                <ToastContainer
+                                    position='bottom-right' autoClose={5000} hideProgressBar={false}
+                                    newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable
+                                    pauseOnHover theme='light'
+                                />
+                            </WelcomeModalProvider>
                         </CartProvider>
                     </AuthProvider>
                 </BrowserRouter>
