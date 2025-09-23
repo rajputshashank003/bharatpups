@@ -39,3 +39,5 @@ export const scroll_to_bottom = () => {
         behavior: 'smooth'
     });
 };
+
+export const review_image_name_key = 'review-image';

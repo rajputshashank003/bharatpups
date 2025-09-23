@@ -130,9 +130,9 @@ router.get('/breeds',
 
 router.post("/add/favorite",
     handler(async (req, res) => {
-        const { foodId, userId } = req.body;  // coming from frontend
+        const { dogId, userId } = req.body;  // coming from frontend
 
-        const dog = await DogModel.findOne({ _id: foodId });
+        const dog = await DogModel.findOne({ _id: dogId });
         if (!dog) {
             return res.status(404).json({
                 message: 'Dog not found!'
@@ -141,7 +141,7 @@ router.post("/add/favorite",
 
         const user = await userModel.findOneAndUpdate(
             { _id: userId },
-            { $addToSet: { favourite_dogs: foodId } }, // $addToSet = avoids duplicates
+            { $addToSet: { favourite_dogs: dogId } }, // $addToSet = avoids duplicates
             { new: true }
         );
 
@@ -152,7 +152,7 @@ router.post("/add/favorite",
         }
 
         const updatedDog = await DogModel.findByIdAndUpdate(
-            foodId,
+            dogId,
             { $inc: { favorite_count: 1 } },
             { returnDocument: "after" }
         );
@@ -167,11 +167,11 @@ router.post("/add/favorite",
 
 router.delete("/remove/favorite",
     handler(async (req, res) => {
-        const { foodId, userId } = req.query;  // DELETE usually sends params/query
+        const { dogId, userId } = req.query;  // DELETE usually sends params/query
 
         const user = await userModel.findOneAndUpdate(
             { _id: userId },
-            { $pull: { favourite_dogs: foodId } }, // $pull = removes from array
+            { $pull: { favourite_dogs: dogId } }, // $pull = removes from array
             { new: true }
         );
 
@@ -182,7 +182,7 @@ router.delete("/remove/favorite",
         }
 
         const updatedDog = await DogModel.findByIdAndUpdate(
-            foodId,
+            dogId,
             { $inc: { favorite_count: -1 } },
             { returnDocument: "after" }
         );
@@ -190,7 +190,6 @@ router.delete("/remove/favorite",
         res.json({
             message: 'Dog removed from favourites successfully',
             favourite_dogs: user.favourite_dogs,
-            favouriteCount: updatedDog
         });
     })
 );

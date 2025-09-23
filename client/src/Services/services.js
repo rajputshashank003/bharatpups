@@ -79,8 +79,8 @@ export const foodById = async (id) => {
     return response.data;
 }
 
-export async function deleteById(foodId) {
-    await axios.delete('/api/foods/' + foodId);
+export async function deleteById(dogId) {
+    await axios.delete('/api/foods/' + dogId);
 }
   
 export async function update(food) {
@@ -101,26 +101,27 @@ export async function getReviewsById(id) {
     const {data} = await axios.get("/api/foods/reviews/" + id);
     return data;
 }
-export async function deleteReviewById(reviewId, foodId) {
+export async function deleteReviewById(reviewId, dogId) {
     const { data } = await axios.delete(`/api/foods/review`, {
-        params: { reviewId, foodId },
+        params: { reviewId, dogId },
     });
     return data;
 }
 
-export async function addToFavourites(foodId , userId) {
-    const {data} = await axios.post("/api/dog/add/favorite",{ foodId, userId});
+export async function addToFavourites(dogId , userId) {
+    const {data} = await axios.post("/api/dog/add/favorite",{ dogId, userId});
     return data;
 }
-export async function removeFromFavourites(foodId , userId) {
+export async function removeFromFavourites(dogId , userId) {
+    console.log(dogId , userId);
     const {data} = await axios.delete("/api/dog/remove/favorite",{ 
-        params : {foodId, userId}
+        params : {dogId, userId}
     });
     return data;
 }
-export async function isFavourite(foodId , userId) {
+export async function isFavourite(dogId , userId) {
     const {data} = await axios.get("/api/foods/favourites",{ 
-        params : {foodId, userId}
+        params : {dogId, userId}
     });
     return data;
 }

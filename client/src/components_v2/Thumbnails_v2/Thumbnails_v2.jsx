@@ -37,11 +37,11 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food }) {
                 return;
             }
             if (!favoriteFood) {
-                const res = await addToFavourites(food.id, userService.getUser().id);
+                const res = await addToFavourites(food._id, userService.getUser().id);
                 // await saveSearchTerm(userService.getUser().id, food.name);
                 set_favorite_count(prev => prev + 1);
             } else {
-                const res = await removeFromFavourites(food.id, userService.getUser().id);
+                const res = await removeFromFavourites(food._id, userService.getUser().id);
                 // await removeSearchTerm(userService.getUser().id, food.name);
                 set_favorite_count(prev => prev - 1);
             }
@@ -102,13 +102,14 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food }) {
                     </div>
                     <div onClick={handleFavouriteFood} className='absolute flex z-[2] justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] right-[-2px] rounded-bl-[8px]' >
                         {
-                            !adding_to_favorite ? <FavoriteIcon sx={{ color: favoriteFood ? "#D32F2F" : "grey" }} /> :
-                                <Loader color={!favoriteFood ? "#D32F2F" : "white"} />
+                            !adding_to_favorite 
+                            ? <FavoriteIcon sx={{ color: favoriteFood ? "#D32F2F" : "grey" }} /> 
+                            : <Loader color={!favoriteFood ? "#D32F2F" : "white"} />
                         }
                     </div>
                 </div>
                 <div className='row-span-2 grid grid-rows-2 w-full'>
-                    <div className='text-[20px] bg-neutral-600 rounded-[8px] rounded-t-none p-2 pb-4 grid-rows-2 row-span-1 grid font-semibold' onClick={() => navigate(`/food/${food.id}`)} >
+                    <div className='text-[20px] bg-neutral-600 rounded-[8px] rounded-t-none p-2 pb-4 grid-rows-2 row-span-1 grid font-semibold' onClick={() => navigate(`/dog/${food.id}`)} >
                         <span
                             className='flex whitespace-nowrap row-span-2 justify-start items-center'>
                             <GetShortName food_name={food.breed} length={14} />

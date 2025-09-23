@@ -1,19 +1,17 @@
 import axios from 'axios';
 
-let real_api = import.meta.env.VITE_API;
-let mock_api = import.meta.env.VITE_MOCK_API;
+const is_dev_mode = import.meta.env.VITE_MODE === 'development';
 
-axios.defaults.baseURL = import.meta.env.VITE_MODE === 'development'
-    ? 'http://localhost:8080'
-    : mock_api;
+let real_api = is_dev_mode ? 'http://localhost:8080/' : import.meta.env.VITE_API;
+let mock_api = is_dev_mode ? 'http://localhost:8008/' : import.meta.env.VITE_MOCK_API;
+
+axios.defaults.baseURL = mock_api;
 
 const change_to_real = async () => {
     try {
         const res = await fetch(real_api, { method: "GET" });
         if (res.ok) {
-            axios.defaults.baseURL = import.meta.env.VITE_MODE === 'development'
-                ? 'http://localhost:8080'
-                : real_api;
+            axios.defaults.baseURL = real_api;
             return true;
         }
     } catch { }
@@ -28,6 +26,6 @@ change_to_real().then((switched) => {
                     clearInterval(interval); // stop checking
                 }
             });
-        }, 5000);
+        }, 3000);
     }
 });
