@@ -1,28 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from "react-router-dom";
 import classes from "./FoodPage.module.css";
-import Rating from '@mui/material/Rating';
-import Chip from '@mui/material/Chip';
-import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import Button from '@mui/material/Button';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { useCart } from '../../components/Hooks/useCart.jsx';
 import NotFound from '../../components/NotFound/NotFound.jsx';
-import { foodById, getReviewsById, isFavourite, submitReview, deleteReviewById, addToFavourites, removeFromFavourites } from '../../Services/services.js';
-import Textarea from '@mui/joy/Textarea';
+import { addToFavourites, removeFromFavourites } from '../../Services/services.js';
 import * as userService from "../../Services/userService.js"
 import { toast } from "react-toastify";
 import { useAuth } from "../../components/Hooks/useAuth.jsx";
-import Price from '../../components/Price/Price.jsx';
 import { motion } from 'framer-motion';
 import { theme_color } from '../../constants/constants.js';
-import Counter from '../../components/Counter/Counter.jsx';
 import FoodPageSkeleton from '../../components/Loader_Skeletons/FoodPageSkeleton.jsx';
 import SideBar from '../../components_v3/SideBar.jsx';
 import axios from 'axios';
-import { call_us, copy_phone, open_whatsapp, scroll_to_top } from '../../helpers/utils.js';
+import { call_us, open_whatsapp, scroll_to_top } from '../../helpers/utils.js';
 import Loader from '../../components_v2/Loader/Loader.jsx';
+import AnimatedButton from '../../components_v3/AnimatedButton.jsx';
 
 export default function FoodPage() {
     const { id } = useParams();
@@ -31,12 +23,8 @@ export default function FoodPage() {
     const [food, setFood] = useState();
     const [reviews, setReviews] = useState([]);
     const [favoriteFood, setFavouriteFood] = useState(false);
-    const [ratingValue, setRatingValue] = useState(1);
-    const [comment, setComment] = useState("");
     const auth = useAuth();
-    const [quantity, set_quantity] = useState(0);
     const [loading, set_loading] = useState(true);
-    const [favorite, setFavorite] = useState(false);
     const [expanded_image, set_expanded_image] = useState(null);
     const [deleting_review, set_deleting_review] = useState(null);
 
@@ -102,7 +90,7 @@ export default function FoodPage() {
     }
 
     return (
-        <div className="min-h-screen relative text-gray-200 flex flex-row items-start justify-center font-sans p-[20px]">
+        <div className="min-h-screen relative text-gray-200 flex flex-row lg:gap-16 items-start justify-center font-sans p-[16px] max-lg: px-[22px] max-lg:pb-[60px] lg:p-[40px]">
             { expanded_image && false && 
                 <div className='fixed p-4 z-[9999] bg-black top-0 left-0 h-screen w-screen'>
                     <span onClick={() => set_expanded_image(null)} className='fixed bg-neutral-500 p-2 rounded-[12px] z-[9999] cursor-pointer top-[24px] right-[24px] text-black text-[24px] font-extrabold'>
@@ -129,16 +117,16 @@ export default function FoodPage() {
             }
             <SideBar />
             {loading ?
-                <div className=' min-h-screen w-full flex justify-center'>
+                <div className='min-h-screen w-full flex justify-center'>
                     <FoodPageSkeleton />
                 </div>
                 :
                 food ?
-                    <div className={classes.box + " px-4 flex justify-start items-start md:items-center "}>
-                        <div className={classes.main + " justify-start gap-[22px]"}>
+                    <div className={" flex-col flex justify-start items-start md:items-center "}>
+                        <div className={" flex flex-col justify-start gap-[22px]"}>
                             {/* <img className={classes.img + " m-0 max-md:w-full  "} src={food.image} /> */}
-                            <div className={classes.img + " m-0 max-md:w-full overflow-hidden relative  "}>
-                                <img  style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[1] relative object-contain' src={food.image} alt="" />
+                            <div className={" h-[400px] rounded-[12px] m-0 max-md:w-full overflow-hidden relative  "}>
+                                <img style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[1] relative object-contain' src={food.image} alt="" />
                                 <img style={{ padding: 0, margin: 0, width: '100%' }} className='h-full cursor-pointer z-[0] opacity-60 object-cover blur-[12px] absolute top-0 left-0' src={food.image} alt="" />
                             </div>
                             <div className={" flex flex-col gap-[12px] max-md:mt-[18px] "}>
@@ -199,14 +187,16 @@ export default function FoodPage() {
                             <div className="text-white">
                                 {food?.description}
                             </div>
-                        </div>
-                        {auth?.user?.name && 
-                            <div className='w-full '>
-                                <div onClick={handle_add_review} className="addreview p-2 cursor-pointer w-fit px-4 bg-neutral-800 rounded-[12px]">
-                                    Add Review
+                            {auth?.user?.name && 
+                                <div className='w-full '>
+                                <AnimatedButton >
+                                        <div onClick={handle_add_review} className="addreview p-2 cursor-pointer w-fit px-4 bg-gradient-to-tr overflow-hidden from-cyan-300 via-blue-500 to-blue-800 rounded-[12px]">
+                                            Add Review
+                                        </div>
+                                    </AnimatedButton>
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
                         <div className="reviews w-full gap-[12px] flex flex-col mt-4">
                             { reviews?.length > 0 &&
                                 reviews?.map((review) => (
