@@ -31,7 +31,7 @@ const Thumbnail_v2_Skeleton = () => {
                                 rotate: '-35deg',
                                 width: '240%',
                                 height: '250%',
-                                left: '0%',
+                                left: '-50%',
                                 top: '-60%',
                             }}
                             animate={{

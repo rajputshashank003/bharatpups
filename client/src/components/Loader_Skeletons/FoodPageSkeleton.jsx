@@ -25,7 +25,7 @@ const FoodPageSkeleton = () => {
                         <motion.div
                             className="absolute inset-0 w-full h-full"
                             style={{
-                                background: 'linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
+                                background: 'linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%)',
                                 backgroundSize: '200% 180%',
                                 rotate: '-35deg',
                                 width: '320%',
