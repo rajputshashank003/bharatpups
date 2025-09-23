@@ -109,7 +109,7 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food }) {
                     </div>
                 </div>
                 <div className='row-span-2 grid grid-rows-2 w-full'>
-                    <div className='text-[20px] bg-neutral-600 rounded-[8px] rounded-t-none p-2 pb-4 grid-rows-2 row-span-1 grid font-semibold' onClick={() => navigate(`/food/${food.id}`)} >
+                    <div className='text-[20px] bg-neutral-600 rounded-[8px] rounded-t-none p-2 pb-4 grid-rows-2 row-span-1 grid font-semibold' onClick={() => navigate(`/dog/${food.id}`)} >
                         <span
                             className='flex whitespace-nowrap row-span-2 justify-start items-center'>
                             <GetShortName food_name={food.breed} length={14} />
