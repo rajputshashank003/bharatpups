@@ -37,11 +37,11 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food }) {
                 return;
             }
             if (!favoriteFood) {
-                const res = await addToFavourites(food.id, userService.getUser().id);
+                const res = await addToFavourites(food._id, userService.getUser().id);
                 // await saveSearchTerm(userService.getUser().id, food.name);
                 set_favorite_count(prev => prev + 1);
             } else {
-                const res = await removeFromFavourites(food.id, userService.getUser().id);
+                const res = await removeFromFavourites(food._id, userService.getUser().id);
                 // await removeSearchTerm(userService.getUser().id, food.name);
                 set_favorite_count(prev => prev - 1);
             }
@@ -102,8 +102,9 @@ export default function Thumbnails_v2({ set_dogs, is_favorite, food }) {
                     </div>
                     <div onClick={handleFavouriteFood} className='absolute flex z-[2] justify-center items-center cursor-pointer bg-neutral-800 h-[28px] w-[44px] top-[-2px] right-[-2px] rounded-bl-[8px]' >
                         {
-                            !adding_to_favorite ? <FavoriteIcon sx={{ color: favoriteFood ? "#D32F2F" : "grey" }} /> :
-                                <Loader color={!favoriteFood ? "#D32F2F" : "white"} />
+                            !adding_to_favorite 
+                            ? <FavoriteIcon sx={{ color: favoriteFood ? "#D32F2F" : "grey" }} /> 
+                            : <Loader color={!favoriteFood ? "#D32F2F" : "white"} />
                         }
                     </div>
                 </div>

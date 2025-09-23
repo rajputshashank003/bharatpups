@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Rating } from '@mui/material';
 import { useAuth } from '../../components/Hooks/useAuth';
 import Loader from '../../components_v2/Loader/Loader';
+import { review_image_name_key } from '../../helpers/utils';
 
 const UploadIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -147,7 +148,7 @@ export default function AddDogReview() {
                                     <label htmlFor="file-upload" className="relative cursor-pointer flex flex-row justify-center items-center gap-[12px] bg-neutral-700 rounded-md font-medium text-blue-400 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-neutral-800 focus-within:ring-blue-500 px-2">
                                         <UploadIcon />
                                         <span>Upload a file</span>
-                                        <input id="file-upload" onChange={upload} name="image" type="file" className="sr-only" accept="image/*" />
+                                        <input id="file-upload" onChange={upload} name={review_image_name_key} type="file" className="sr-only" accept="image/*" />
                                     </label>
                                 </div>
                             </div>

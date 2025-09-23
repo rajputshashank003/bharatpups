@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import React from 'react'
 
-const AnimatedButton = ({children}) => {
+const AnimatedButton = ({children, className = ''}) => {
     
     return (
         <motion.div
@@ -14,7 +14,9 @@ const AnimatedButton = ({children}) => {
             transition={{
                 duration: 0.2,
                 ease: 'linear'
-            }}>
+            }}
+            className={className}
+            >
 
             {children}
         </motion.div>
